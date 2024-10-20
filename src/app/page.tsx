@@ -26,7 +26,7 @@ async function getArticles() {
 }
 
 async function getProjects() {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+  const baseUrl = "https://cms.project-sentiment.org";
   const path = "/api/projects";
 
   const url = new URL(path, baseUrl);
