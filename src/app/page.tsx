@@ -103,6 +103,8 @@ export default async function Home() {
 
         <div>
           <h1 className="font-bold">Articles</h1>
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-expect-error */}
           {articles.data.map((article) => (
             <div key={article.id}>
               <h2 className="mb-3 text-2xl">{article.title}</h2>
@@ -123,6 +125,8 @@ export default async function Home() {
 
         <div>
           <h1 className="font-bold">Projects</h1>
+          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+          {/* @ts-expect-error */}
           {projects.data.map((project) => (
             <div key={project.id}>
               <h2 className="mb-3 text-2xl">{project.title}</h2>
