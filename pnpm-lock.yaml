@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@types/react': npm:types-react@19.0.0-rc.1
-  '@types/react-dom': npm:types-react-dom@19.0.0-rc.1
+  '@types/react-dom': npm:types-react-dom@19.0.0
 
 dependencies:
   next:
@@ -42,8 +42,8 @@ devDependencies:
     specifier: npm:types-react@19.0.0-rc.1
     version: /types-react@19.0.0-rc.1
   '@types/react-dom':
-    specifier: npm:types-react-dom@19.0.0-rc.1
-    version: /types-react-dom@19.0.0-rc.1
+    specifier: npm:types-react-dom@19.0.0
+    version: /types-react-dom@19.0.0
   '@typescript-eslint/eslint-plugin':
     specifier: 8.13.0
     version: 8.13.0(@typescript-eslint/parser@8.13.0)(eslint@9.14.0)(typescript@5.6.3)
@@ -1215,6 +1215,7 @@ packages:
 
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+    requiresBuild: true
 
   /color-string@1.9.1:
     resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
@@ -3516,8 +3517,8 @@ packages:
       possible-typed-array-names: 1.0.0
     dev: true
 
-  /types-react-dom@19.0.0-rc.1:
-    resolution: {integrity: sha512-VSLZJl8VXCD0fAWp7DUTFUDCcZ8DVXOQmjhJMD03odgeFmu14ZQJHCXeETm3BEAhJqfgJaFkLnGkQv88sRx0fQ==}
+  /types-react-dom@19.0.0:
+    resolution: {integrity: sha512-qtWBYduBCmrgf4wqnTrGttEJJSZ6cTGmzuvmWd/34TJNKz/Pp69Islc1+txHF3nRxSuRvmhxztFXvLyxhp8G2w==}
     dependencies:
       '@types/react': /types-react@19.0.0-rc.1
     dev: true
