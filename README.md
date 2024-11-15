@@ -1,131 +1,16 @@
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/26466516/141659551-d7ba5630-7200-46fe-863b-87818dae970a.png" alt="Next.js TypeScript Starter">
-</p>
-
-<br />
-
-<div align="center"><strong>Non-opinionated TypeScript starter for Next.js</strong></div>
-<div align="center">Highly scalable foundation with the best DX. All the tools you need to build your next project.</div>
-
-<br />
-
-<div align="center">
+<div>
   <img src="https://img.shields.io/static/v1?label=PRs&message=welcome&style=flat-square&color=5e17eb&labelColor=000000" alt="PRs welcome!" />
-
-  <img alt="License" src="https://img.shields.io/github/license/jpedroschmitz/typescript-nextjs-starter?style=flat-square&color=5e17eb&labelColor=000000">
-
-  <a href="https://x.com/intent/follow?screen_name=jpedroschmitz">
-    <img src="https://img.shields.io/twitter/follow/jpedroschmitz?style=flat-square&color=5e17eb&labelColor=000000" alt="Follow @jpedroschmitz" />
-  </a>
+  <img alt="License" src="https://img.shields.io/github/license/dmnktoe/sentiment?style=flat-square&color=5e17eb&labelColor=000000">
 </div>
 
-<div align="center">
-  <sub>Created by <a href="https://x.com/jpedroschmitz">João Pedro</a> with the help of many <a href="https://github.com/jpedroschmitz/typescript-nextjs-starter/graphs/contributors">wonderful contributors</a>.</sub>
-</div>
+# SENTIMENT
+Förderrichtlinie "Plattform Privatheit – IT-Sicherheit schützt Privatheit und stützt Demokratie" im Rahmen des Forschungsrahmenprogramms der Bundesregierung zur IT-Sicherheit "Digital. Sicher. Souverän"
 
-<br />
+## Motivation
+Dank großer Sprachmodelle haben Chatbots in letzter Zeit erhebliche Qualitätssprünge gemacht. Mittlerweile können solche Dialogsysteme natürlich wirkende Antworten auf verschiedenste Anfragen generieren, auf Nachfragen eingehen und auch längere Gesprächsverläufe entstehen lassen. Dadurch kommt die Interaktion mit Chatbots einem authentischen Austausch mit einem Menschen immer näher. In Deutschland kommunizieren immer mehr Nutzende regelmäßig mit Chatbots. Hierbei verschwimmen häufig die wahrgenommenen Grenzen zwischen Künstlicher Intelligenz (KI) und realem Kommunikationspartner. Unternehmen hinter einigen Applikationen nutzen diese Grauzone schon jetzt bewusst aus und bewerben ihre Produkte mit dem Schlagwort „KI-Freund“. In solchen Anwendungen können Nutzende zum Beispiel einen romantischen Beziehungsmodus aktivieren, der es erlaubt, mit einer zuvor konfigurierten künstlichen Person emotionale (Video-)Gespräche zu führen. Chatbots können somit auch interpersonelle intime Kommunikation simulieren. Hierunter fallen Worte der Selbst-offenbarung, der Bestätigung, des Vertrauens und der Zuneigung. Dadurch schenken Nutzende den Systemen Vertrauen und offenbaren intime, persönliche Details. Bisher wurde dieser Aspekt der digitalen Intimität im Rahmen der Privatheitsforschung jedoch kaum untersucht.
 
-## Features
+## Ziele und Vorgehen
+Ziel des Projekts „Sichere Selbstoffenbarung bei intimer Kommunikation mit Dialogsystemen“ (SENTIMENT) ist es, interdisziplinär zu erforschen, welche Prozesse bei der Kommunikation mit Chatbots wirken, wenn Menschen sensible bzw. intime Informationen preisgeben. Hierzu arbeiten Forschende aus Psychologie, Informatik, Rechtswissenschaften und Kunst zusammen. Basierend auf einer Bestandsaufnahme intimer Selbstoffenbarung in Kommunikationssituationen mit Chatbots führen die Forschenden eine Risikobewertung hinsichtlich Datenschutz und Selbstbestimmung der Nutzenden durch. Daraus leiten sie zielgerichtet Privacy-by-Design-Mechanismen ab, um den zuvor identifizierten Risiken entgegenzuwirken, und evaluieren diese im Rahmen einer empirischen Studie. Zudem bezieht das Projektteam die Öffentlichkeit in die Arbeiten ein. Dies geschieht etwa durch eine Kunstausstellung zum Thema „Schutz von intimer Kommunikation“, gestaltet als Dialogforum, bei dem die Forschenden mit der Öffentlichkeit in den Austausch treten und die gewonnenen Erkenntnisse wiederum in das Vorhaben einfließen lassen.
 
-- ⚡️ Next.js 15 (App Router)
-- ⚛️ React 19
-- ⛑ TypeScript
-- 📏 ESLint 9 — To find and fix problems in your code
-- 💖 Prettier — Code Formatter for consistent style
-- 🐶 Husky — For running scripts before committing
-- 🚓 Commitlint — To make sure your commit messages follow the convention
-- 🖌 Renovate — To keep your dependencies up to date
-- 🚫 lint-staged — Run ESLint and Prettier against staged Git files
-- 👷 PR Workflow — Run Type Check & Linters on Pull Requests
-- ⚙️ EditorConfig - Consistent coding styles across editors and IDEs
-- 🗂 Path Mapping — Import components or images using the `@` prefix
-
-## Quick Start
-
-The best way to start with this template is using [Create Next App](https://nextjs.org/docs/api-reference/create-next-app).
-
-```
-# yarn
-yarn create next-app -e https://github.com/jpedroschmitz/typescript-nextjs-starter
-# npm
-npx create-next-app -e https://github.com/jpedroschmitz/typescript-nextjs-starter
-# pnpm
-pnpm create next-app -e https://github.com/jpedroschmitz/typescript-nextjs-starter
-```
-
-### Development
-
-To start the project locally, run:
-
-```bash
-pnpm dev
-```
-
-Open `http://localhost:3000` with your browser to see the result.
-
-## Testimonials
-
-> [**“This starter is by far the best TypeScript starter for Next.js. Feature packed but un-opinionated at the same time!”**](https://github.com/jpedroschmitz/typescript-nextjs-starter/issues/87#issue-789642190)<br>
-> — Arafat Zahan
-
-> [**“I can really recommend the Next.js Typescript Starter repo as a solid foundation for your future Next.js projects.”**](https://corfitz.medium.com/create-a-custom-create-next-project-command-2a6b35a1c8e6)<br>
-> — Corfitz
-
-> [**“Brilliant work!”**](https://github.com/jpedroschmitz/typescript-nextjs-starter/issues/87#issuecomment-769314539)<br>
-> — Soham Dasgupta
-
-## Showcase
-
-List of websites that started off with Next.js TypeScript Starter:
-
-- [FreeInvoice.dev](https://freeinvoice.dev)
-- [Notion Avatar Maker](https://github.com/Mayandev/notion-avatar)
-- [IKEA Low Price](https://github.com/Mayandev/ikea-low-price)
-- [hygraph.com](https://hygraph.com)
-- [rocketseat.com.br](https://www.rocketseat.com.br)
-- [unfork.vercel.app](https://unfork.vercel.app)
-- [cryptools.dev](https://cryptools.dev)
-- [Add yours](https://github.com/jpedroschmitz/typescript-nextjs-starter/edit/main/README.md)
-
-## Documentation
-
-### Requirements
-
-- Node.js >= 20
-- pnpm 9
-
-### Directory Structure
-
-- [`.github`](.github) — GitHub configuration including the CI workflow.<br>
-- [`.husky`](.husky) — Husky configuration and hooks.<br>
-- [`public`](./public) — Static assets such as robots.txt, images, and favicon.<br>
-- [`src`](./src) — Application source code, including pages, components, styles.
-
-### Scripts
-
-- `pnpm dev` — Starts the application in development mode at `http://localhost:3000`.
-- `pnpm build` — Creates an optimized production build of your application.
-- `pnpm start` — Starts the application in production mode.
-- `pnpm type-check` — Validate code using TypeScript compiler.
-- `pnpm lint` — Runs ESLint for all files in the `src` directory.
-- `pnpm format` — Runs Prettier for all files in the `src` directory.
-
-### Path Mapping
-
-TypeScript are pre-configured with custom path mappings. To import components or files, use the `@` prefix.
-
-```tsx
-import { Button } from '@/components/Button';
-// To import images or other files from the public folder
-import avatar from '@/public/avatar.png';
-```
-
-### Switch to Yarn/npm
-
-This starter uses pnpm by default, but this choice is yours. If you'd like to switch to Yarn/npm, delete the `pnpm-lock.yaml` file, install the dependencies with Yarn/npm, change the CI workflow, and Husky Git hooks to use Yarn/npm commands.
-
-> **Note:** If you use Yarn, make sure to follow these steps from the [Husky documentation](https://typicode.github.io/husky/troubleshoot.html#yarn-on-windows) so that Git hooks do not fail with Yarn on Windows.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for more information.
+## Innovationen und Perspektiven
+Die im Vorhaben geleistete Forschung trägt dazu bei, dass Bürgerinnen und Bürger bei der Nutzung von Chatbots intime Schutzräume finden, in denen eine sichere Selbstoffenbarung möglich ist. Durch die Entwicklung von geeigneten Privacy-by-Design-Ansätzen für Chatbots erhalten Nutzende die Kontrolle und Souveränität über ihre intimen privaten Daten, was maßgeblich dazu beiträgt, die europäischen Werte und Grundrechte jedes einzelnen Menschen im Zusammenhang mit digitalen Technologien zu wahren.
