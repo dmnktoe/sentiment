@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "assignees": ["dmnktoe"],
+  "labels": ["dependencies"],
+  "extends": [
+    "config:base",
+    ":enablePreCommit",
+    ":preserveSemverRanges",
+    ":disableDependencyDashboard"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": ["github-actions"],
+      "addLabels": ["ci"]
+    },
+    {
+      "matchUpdateTypes": ["major", "minor"],
+      "matchManagers": ["npm"],
+      "addLabels": ["npm"]
+    }
+  ]
+}
