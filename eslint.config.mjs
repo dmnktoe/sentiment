@@ -30,6 +30,8 @@ export default [
       'react/no-unused-prop-types': 'off',
       'react/require-default-props': 'off',
 
+      quotes: ['warn', 'single', { avoidEscape: true }],
+
       'import/extensions': [
         'error',
         'ignorePackages',
