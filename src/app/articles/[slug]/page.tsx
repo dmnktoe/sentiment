@@ -26,8 +26,7 @@ async function getArticle(slug: string) {
   return teamMember;
 }
 
-export default async function Article({ params }: { params: { slug: string } }) {
-  // asynchronous access of `params.id`.
+export default async function Article({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   if (!slug) return <p>No member found</p>;
