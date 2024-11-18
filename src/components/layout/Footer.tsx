@@ -4,7 +4,7 @@ import { Logo } from '@/components/ui/Icons/Logo';
 
 export default function Footer() {
   return (
-    <footer className='py-24'>
+    <footer className='py-24 border-t-solid border-t-4 border-primary/30'>
       <Container>
         <div className='grid grid-cols-3 sm:grid-cols-4 gap-0'>
           <div className='col-span-1'>

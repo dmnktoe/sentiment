@@ -33,7 +33,7 @@ function LatestCard({
 export default function Latest({ news }: { news: any }) {
   return (
     <>
-      <section className='py-24 rounded-tl-[5rem] rounded-tr-[5rem] border-solid border-4 border-primary/30 overflow-hidden'>
+      <section className='py-24 rounded-tl-[5rem] rounded-tr-[5rem] border-t-solid border-t-4 border-primary/30'>
         <Container>
           <div className='grid grid-cols-6 gap-0 mb-12'>
             <div className='col-span-5'>

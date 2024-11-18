@@ -8,13 +8,13 @@ const config: Config = {
     extend: {
       fontFamily: {
         primary: ['Roobert', ...defaultTheme.fontFamily.sans],
-        secondary: ['Tobias'],
+        secondary: ['Tobias', ...defaultTheme.fontFamily.serif],
       },
       colors: {
         primary: '#D2D05B',
         secondary: '#71cecb',
-        tertiary: '#4d5562',
-        text: '#1b1f28',
+        tertiary: '#5e6a7d',
+        text: '#0a0440',
       },
     },
   },
