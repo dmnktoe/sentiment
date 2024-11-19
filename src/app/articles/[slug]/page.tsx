@@ -1,6 +1,7 @@
 import qs from 'qs';
 
 import { Container } from '@/components/layout/Container';
+import { readingDuration } from '@/lib/get-reading-time';
 
 async function getArticle(slug: string) {
   const baseUrl = 'https://cms.project-sentiment.org';
@@ -41,7 +42,7 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
             <div className='grid grid-cols-3 sm:grid-cols-4 pb-6'>
               <div className='text-sm text-primary'>(News)</div>
               <div className='text-sm text-primary'>{new Date(article.publishedAt).toLocaleDateString()}</div>
-              <div className='text-sm text-primary'>Reading time: 4min</div>
+              <div className='text-sm text-primary'>{readingDuration(article.description)}</div>
             </div>
             <div className='grid grid-cols-3 sm:grid-cols-4 gap-0 gap-y-8'>
               <div className='col-span-3'>
