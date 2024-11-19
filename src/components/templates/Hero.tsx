@@ -48,10 +48,22 @@ function IntroText() {
           </span>
           <br />
           <span className='font-primary'>2024 — 2027</span>
-          <Image alt='SENTIMENT Logo' width='400' height='200' src='/sample-image-1.jpg' className='sm:mt-24' />
+          <Image
+            alt='SENTIMENT Logo'
+            width='400'
+            height='200'
+            src='/images/hero/sentiment_hero_image_1.webp'
+            className='sm:mt-24'
+          />
         </div>
         <div className='col-span-2 col-start-3 mb-8 hidden sm:block'>
-          <Image alt='SENTIMENT Lecture' width='600' height='200' src='/sample-image-2.jpg' className='sm:-mt-12' />
+          <Image
+            alt='SENTIMENT Lecture'
+            width='600'
+            height='200'
+            src='/images/hero/sentiment_hero_image_2.webp'
+            className='sm:-mt-12'
+          />
         </div>
         <div className='col-span-4 sm:col-span-3 row-start-3'>
           <p className='text-justify text-tertiary text-sm'>
