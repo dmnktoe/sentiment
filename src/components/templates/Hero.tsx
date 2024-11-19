@@ -43,7 +43,7 @@ function IntroText() {
             and machine blur, prompting users to share sensitive, personal moments.
           </span>
           <br />
-          <span className='font-primary'>2024 — 2027</span>
+          <span className='font-primary text-tertiary'>2024 — 2027</span>
           <Image
             alt='SENTIMENT Logo'
             width='400'
