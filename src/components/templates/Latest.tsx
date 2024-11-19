@@ -1,6 +1,8 @@
+import Link from 'next/link';
 import { JSX, Key } from 'react';
 
 import { Container } from '@/components/layout/Container';
+import { readingDuration } from '@/lib/get-reading-time';
 
 function LatestCard({
   title,
@@ -14,19 +16,21 @@ function LatestCard({
   description: string;
 }) {
   return (
-    <a href={'/articles/' + slug} className={`group block`}>
+    <Link href={'/articles/' + slug} className='group block'>
       <div className='grid grid-cols-3 sm:grid-cols-4 group group-hover:bg-primary/20 rounded-full py-6'>
         <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>(News)</div>
         <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
           {new Date(publishedAt).toLocaleDateString()}
         </div>
-        <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>Reading time: 4min</div>
+        <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
+          {readingDuration(description)}
+        </div>
         <div className='col-span-3 sm:col-start-2 row-start-2 mt-4'>
           <span className='font-secondary text-3xl sm:text-5xl group-hover:underline tracking-tight'>{title}</span>
           <div className='text-sm mt-2 text-justify line-clamp-2 group-hover:blur-sm'>{description}</div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
