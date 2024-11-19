@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { Container } from '@/components/layout/Container';
 import { BMBFIcon } from '@/components/ui/Icons/BMBF';
 import { Logo } from '@/components/ui/Icons/Logo';
@@ -21,7 +23,9 @@ export default function Footer() {
             <h4 className='text-lg text-gray-900 font-medium mb-7'>Resources</h4>
             <ul className='text-sm  transition-all duration-500'>
               <li className='mb-3'>
-                <a className='text-tertiary hover:text-gray-900'>Legal Notice</a>
+                <Link href='/legal-notice' className='text-tertiary hover:text-gray-900'>
+                  Legal Notice
+                </Link>
               </li>
               <li className='mb-3'>
                 <a className=' text-tertiary hover:text-gray-900'>Privacy</a>

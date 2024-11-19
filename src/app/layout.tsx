@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import './globals.css';
+import '../styles/globals.css';
 
 import React from 'react';
 
@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang='en'>
       <body>
         <Header />
-        {children}
+        <main>{children}</main>
         <Footer />
         <VisualGrid />
       </body>

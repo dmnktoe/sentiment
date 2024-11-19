@@ -12,18 +12,16 @@ async function getArticles() {
   if (!res.ok) throw new Error('Failed to fetch team members');
 
   const data = await res.json();
-  console.log(data.data);
 
   return data.data;
 }
 
 export default async function Home() {
   const articles = await getArticles();
-  console.log(articles);
   return (
-    <main>
+    <section>
       <Hero />
       <Latest news={articles} />
-    </main>
+    </section>
   );
 }
