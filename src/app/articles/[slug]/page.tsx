@@ -1,30 +1,23 @@
-import qs from 'qs';
-
 import { Container } from '@/components/layout/Container';
+import { fetchAPI } from '@/lib/fetch-api';
 import { readingDuration } from '@/lib/get-reading-time';
 
 async function getArticle(slug: string) {
-  const baseUrl = 'https://cms.project-sentiment.org';
-  const path = '/api/articles';
-
-  const url = new URL(path, baseUrl);
-
-  url.search = qs.stringify({
+  const path = '/articles';
+  const query = {
     filters: {
       slug: {
-        $eq: slug, // This is the slug for our team member
+        $eq: slug,
       },
     },
-  });
+  };
 
-  const res = await fetch(url);
-
-  if (!res.ok) throw new Error('Failed to fetch team members');
-
-  const data = await res.json();
-  const teamMember = data?.data[0];
-  console.dir(teamMember, { depth: null });
-  return teamMember;
+  try {
+    const data = await fetchAPI(path, query);
+    return data.data[0];
+  } catch (error) {
+    throw error;
+  }
 }
 
 export default async function Article({ params }: { params: Promise<{ slug: string }> }) {

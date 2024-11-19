@@ -1,27 +1,31 @@
 import Hero from '@/components/templates/Hero';
 import Latest from '@/components/templates/Latest';
+import { fetchAPI } from '@/lib/fetch-api';
 
 async function getArticles() {
-  const baseUrl = 'https://cms.project-sentiment.org';
-  const path = '/api/articles';
+  const path = '/articles';
+  const query = {
+    pagination: {
+      page: 1,
+      pageSize: 3,
+    },
+    sort: 'publishedAt:desc',
+  };
 
-  const url = new URL(path, baseUrl);
-
-  const res = await fetch(url);
-
-  if (!res.ok) throw new Error('Failed to fetch team members');
-
-  const data = await res.json();
-
-  return data.data;
+  try {
+    const data = await fetchAPI(path, query);
+    return data.data;
+  } catch (error) {
+    throw error;
+  }
 }
 
 export default async function Home() {
   const articles = await getArticles();
   return (
-    <section>
+    <>
       <Hero />
       <Latest news={articles} />
-    </section>
+    </>
   );
 }
