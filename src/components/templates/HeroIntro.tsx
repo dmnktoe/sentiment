@@ -22,7 +22,7 @@ function Partners() {
   );
 }
 
-function IntroText() {
+function Text() {
   return (
     <div className='border-b-[#f2f2f2] border-b-solid border-b-[1px] mb-12 pb-12 sm:mb-24 sm:pb-24'>
       <div className='grid grid-cols-3 sm:grid-cols-4 gap-0'>
@@ -75,12 +75,12 @@ function IntroText() {
   );
 }
 
-export default function Hero() {
+export default function HeroIntro() {
   return (
     <>
       <section className='pt-36 sm:pt-48 pb-24'>
         <Container>
-          <IntroText />
+          <Text />
           <Partners />
         </Container>
       </section>

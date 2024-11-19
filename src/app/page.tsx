@@ -1,5 +1,5 @@
-import Hero from '@/components/templates/Hero';
-import Latest from '@/components/templates/Latest';
+import HeroIntro from '@/components/templates/HeroIntro';
+import LatestWidget from '@/components/templates/LatestWidget';
 import { fetchAPI } from '@/lib/fetch-api';
 
 async function getArticles() {
@@ -20,12 +20,12 @@ async function getArticles() {
   }
 }
 
-export default async function Home() {
+export default async function HomePage() {
   const articles = await getArticles();
   return (
     <>
-      <Hero />
-      <Latest news={articles} />
+      <HeroIntro />
+      <LatestWidget articles={articles} />
     </>
   );
 }
