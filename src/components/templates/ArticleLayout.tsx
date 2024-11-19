@@ -79,7 +79,7 @@ function ArticleHeader({ article }: ArticleProps) {
   );
 }
 
-export default function ArticleTemplate({ article }: ArticleProps) {
+export default function ArticleLayout({ article }: ArticleProps) {
   return (
     <>
       {/* Article Info Grid */}
