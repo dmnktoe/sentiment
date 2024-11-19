@@ -1,11 +1,7 @@
 import Image from 'next/image';
 
 import { Container } from '@/components/layout/Container';
-import { BMBFIcon } from '@/components/ui/Icons/BMBF';
-import { Logo } from '@/components/ui/Icons/Logo';
-import { RUBIcon } from '@/components/ui/Icons/RUB';
-import { UniDUEIcon } from '@/components/ui/Icons/UniDUE';
-import { UniKasselIcon } from '@/components/ui/Icons/UniKassel';
+import { BMBFIcon, Logo, RUBIcon, UniDUEIcon, UniKasselIcon } from '@/components/ui/Icons';
 
 function Partners() {
   return (
@@ -19,7 +15,7 @@ function Partners() {
       <div className='w-2/3'>
         <UniDUEIcon />
       </div>
-      <div className='w-2/3'>
+      <div className='w-2/3 col-start-2 sm:col-start-4'>
         <UniKasselIcon />
       </div>
     </div>
