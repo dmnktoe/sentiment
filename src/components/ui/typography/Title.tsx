@@ -18,16 +18,16 @@ export const Title = ({ children, className, margin = true, renderAs = 'h1', siz
   return (
     <Component
       className={clsxm(
-        'font-medium -tracking-[0.033em] text-dark',
+        'font-primary tracking-tight',
         {
-          'text-4xl md:text-5xl md:leading-[1.1] 2xl:text-[3.4rem]': size === 'one',
-          'text-3xl md:text-4xl': size === 'two',
-          'text-2xl md:text-3xl': size === 'three',
-          'text-xl md:text-2xl': size === 'four',
-          'text-lg md:text-xl': size === 'five',
+          'text-5xl sm:text-7xl': size === 'one',
+          'text-4xl sm:text-6xl': size === 'two',
+          'text-3xl sm:text-5xl font-secondary': size === 'three',
+          'text-2xl sm:text-4xl font-secondary': size === 'four',
+          'text-xl sm:text-3xl font-secondary': size === 'five',
         },
         {
-          'mb-4': margin,
+          'sm:mb-4': margin,
         },
         className
       )}
