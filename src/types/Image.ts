@@ -17,7 +17,7 @@ type ImageFormat = {
   height: number;
 };
 
-type ImageAttributes = {
+export type Image = {
   name: string;
   alternativeText: string | null;
   caption: string | null;
@@ -34,9 +34,4 @@ type ImageAttributes = {
   provider_metadata: string | null;
   createdAt: string;
   updatedAt: string;
-};
-
-export type ImageData = {
-  id: number;
-  attributes: ImageAttributes;
 };
