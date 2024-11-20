@@ -65,7 +65,7 @@ function Text() {
   }
 
   return (
-    <div className='border-b-[#f2f2f2] border-b-solid border-b-[1px] mb-12 pb-12 sm:mb-24 sm:pb-24'>
+    <div className='border-b-grid border-b-solid border-b-[1px] mb-12 pb-12 sm:mb-24 sm:pb-24'>
       <div className='grid grid-cols-3 sm:grid-cols-4 gap-0'>
         <LargeText />
         <SmallText />
@@ -86,28 +86,36 @@ function Text() {
 
 function Partners() {
   return (
-    <div className='grid grid-cols-2 sm:grid-cols-4 grid-rows-2 sm:grid-rows-1 gap-y-8 gap-0'>
-      <div className='w-2/3'>
-        <Link href='https://www.bmbf.de/' target='_blank'>
-          <BMBFIcon />
+    <>
+      <div className='grid grid-cols-3 sm:grid-cols-4 mb-4 text-primary text-xs'>
+        <div>(Unterstützt)</div>
+        <div>und</div>
+        <div>(gefördert)</div>
+        <div>durch</div>
+      </div>
+      <div className='grid grid-cols-2 sm:grid-cols-4 grid-rows-2 sm:grid-rows-1 gap-y-8 gap-0'>
+        <Link href='https://www.bmbf.de/' target='_blank' className='hover:bg-secondary/20 rounded-full'>
+          <div className='w-2/3'>
+            <BMBFIcon />
+          </div>
+        </Link>
+        <Link href='https://www.ruhr-uni-bochum.de/' target='_blank' className='hover:bg-secondary/20 rounded-full'>
+          <div className='w-2/3'>
+            <RUBIcon />
+          </div>
+        </Link>
+        <Link href='https://www.uni-due.de/' target='_blank' className='hover:bg-secondary/20 rounded-full'>
+          <div className='w-2/3'>
+            <UniDUEIcon />
+          </div>
+        </Link>
+        <Link href='https://www.uni-kassel.de/' target='_blank' className='hover:bg-secondary/20 rounded-full'>
+          <div className='w-2/3 col-start-2 sm:col-start-4'>
+            <UniKasselIcon />
+          </div>
         </Link>
       </div>
-      <div className='w-2/3'>
-        <Link href='https://www.ruhr-uni-bochum.de/' target='_blank'>
-          <RUBIcon />
-        </Link>
-      </div>
-      <div className='w-2/3'>
-        <Link href='https://www.uni-due.de/' target='_blank'>
-          <UniDUEIcon />
-        </Link>
-      </div>
-      <div className='w-2/3 col-start-2 sm:col-start-4'>
-        <Link href='https://www.uni-kassel.de/' target='_blank'>
-          <UniKasselIcon />
-        </Link>
-      </div>
-    </div>
+    </>
   );
 }
 

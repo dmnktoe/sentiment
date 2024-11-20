@@ -15,6 +15,7 @@ const config: Config = {
         secondary: '#71cecb',
         tertiary: '#8b9094',
         text: '#0a0440',
+        grid: '#f2f2f2',
       },
     },
   },
