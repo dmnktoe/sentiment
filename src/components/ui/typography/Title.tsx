@@ -18,7 +18,7 @@ export const Title = ({ children, className, margin = true, renderAs = 'h1', siz
   return (
     <Component
       className={clsxm(
-        'font-primary tracking-tight',
+        'font-primary tracking-tighter',
         {
           'text-5xl sm:text-7xl': size === 'one',
           'text-4xl sm:text-6xl': size === 'two',

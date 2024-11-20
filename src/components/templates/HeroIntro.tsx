@@ -1,22 +1,24 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { useScramble } from 'use-scramble';
 
 import { Container } from '@/components/layout/Container';
 import { BMBFIcon, Logo, RUBIcon, UniDUEIcon, UniKasselIcon } from '@/components/ui/Icons';
+import { Title } from '@/components/ui/typography/Title';
 
 function Text() {
   function LargeText() {
     return (
       <div className='col-span-6 z-20'>
-        <h1 className='text-4xl sm:text-7xl leading-none tracking-tighter mb-4'>
+        <Title className='leading-none'>
           Sentiment: Creating
           <span className='text-primary font-secondary italic'> Safe</span> &
           <span className='text-primary font-secondary italic'> Supportive</span> Spaces for Intimate Communication with
           Human-Chatbot <Logo className='inline w-10 -mt-1.5 sm:w-20 sm:-mt-4 text-secondary' />
           Interactions
-        </h1>
+        </Title>
       </div>
     );
   }
@@ -27,7 +29,9 @@ function Text() {
     });
     return (
       <div className='col-span-2 sm:col-span-1 mb-8 text-sm z-10'>
-        <p className='font-secondary italic underline' ref={ref} />
+        <p className='font-secondary italic underline' ref={ref}>
+          &nbsp;
+        </p>
         <span className='text-tertiary text-sm mt-7 block text-justify'>
           {new Date().getFullYear()} SENTIMENT explores the delicate intersection of privacy and intimacy in
           human-chatbot interactions. As conversational AI systems become more lifelike, the boundaries between human
@@ -84,16 +88,24 @@ function Partners() {
   return (
     <div className='grid grid-cols-2 sm:grid-cols-4 grid-rows-2 sm:grid-rows-1 gap-y-8 gap-0'>
       <div className='w-2/3'>
-        <BMBFIcon />
+        <Link href='https://www.bmbf.de/' target='_blank'>
+          <BMBFIcon />
+        </Link>
       </div>
       <div className='w-2/3'>
-        <RUBIcon />
+        <Link href='https://www.ruhr-uni-bochum.de/' target='_blank'>
+          <RUBIcon />
+        </Link>
       </div>
       <div className='w-2/3'>
-        <UniDUEIcon />
+        <Link href='https://www.uni-due.de/' target='_blank'>
+          <UniDUEIcon />
+        </Link>
       </div>
       <div className='w-2/3 col-start-2 sm:col-start-4'>
-        <UniKasselIcon />
+        <Link href='https://www.uni-kassel.de/' target='_blank'>
+          <UniKasselIcon />
+        </Link>
       </div>
     </div>
   );
