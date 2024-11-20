@@ -8,8 +8,8 @@ export default function Footer() {
   return (
     <footer className='py-24 border-t-solid border-t-4 border-primary/30'>
       <Container>
-        <div className='grid grid-cols-3 sm:grid-cols-4 gap-0'>
-          <div className='col-span-1'>
+        <div className='grid grid-cols-3 sm:grid-cols-4 gap-y-8 sm:gap-0'>
+          <div className='col-span-3 sm:col-span-1'>
             <Logo />
             <span className='text-tertiary text-sm mt-7 block text-justify'>
               {new Date().getFullYear()} SENTIMENT explores the delicate intersection of privacy and intimacy in
@@ -38,7 +38,7 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-          <div className='col-span-1'>
+          <div className='col-span-2 sm:col-span-1'>
             <h4 className='text-lg text-gray-900 font-medium mb-7'>Gefördert durch</h4>
             <div className='w-1/2'>
               <BMBFIcon />
