@@ -44,7 +44,7 @@ function Text() {
           width='400'
           height='200'
           src='/images/hero/sentiment_hero_image_1.webp'
-          className='sm:mt-24'
+          className='w-full object-cover sm:mt-24'
         />
       </div>
     );
@@ -58,7 +58,7 @@ function Text() {
           width='600'
           height='200'
           src='/images/hero/sentiment_hero_image_2.webp'
-          className='sm:-mt-12'
+          className='w-full object-cover sm:-mt-12'
         />
       </div>
     );
