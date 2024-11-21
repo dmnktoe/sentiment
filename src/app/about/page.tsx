@@ -5,8 +5,11 @@ import { Title } from '@/components/ui/typography/Title';
 
 export default function AboutPage() {
   return (
-    <section className='py-36 sm:py-48'>
+    <section className='py-36'>
       <Container>
+        <div className='grid grid-cols-3 sm:grid-cols-4 mb-4 text-primary text-md'>
+          <div className='-ml-[4.2923px]'>+</div>
+        </div>
         <Title className='leading-none'>
           About
           <span className='text-primary font-secondary italic'> »</span> Project{' '}
@@ -72,16 +75,18 @@ export default function AboutPage() {
           <p>
             By IT security solutions. We believe that IT security is essential for protecting the privacy of individuals
             and supporting democracy. We are committed to creating a world where everyone can communicate freely and
-            securely.
+            securely. By IT security solutions. We believe that IT security is essential for protecting the privacy of
+            individuals and supporting democracy. We are committed to creating a world where everyone can communicate
+            freely and securely.
           </p>
         </div>
-        <div className='grid grid-cols-3 sm:grid-cols-4 gap-0 mt-8'>
+        <div className='grid grid-cols-3 sm:grid-cols-4 gap-0 mt-16'>
           <div className='col-span-1'>
             <Title size='five' className='leading-none'>
               Partners
             </Title>
-            <ul className='list-disc list-inside text-sm underline'>
-              <li>Bundesministerium für Bildung und Forschung - BMBF</li>
+            <ul className='list-inside text-sm underline'>
+              <li>BMBF</li>
               <li>Ruhr-Universität Bochum</li>
               <li>Uni Duisburg-Essen</li>
               <li>Universität Kassel</li>
@@ -91,33 +96,31 @@ export default function AboutPage() {
             <Title size='five' className='leading-none'>
               Funding
             </Title>
-            <ul className='list-disc list-inside'>
-              <li>Funding 1</li>
-              <li>Funding 2</li>
-              <li>Funding 3</li>
-              <li>Funding 4</li>
+            <ul className='list-inside text-sm underline'>
+              <li>MC</li>
+              <li>ARD</li>
+              <li>QA</li>
+              <li>SH</li>
             </ul>
           </div>
           <div className='col-span-1'>
             <Title size='five' className='leading-none'>
               Contact
             </Title>
-            <ul className='list-disc list-inside'>
-              <li>Contact 1</li>
-              <li>Contact 2</li>
-              <li>Contact 3</li>
-              <li>Contact 4</li>
+            <ul className='list-inside text-sm underline'>
+              <li>E-Mail</li>
+              <li>Phone</li>
             </ul>
           </div>
           <div className='col-span-1'>
             <Title size='five' className='leading-none'>
               Social Media
             </Title>
-            <ul className='list-disc list-inside'>
-              <li>Social Media 1</li>
-              <li>Social Media 2</li>
-              <li>Social Media 3</li>
-              <li>Social Media 4</li>
+            <ul className='list-inside text-sm underline'>
+              <li>LinkedIn</li>
+              <li>X</li>
+              <li>Instagram</li>
+              <li>TikTok</li>
             </ul>
           </div>
         </div>
