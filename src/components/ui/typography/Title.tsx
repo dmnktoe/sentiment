@@ -27,7 +27,7 @@ export const Title = ({ children, className, margin = true, renderAs = 'h1', siz
           'text-xl sm:text-3xl font-secondary': size === 'five',
         },
         {
-          'sm:mb-4': margin,
+          'mb-2 sm:mb-4': margin,
         },
         className
       )}
