@@ -4,69 +4,12 @@ import Link from 'next/link';
 import { Key, useState } from 'react';
 
 import { Container } from '@/components/layout/Container';
+import ArticleCard from '@/components/templates/ArticleCard';
+import ProjectCard from '@/components/templates/ProjectCard';
 import { Title } from '@/components/ui/typography/Title';
 import clsxm from '@/lib/clsxm';
-import { formatDate } from '@/lib/format-date';
-import { readingDuration } from '@/lib/get-reading-time';
 import { Article } from '@/types/Article';
 import { Project } from '@/types/Project';
-
-function ArticleCard({
-  title,
-  publishedAt,
-  slug,
-  description,
-}: {
-  title: string;
-  publishedAt: Date;
-  slug: string;
-  description: string;
-}) {
-  return (
-    <Link href={'/articles/' + slug} className='group block'>
-      <div className='grid grid-cols-3 sm:grid-cols-4 group group-hover:bg-primary/20 rounded-full py-6'>
-        <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>(News)</div>
-        <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>{formatDate(publishedAt)}</div>
-        <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
-          {readingDuration(description)}
-        </div>
-        <div className='col-span-3 sm:col-start-2 row-start-2 mt-4'>
-          <Title size='four' className='group-hover:underline'>
-            {title}
-          </Title>
-          <div className='text-sm mt-2 text-justify line-clamp-2 group-hover:blur-sm'>{description}</div>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-function ProjectCard({
-  title,
-  createdAt,
-  slug,
-  description,
-}: {
-  title: string;
-  createdAt: Date;
-  slug: string;
-  description: string;
-}) {
-  return (
-    <Link href={'/projects/' + slug} className='group block'>
-      <div className='grid grid-cols-3 sm:grid-cols-4 group group-hover:bg-primary/20 rounded-full py-6'>
-        <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>(Project)</div>
-        <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>{formatDate(createdAt)}</div>
-        <div className='col-span-3 sm:col-start-2 row-start-2 mt-4'>
-          <Title size='four' className='group-hover:underline'>
-            {title}
-          </Title>
-          <div className='text-sm mt-2 text-justify line-clamp-2 group-hover:blur-sm'>{description}</div>
-        </div>
-      </div>
-    </Link>
-  );
-}
 
 interface LatestWidgetProps {
   articles: Article[];
