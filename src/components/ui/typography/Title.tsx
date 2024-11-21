@@ -4,7 +4,7 @@ import clsxm from '@/lib/clsxm';
 
 type Size = 'one' | 'two' | 'three' | 'four' | 'five';
 
-interface TitleProps {
+export interface TitleProps {
   children: React.ReactNode;
   className?: string;
   margin?: boolean;

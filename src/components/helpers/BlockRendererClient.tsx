@@ -21,19 +21,19 @@ export default function BlockRendererClient({ content }: { readonly content: Blo
           switch (level) {
             case 1:
               return (
-                <Title renderAs='h2' size='two'>
+                <Title renderAs='h3' size='three'>
                   {children}
                 </Title>
               );
             case 2:
               return (
-                <Title renderAs='h3' size='three'>
+                <Title renderAs='h4' size='four'>
                   {children}
                 </Title>
               );
             case 3:
               return (
-                <Title renderAs='h4' size='four'>
+                <Title renderAs='h5' size='five'>
                   {children}
                 </Title>
               );

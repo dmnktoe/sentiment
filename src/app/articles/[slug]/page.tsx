@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 
-import { Container } from '@/components/layout/Container';
 import ArticleLayout from '@/components/templates/ArticleLayout';
 import { fetchAPI } from '@/lib/fetch-api';
 
@@ -52,11 +51,5 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   if (!article) return <p>No article found</p>;
 
-  return (
-    <section className='py-36 sm:py-48 rounded-tl-[5rem] rounded-tr-[5rem] border-t-solid border-t-4 border-primary/30'>
-      <Container>
-        <ArticleLayout article={article} />
-      </Container>
-    </section>
-  );
+  return <ArticleLayout article={article} />;
 }

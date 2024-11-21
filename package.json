@@ -36,6 +36,7 @@
     "qs": "6.13.1",
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
+    "react-sticky-el": "2.1.1",
     "tailwind-merge": "2.5.4",
     "use-scramble": "2.2.15"
   },

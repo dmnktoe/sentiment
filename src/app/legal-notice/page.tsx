@@ -1,9 +1,12 @@
-import { Container } from '@/components/layout/Container';
+import { Metadata } from 'next';
+
+import LegalNotice from '@/components/templates/LegalNotice';
+
+export const metadata: Metadata = {
+  title: `Legal Notice and Contact Person, Project Sentiment (dot) org`,
+  description: `Part of the German government's research framework program on IT security "Digital. Secure. Sovereign".`,
+};
 
 export default function LegalNoticePage() {
-  return (
-    <section className='py-36 sm:py-48 rounded-tl-[5rem] rounded-tr-[5rem] border-t-solid border-t-4 border-primary/30'>
-      <Container>Legal Notice</Container>
-    </section>
-  );
+  return <LegalNotice />;
 }
