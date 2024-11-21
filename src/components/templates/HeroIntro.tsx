@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useScramble } from 'use-scramble';
 
 import { Container } from '@/components/layout/Container';
+import Crossbar from '@/components/templates/Crossbar';
 import { BMBFIcon, Logo, RUBIcon, UniDUEIcon, UniKasselIcon } from '@/components/ui/Icons';
 import { Title } from '@/components/ui/typography/Title';
 
@@ -124,9 +125,7 @@ export default function HeroIntro() {
     <>
       <section className='pt-36 pb-24'>
         <Container>
-          <div className='grid grid-cols-3 sm:grid-cols-4 mb-4 text-primary text-md'>
-            <div className='-ml-[4.2923px]'>+</div>
-          </div>
+          <Crossbar />
           <Text />
           <Partners />
         </Container>

@@ -1,10 +1,12 @@
 import { Container } from '@/components/layout/Container';
+import Crossbar from '@/components/templates/Crossbar';
 import { Title } from '@/components/ui/typography/Title';
 
 export default function LegalNotice() {
   return (
-    <section className='py-36 rounded-tl-[5rem] rounded-tr-[5rem] border-t-solid border-t-4 border-primary/30'>
+    <section className='py-36'>
       <Container>
+        <Crossbar />
         <Title className='leading-none'>
           Legal Notice and
           <br />

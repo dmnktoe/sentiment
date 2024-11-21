@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import BlockRendererClient from '@/components/helpers/BlockRendererClient';
 import { Container } from '@/components/layout/Container';
+import Crossbar from '@/components/templates/Crossbar';
 import { Title } from '@/components/ui/typography/Title';
 import { formatDate } from '@/lib/format-date';
 import { readingDuration } from '@/lib/get-reading-time';
@@ -85,8 +86,9 @@ function ArticleHeader({ article }: ArticleProps) {
 export default function ArticleLayout({ article }: ArticleProps) {
   return (
     <>
-      <section className='py-36 rounded-tl-[5rem] rounded-tr-[5rem] border-t-solid border-t-4 border-primary/30'>
+      <section className='py-36'>
         <Container>
+          <Crossbar />
           {/* Article Info Grid */}
           <div className='grid grid-cols-3 sm:grid-cols-4 mb-6'>
             <ArticleInfo article={article} />
