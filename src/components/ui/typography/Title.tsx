@@ -20,7 +20,7 @@ export const Title = ({ children, className, margin = true, renderAs = 'h1', siz
       className={clsxm(
         'font-primary tracking-tighter',
         {
-          'text-5xl sm:text-7xl': size === 'one',
+          'text-4xl sm:text-7xl': size === 'one',
           'text-4xl sm:text-6xl': size === 'two',
           'text-3xl sm:text-5xl font-secondary': size === 'three',
           'text-2xl sm:text-4xl font-secondary': size === 'four',
