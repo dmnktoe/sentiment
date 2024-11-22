@@ -24,15 +24,15 @@ export default function Paragraph({
       className={clsxm(
         className,
         {
-          'text-gray-700': color === 'default',
-          'text-gray-500': color === 'light',
+          'text-text': color === 'default',
+          'text-tertiary': color === 'light',
           'font-semibold': isStrong,
           'mb-6': margin,
           'text-sm': size === 'sm',
           'text-base': size === 'base',
           'text-justify': isJustify,
         },
-        'leading-relaxed'
+        'leading-normal'
       )}
     >
       {children}
