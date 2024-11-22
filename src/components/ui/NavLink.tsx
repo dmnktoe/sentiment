@@ -10,7 +10,13 @@ const NavLink = ({ href, children }: { href: string; children: React.ReactNode }
   const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
 
   return (
-    <Link href={href} className={clsxm('hover:underline hover:text-primary', isActive && 'underline')}>
+    <Link
+      href={href}
+      className={clsxm(
+        'px-2 py-1 rounded-2xl hover:bg-neutral-200/75 text-base',
+        isActive && 'bg-secondary/20 text-text line-through'
+      )}
+    >
       {children}
     </Link>
   );
