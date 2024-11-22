@@ -53,10 +53,12 @@ export default [
       ],
     },
   },
-  ...compat.extends('plugin:@typescript-eslint/recommended', 'prettier').map((config) => ({
-    ...config,
-    files: ['**/*.+(ts|tsx)'],
-  })),
+  ...compat
+    .extends('plugin:@typescript-eslint/recommended', 'prettier')
+    .map((config) => ({
+      ...config,
+      files: ['**/*.+(ts|tsx)'],
+    })),
   {
     files: ['**/*.+(ts|tsx)'],
 

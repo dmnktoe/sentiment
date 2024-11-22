@@ -17,7 +17,9 @@ async function fetchData(path: string) {
     if (error instanceof Error) {
       throw new Error(`Failed to fetch data from ${path}: ${error.message}`);
     } else {
-      throw new Error(`Failed to fetch data from ${path} due to an unknown error.`);
+      throw new Error(
+        `Failed to fetch data from ${path} due to an unknown error.`
+      );
     }
   }
 }

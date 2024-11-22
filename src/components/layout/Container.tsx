@@ -11,5 +11,9 @@ export const Container = ({
   className?: string;
   width?: string;
 }) => {
-  return <div className={clsxm('mx-auto px-2 sm:px-4', width, className)}>{children}</div>;
+  return (
+    <div className={clsxm('mx-auto px-2 sm:px-4', width, className)}>
+      {children}
+    </div>
+  );
 };

@@ -1,8 +1,21 @@
 {
-  "importOrder": ["<BUILTIN_MODULES>", "<THIRD_PARTY_MODULES>", "", "^@/(.*)$", "^[./]", "", "<TYPES>", "<TYPES>^[./]"],
+  "arrowParens": "always",
+  "importOrder": [
+    "<BUILTIN_MODULES>",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^@/(.*)$",
+    "^[./]",
+    "",
+    "<TYPES>",
+    "<TYPES>^[./]"
+  ],
   "jsxSingleQuote": true,
-  "plugins": ["prettier-plugin-sort-json", "@ianvs/prettier-plugin-sort-imports"],
-  "printWidth": 120,
+  "plugins": [
+    "prettier-plugin-sort-json",
+    "@ianvs/prettier-plugin-sort-imports"
+  ],
+  "printWidth": 80,
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "es5"

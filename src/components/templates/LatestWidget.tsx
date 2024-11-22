@@ -16,8 +16,13 @@ interface LatestWidgetProps {
   projects: Project[];
 }
 
-export default function LatestWidget({ articles, projects }: LatestWidgetProps) {
-  const [activeTab, setActiveTab] = useState<'articles' | 'projects'>('articles');
+export default function LatestWidget({
+  articles,
+  projects,
+}: LatestWidgetProps) {
+  const [activeTab, setActiveTab] = useState<'articles' | 'projects'>(
+    'articles'
+  );
 
   return (
     <>
@@ -35,7 +40,8 @@ export default function LatestWidget({ articles, projects }: LatestWidgetProps) 
             </button>
             <button
               className={clsxm(
-                activeTab === 'projects' && 'rounded-full bg-primary/20 underline',
+                activeTab === 'projects' &&
+                  'rounded-full bg-primary/20 underline',
                 'py-1 px-4 rounded-full hover:bg-grid'
               )}
               onClick={() => setActiveTab('projects')}
@@ -74,8 +80,9 @@ export default function LatestWidget({ articles, projects }: LatestWidgetProps) 
           </div>
           <div className='flex justify-start mt-8'>
             <Link href={`/${activeTab}`} className='hover:underline text-xl'>
-              View <span className='text-primary font-secondary italic'> all</span> {activeTab}{' '}
-              <span className='font-secondary italic'>»</span>
+              View{' '}
+              <span className='text-primary font-secondary italic'> all</span>{' '}
+              {activeTab} <span className='font-secondary italic'>»</span>
             </Link>
           </div>
         </Container>

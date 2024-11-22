@@ -12,17 +12,24 @@ export default function Footer() {
           <div className='col-span-3 sm:col-span-1'>
             <Logo />
             <span className='text-tertiary text-sm mt-7 block text-justify'>
-              {new Date().getFullYear()} SENTIMENT explores the delicate intersection of privacy and intimacy in
-              human-chatbot interactions. As conversational AI systems become more lifelike, the boundaries between
-              human and machine blur, prompting users to share sensitive, personal moments.
+              {new Date().getFullYear()} SENTIMENT explores the delicate
+              intersection of privacy and intimacy in human-chatbot
+              interactions. As conversational AI systems become more lifelike,
+              the boundaries between human and machine blur, prompting users to
+              share sensitive, personal moments.
             </span>
           </div>
           <div className='col-span-1 hidden sm:block'></div>
           <div className='col-span-1'>
-            <h4 className='text-lg text-gray-900 font-medium mb-7'>Resources</h4>
+            <h4 className='text-lg text-gray-900 font-medium mb-7'>
+              Resources
+            </h4>
             <ul className='text-sm  transition-all duration-500'>
               <li className='mb-3'>
-                <Link href='/legal-notice' className='text-tertiary hover:text-gray-900'>
+                <Link
+                  href='/legal-notice'
+                  className='text-tertiary hover:text-gray-900'
+                >
                   Legal Notice
                 </Link>
               </li>
@@ -30,7 +37,9 @@ export default function Footer() {
                 <a className=' text-tertiary hover:text-gray-900'>Privacy</a>
               </li>
               <li className='mb-3'>
-                <a className=' text-tertiary hover:text-gray-900'>Cookie Settings</a>
+                <a className=' text-tertiary hover:text-gray-900'>
+                  Cookie Settings
+                </a>
               </li>
               <li>
                 <a className='text-tertiary hover:text-gray-900'>Features</a>
@@ -38,7 +47,9 @@ export default function Footer() {
             </ul>
           </div>
           <div className='col-span-2 sm:col-span-1'>
-            <h4 className='text-lg text-gray-900 font-medium mb-7'>Gefördert durch</h4>
+            <h4 className='text-lg text-gray-900 font-medium mb-7'>
+              Gefördert durch
+            </h4>
             <div className='w-1/2'>
               <BMBFIcon />
             </div>

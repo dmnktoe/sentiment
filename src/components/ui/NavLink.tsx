@@ -5,7 +5,13 @@ import { usePathname } from 'next/navigation';
 
 import clsxm from '@/lib/clsxm';
 
-const NavLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
+const NavLink = ({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) => {
   const pathname = usePathname();
   const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
 

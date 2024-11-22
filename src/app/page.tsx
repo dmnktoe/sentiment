@@ -25,7 +25,9 @@ async function getGlobalSettings(): Promise<GlobalSettings> {
     if (error instanceof Error) {
       throw new Error(`Failed to fetch global settings: ${error.message}`);
     } else {
-      throw new Error('Failed to fetch global settings due to an unknown error.');
+      throw new Error(
+        'Failed to fetch global settings due to an unknown error.'
+      );
     }
   }
 }
@@ -38,7 +40,9 @@ async function fetchData(path: string) {
     if (error instanceof Error) {
       throw new Error(`Failed to fetch data from ${path}: ${error.message}`);
     } else {
-      throw new Error(`Failed to fetch data from ${path} due to an unknown error.`);
+      throw new Error(
+        `Failed to fetch data from ${path} due to an unknown error.`
+      );
     }
   }
 }

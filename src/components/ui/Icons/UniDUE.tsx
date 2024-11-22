@@ -1,9 +1,20 @@
 import React from 'react';
 
 export const UniDUEIcon = ({ className }: { className?: string }) => (
-  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 60' className={className}>
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 150 60'
+    className={className}
+  >
     <g clipPath='url(#clip0_76_220)'>
-      <mask id='mask0_76_220' maskUnits='userSpaceOnUse' x='0' y='0' width='150' height='60'>
+      <mask
+        id='mask0_76_220'
+        maskUnits='userSpaceOnUse'
+        x='0'
+        y='0'
+        width='150'
+        height='60'
+      >
         <path d='M0 -3.8147e-06H150V59.7902H0V-3.8147e-06Z' fill='white' />
       </mask>
       <g mask='url(#mask0_76_220)'>

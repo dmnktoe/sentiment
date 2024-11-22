@@ -1,5 +1,11 @@
 export const Logo = ({ className }: { className?: string }) => (
-  <svg width='40' viewBox='0 0 50 36' fill='currentColor' xmlns='http://www.w3.org/2000/svg' className={className}>
+  <svg
+    width='40'
+    viewBox='0 0 50 36'
+    fill='currentColor'
+    xmlns='http://www.w3.org/2000/svg'
+    className={className}
+  >
     <g clipPath='url(#clip0_75_52)'>
       <path
         d='M29.002 0H12.998C5.81942 0 0 5.73849 0 12.8173V23.1827C0 30.2615 5.81942 36 12.998 36H29.002C36.1806 36 42 30.2615 42 23.1827V12.8173C42 5.73849 36.1806 0 29.002 0Z'

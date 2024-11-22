@@ -6,7 +6,13 @@ import { useScramble } from 'use-scramble';
 
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
-import { BMBFIcon, Logo, RUBIcon, UniDUEIcon, UniKasselIcon } from '@/components/ui/Icons';
+import {
+  BMBFIcon,
+  Logo,
+  RUBIcon,
+  UniDUEIcon,
+  UniKasselIcon,
+} from '@/components/ui/Icons';
 import { Title } from '@/components/ui/typography/Title';
 
 function Text() {
@@ -16,8 +22,12 @@ function Text() {
         <Title className='leading-none'>
           Sentiment: Creating
           <span className='text-primary font-secondary italic'> Safe</span> &
-          <span className='text-primary font-secondary italic'> Supportive</span> Spaces for Intimate Communication with
-          Human-Chatbot <Logo className='inline w-10 -mt-1.5 sm:w-20 sm:-mt-4 text-secondary' />
+          <span className='text-primary font-secondary italic'>
+            {' '}
+            Supportive
+          </span>{' '}
+          Spaces for Intimate Communication with Human-Chatbot{' '}
+          <Logo className='inline w-10 -mt-1.5 sm:w-20 sm:-mt-4 text-secondary' />
           Interactions
         </Title>
       </div>
@@ -34,9 +44,11 @@ function Text() {
           &nbsp;
         </p>
         <span className='text-tertiary text-sm mt-7 block text-justify'>
-          {new Date().getFullYear()} SENTIMENT explores the delicate intersection of privacy and intimacy in
-          human-chatbot interactions. As conversational AI systems become more lifelike, the boundaries between human
-          and machine blur, prompting users to share sensitive, personal moments.
+          {new Date().getFullYear()} SENTIMENT explores the delicate
+          intersection of privacy and intimacy in human-chatbot interactions. As
+          conversational AI systems become more lifelike, the boundaries between
+          human and machine blur, prompting users to share sensitive, personal
+          moments.
         </span>
         <br />
         <span className='font-primary text-tertiary'>2024 — 2027</span>
@@ -73,11 +85,14 @@ function Text() {
         <LargeImg />
         <div className='col-span-4 sm:col-span-3 row-start-3'>
           <p className='text-justify text-tertiary text-sm'>
-            SENTIMENT explores the delicate intersection of privacy and intimacy in human-chatbot interactions. As
-            conversational AI systems become more lifelike, the boundaries between human and machine blur, prompting
-            users to share sensitive, personal moments. Our interdisciplinary team delves into the risks and ethical
-            challenges of such interactions, designing innovative Privacy-by-Design solutions to safeguard personal data
-            and empower users in their digital experiences.
+            SENTIMENT explores the delicate intersection of privacy and intimacy
+            in human-chatbot interactions. As conversational AI systems become
+            more lifelike, the boundaries between human and machine blur,
+            prompting users to share sensitive, personal moments. Our
+            interdisciplinary team delves into the risks and ethical challenges
+            of such interactions, designing innovative Privacy-by-Design
+            solutions to safeguard personal data and empower users in their
+            digital experiences.
           </p>
         </div>
       </div>
@@ -95,22 +110,38 @@ function Partners() {
         <div>durch</div>
       </div>
       <div className='grid grid-cols-2 sm:grid-cols-4 grid-rows-2 sm:grid-rows-1 gap-y-8 gap-0'>
-        <Link href='https://www.bmbf.de/' target='_blank' className='hover:bg-secondary/20 rounded-full'>
+        <Link
+          href='https://www.bmbf.de/'
+          target='_blank'
+          className='hover:bg-secondary/20 rounded-full'
+        >
           <div className='w-2/3'>
             <BMBFIcon />
           </div>
         </Link>
-        <Link href='https://www.ruhr-uni-bochum.de/' target='_blank' className='hover:bg-secondary/20 rounded-full'>
+        <Link
+          href='https://www.ruhr-uni-bochum.de/'
+          target='_blank'
+          className='hover:bg-secondary/20 rounded-full'
+        >
           <div className='w-2/3'>
             <RUBIcon />
           </div>
         </Link>
-        <Link href='https://www.uni-due.de/' target='_blank' className='hover:bg-secondary/20 rounded-full'>
+        <Link
+          href='https://www.uni-due.de/'
+          target='_blank'
+          className='hover:bg-secondary/20 rounded-full'
+        >
           <div className='w-2/3'>
             <UniDUEIcon />
           </div>
         </Link>
-        <Link href='https://www.uni-kassel.de/' target='_blank' className='hover:bg-secondary/20 rounded-full'>
+        <Link
+          href='https://www.uni-kassel.de/'
+          target='_blank'
+          className='hover:bg-secondary/20 rounded-full'
+        >
           <div className='w-2/3 col-start-2 sm:col-start-4'>
             <UniKasselIcon />
           </div>

@@ -4,7 +4,10 @@ export default function VisualGrid() {
       {Array(5)
         .fill(0)
         .map((_, index) => (
-          <div key={index} className={`w-[1px] h-full bg-grid ${index === 4 ? 'sm:block hidden' : ''}`}></div>
+          <div
+            key={index}
+            className={`w-[1px] h-full bg-grid ${index === 4 ? 'sm:block hidden' : ''}`}
+          ></div>
         ))}
     </div>
   );

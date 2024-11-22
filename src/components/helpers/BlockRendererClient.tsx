@@ -7,7 +7,11 @@ import { Title } from '@/components/ui/typography/Title';
 
 import type { BlocksContent } from '@strapi/blocks-react-renderer';
 
-export default function BlockRendererClient({ content }: { readonly content: BlocksContent }) {
+export default function BlockRendererClient({
+  content,
+}: {
+  readonly content: BlocksContent;
+}) {
   if (!content) return null;
   return (
     <BlocksRenderer
@@ -15,7 +19,14 @@ export default function BlockRendererClient({ content }: { readonly content: Blo
       blocks={{
         image: ({ image }) => {
           console.log(image);
-          return <Image src={image.url} width={image.width} height={image.height} alt={image.alternativeText || ''} />;
+          return (
+            <Image
+              src={image.url}
+              width={image.width}
+              height={image.height}
+              alt={image.alternativeText || ''}
+            />
+          );
         },
         heading: ({ children, level }) => {
           switch (level) {
@@ -39,7 +50,9 @@ export default function BlockRendererClient({ content }: { readonly content: Blo
               );
           }
         },
-        paragraph: ({ children }) => <p className='font-secondary'>{children}</p>,
+        paragraph: ({ children }) => (
+          <p className='font-secondary'>{children}</p>
+        ),
       }}
     />
   );

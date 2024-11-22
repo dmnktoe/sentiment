@@ -12,7 +12,13 @@ export interface TitleProps {
   size?: Size;
 }
 
-export const Title = ({ children, className, margin = true, renderAs = 'h1', size = 'one' }: TitleProps) => {
+export const Title = ({
+  children,
+  className,
+  margin = true,
+  renderAs = 'h1',
+  size = 'one',
+}: TitleProps) => {
   const Component = renderAs;
 
   return (

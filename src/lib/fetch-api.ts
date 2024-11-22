@@ -11,7 +11,11 @@ interface QueryParams {
   [key: string]: any;
 }
 
-export async function fetchAPI(path: string, query: QueryParams = {}, options: FetchOptions = {}) {
+export async function fetchAPI(
+  path: string,
+  query: QueryParams = {},
+  options: FetchOptions = {}
+) {
   try {
     const defaultOptions = {
       revalidate: 60,

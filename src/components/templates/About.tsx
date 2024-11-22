@@ -10,7 +10,10 @@ function AboutHero() {
     <>
       <Title className='leading-none'>
         About
-        <span className='text-primary font-secondary italic'> »</span> Project{' '}
+        <span className='text-primary font-secondary italic'>
+          {' '}
+          »
+        </span> Project{' '}
         <span className='text-white rounded-full px-3 relative inline-flex items-center overflow-hidden'>
           <video
             controls={false}
@@ -23,17 +26,20 @@ function AboutHero() {
           />
           <span className='z-20'>Sentiment</span>
         </span>{' '}
-        <span className='text-primary font-secondary italic'>(dot) org</span>, - IT Security Protects Privacy and
-        Supports Democracy
+        <span className='text-primary font-secondary italic'>(dot) org</span>, -
+        IT Security Protects Privacy and Supports Democracy
         <span className='text-primary font-secondary italic'> «</span>
       </Title>
       <Paragraph size='sm' color='light' margin={false} isJustify>
-        The project is a non-profit organization that aims to protect the privacy of individuals and support democracy
-        by providing IT security solutions. We are a team of IT security experts who are passionate about protecting the
-        privacy of individuals and supporting democracy. Our mission is to provide IT security solutions that protect
-        the privacy of individuals and support democracy. We believe that everyone has the right to privacy and that
-        democracy is essential for a free and open society. We are committed to providing IT security solutions that
-        help protect the privacy of individuals and support democracy.
+        The project is a non-profit organization that aims to protect the
+        privacy of individuals and support democracy by providing IT security
+        solutions. We are a team of IT security experts who are passionate about
+        protecting the privacy of individuals and supporting democracy. Our
+        mission is to provide IT security solutions that protect the privacy of
+        individuals and support democracy. We believe that everyone has the
+        right to privacy and that democracy is essential for a free and open
+        society. We are committed to providing IT security solutions that help
+        protect the privacy of individuals and support democracy.
       </Paragraph>
     </>
   );
@@ -48,10 +54,12 @@ function AboutText() {
             Our mission is to provide IT security
           </Title>
           <Paragraph>
-            Our mission is to provide IT security solutions that protect the privacy of individuals and support
-            democracy. We believe that everyone has the right to privacy and that democracy is essential for a free and
-            open society. We are committed to providing IT security solutions that help protect the privacy of
-            individuals and support democracy.
+            Our mission is to provide IT security solutions that protect the
+            privacy of individuals and support democracy. We believe that
+            everyone has the right to privacy and that democracy is essential
+            for a free and open society. We are committed to providing IT
+            security solutions that help protect the privacy of individuals and
+            support democracy.
           </Paragraph>
         </div>
         <div className='hidden col-span-1 sm:col-span-1 sm:col-start-3 sm:block'>
@@ -78,11 +86,13 @@ function AboutText() {
           Protecting the privacy of individuals
         </Title>
         <Paragraph>
-          By IT security solutions. We believe that IT security is essential for protecting the privacy of individuals
-          and supporting democracy. We are committed to creating a world where everyone can communicate freely and
-          securely. By IT security solutions. We believe that IT security is essential for protecting the privacy of
-          individuals and supporting democracy. We are committed to creating a world where everyone can communicate
-          freely and securely.
+          By IT security solutions. We believe that IT security is essential for
+          protecting the privacy of individuals and supporting democracy. We are
+          committed to creating a world where everyone can communicate freely
+          and securely. By IT security solutions. We believe that IT security is
+          essential for protecting the privacy of individuals and supporting
+          democracy. We are committed to creating a world where everyone can
+          communicate freely and securely.
         </Paragraph>
       </div>
     </>

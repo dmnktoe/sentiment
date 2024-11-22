@@ -27,7 +27,11 @@ async function getProject(slug: string) {
   }
 }
 
-export const generateMetadata = async ({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> => {
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> => {
   const { slug } = await params;
   const project = await getProject(slug);
   return {
@@ -45,7 +49,11 @@ export const generateStaticParams = async () => {
   }));
 };
 
-export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ProjectPage({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}) {
   const { slug } = await params;
   const project = await getProject(slug);
 

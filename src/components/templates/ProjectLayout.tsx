@@ -29,13 +29,16 @@ function ProjectSidebar() {
           <span className='font-semibold'>Peer Reviewed:</span> Yes
         </li>
         <li>
-          <span className='font-semibold'>Institutional Affiliation:</span> University of Cyber Research
+          <span className='font-semibold'>Institutional Affiliation:</span>{' '}
+          University of Cyber Research
         </li>
         <li>
-          <span className='font-semibold'>Funding:</span> CyberTech Grant Program
+          <span className='font-semibold'>Funding:</span> CyberTech Grant
+          Program
         </li>
         <li>
-          <span className='font-semibold'>Keywords:</span> Data Security, Privacy, AI Encryption
+          <span className='font-semibold'>Keywords:</span> Data Security,
+          Privacy, AI Encryption
         </li>
       </ul>
     </div>
@@ -46,8 +49,12 @@ function ProjectInfo({ project }: ProjectProps) {
   return (
     <>
       <div className='text-sm text-primary'>(News)</div>
-      <div className='text-sm text-primary'>{formatDate(project.publishedAt)}</div>
-      <div className='text-sm text-primary'>{readingDuration(project.description)}</div>
+      <div className='text-sm text-primary'>
+        {formatDate(project.publishedAt)}
+      </div>
+      <div className='text-sm text-primary'>
+        {readingDuration(project.description)}
+      </div>
     </>
   );
 }
@@ -76,8 +83,12 @@ function ProjectHeader({ project }: ProjectProps) {
         </Title>
       </div>
       <div className='col-span-3 sm:col-span-2'>
-        <div className='text-primary text-sm mb-4'>Written by Dr. Jessica Szczuka</div>
-        <div className='prose text-tertiary text-justify text-sm'>{project.description}</div>
+        <div className='text-primary text-sm mb-4'>
+          Written by Dr. Jessica Szczuka
+        </div>
+        <div className='prose text-tertiary text-justify text-sm'>
+          {project.description}
+        </div>
       </div>
     </>
   );
