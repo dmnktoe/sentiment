@@ -90,12 +90,12 @@ function AboutText() {
 
 function AboutFooter() {
   return (
-    <div className='grid grid-cols-3 sm:grid-cols-4 gap-0 mt-16'>
+    <div className='grid grid-cols-3 sm:grid-cols-4 gap-y-8 sm:gap-0 mt-16'>
       <div className='col-span-1'>
         <Title size='five' className='leading-none'>
           Partners
         </Title>
-        <ul className='list-inside text-sm underline'>
+        <ul className='list-inside text-sm'>
           <li>BMBF</li>
           <li>Ruhr-Universität Bochum</li>
           <li>Uni Duisburg-Essen</li>
@@ -106,9 +106,8 @@ function AboutFooter() {
         <Title size='five' className='leading-none'>
           Funding
         </Title>
-        <ul className='list-inside text-sm underline'>
+        <ul className='list-inside text-sm'>
           <li>MC</li>
-          <li>ARD</li>
           <li>QA</li>
           <li>SH</li>
         </ul>
@@ -117,7 +116,7 @@ function AboutFooter() {
         <Title size='five' className='leading-none'>
           Contact
         </Title>
-        <ul className='list-inside text-sm underline'>
+        <ul className='list-inside text-sm'>
           <li>E-Mail</li>
           <li>Phone</li>
         </ul>
@@ -126,9 +125,8 @@ function AboutFooter() {
         <Title size='five' className='leading-none'>
           Social Media
         </Title>
-        <ul className='list-inside text-sm underline'>
+        <ul className='list-inside text-sm'>
           <li>LinkedIn</li>
-          <li>X</li>
           <li>Instagram</li>
           <li>TikTok</li>
         </ul>

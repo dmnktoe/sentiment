@@ -1,3 +1,5 @@
+import { BlocksContent } from '@strapi/blocks-react-renderer';
+
 import { Image } from '@/types/Image';
 
 export interface Project {
@@ -7,4 +9,5 @@ export interface Project {
   publishedAt: Date;
   createdAt: Date;
   image: Image;
+  content: BlocksContent;
 }
