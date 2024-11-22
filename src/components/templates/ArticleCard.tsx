@@ -6,22 +6,35 @@ import { formatDate } from '@/lib/format-date';
 import { readingDuration } from '@/lib/get-reading-time';
 import { getStrapiMedia } from '@/lib/strapi-urls';
 
-interface CardProps {
+interface ArticleCardProps {
   title: string;
   publishedAt: Date;
   slug: string;
   description: string;
-  imageUrl?: string; // Optional für prominente Darstellung
-  prominent?: boolean; // Ob die Karte prominent dargestellt wird
+  imageUrl?: string;
+  prominent?: boolean;
 }
 
-export default function ArticleCard({ title, publishedAt, slug, description, imageUrl, prominent = false }: CardProps) {
+export default function ArticleCard({
+  title,
+  publishedAt,
+  slug,
+  description,
+  imageUrl,
+  prominent = false,
+}: ArticleCardProps) {
   if (prominent && imageUrl) {
     return (
       <Link href={'/articles/' + slug} className='group block'>
         <div className='grid grid-cols-3 sm:grid-cols-8 group group-hover:bg-primary/20 rounded-full py-6'>
-          <div className='col-span-2 relative h-64 sm:h-72'>
-            <Image src={getStrapiMedia(imageUrl)} alt={title} layout='fill' objectFit='cover' />
+          <div className='col-span-2 relative h-[125px]'>
+            <Image
+              src={getStrapiMedia(imageUrl)}
+              alt={title}
+              layout='fill'
+              objectFit='cover'
+              className='grayscale group-hover:grayscale-0'
+            />
           </div>
           <div className='col-span-3 sm:col-span-6 sm:col-start-4 mt-4 sm:mt-0'>
             <div className='text-sm mb-4 text-primary group-hover:text-black group-hover:blur-sm'>

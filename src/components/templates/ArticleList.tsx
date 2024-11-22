@@ -1,5 +1,5 @@
 import { Container } from '@/components/layout/Container';
-import Card from '@/components/templates/ArticleCard';
+import ArticleCard from '@/components/templates/ArticleCard';
 import Crossbar from '@/components/templates/Crossbar';
 import { Title } from '@/components/ui/typography/Title';
 import { Article } from '@/types/Article';
@@ -14,7 +14,7 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
         </Title>
         <div className='flex flex-col gap-y-16'>
           {articles.map((article) => (
-            <Card
+            <ArticleCard
               key={article.slug}
               title={article.title}
               publishedAt={article.publishedAt}
