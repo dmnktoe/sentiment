@@ -17,16 +17,24 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "type-check": "tsc --noEmit",
-    "lint": "eslint \"src/**/*.+(ts|js|tsx)\"",
-    "format": "prettier . --write",
+    "lint": "next lint",
+    "lint:fix": "eslint src --fix && pnpm format",
+    "lint:strict": "eslint --max-warnings=0 src",
+    "typecheck": "tsc --noEmit",
+    "format": "prettier -w .",
+    "format:check": "prettier -c .",
     "format:ci": "prettier --list-different .",
-    "postinstall": "husky"
+    "postinstall": "husky",
+    "clean": "rm -rf .next/ coverage/",
+    "clean:nm": "pnpm clean && rm -rf node_modules/"
   },
   "lint-staged": {
     "./src/**/*.{ts,js,jsx,tsx}": [
       "eslint \"src/**/*.+(ts|js|tsx)\" --fix",
       "prettier . --write"
+    ],
+    "**/*.{json,css,scss,md,webmanifest}": [
+      "prettier -w"
     ]
   },
   "dependencies": {
