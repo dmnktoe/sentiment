@@ -2,6 +2,7 @@ import Image from 'next/image';
 
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
+import Paragraph from '@/components/ui/typography/Paragraph';
 import { Title } from '@/components/ui/typography/Title';
 
 function AboutHero() {
@@ -26,14 +27,14 @@ function AboutHero() {
         Supports Democracy
         <span className='text-primary font-secondary italic'> «</span>
       </Title>
-      <p className='mt-8 text-sm text-tertiary text-justify'>
+      <Paragraph size='sm' color='light' margin={false} isJustify>
         The project is a non-profit organization that aims to protect the privacy of individuals and support democracy
         by providing IT security solutions. We are a team of IT security experts who are passionate about protecting the
         privacy of individuals and supporting democracy. Our mission is to provide IT security solutions that protect
         the privacy of individuals and support democracy. We believe that everyone has the right to privacy and that
         democracy is essential for a free and open society. We are committed to providing IT security solutions that
         help protect the privacy of individuals and support democracy.
-      </p>
+      </Paragraph>
     </>
   );
 }
@@ -44,14 +45,14 @@ function AboutText() {
       <div className='mt-24 mb-16 grid grid-cols-3 sm:grid-cols-4'>
         <div className='col-span-2 pr-8 sm:pr-0 sm:col-span-1'>
           <Title size='three' className='leading-none'>
-            Mission
+            Our mission is to provide IT security
           </Title>
-          <p>
+          <Paragraph>
             Our mission is to provide IT security solutions that protect the privacy of individuals and support
             democracy. We believe that everyone has the right to privacy and that democracy is essential for a free and
             open society. We are committed to providing IT security solutions that help protect the privacy of
             individuals and support democracy.
-          </p>
+          </Paragraph>
         </div>
         <div className='hidden col-span-1 sm:col-span-1 sm:col-start-3 sm:block'>
           <Image
@@ -72,17 +73,17 @@ function AboutText() {
           />
         </div>
       </div>
-      <div className='col-span-1 col-start-3'>
+      <div className='col-span-1 col-start-3 mt-36'>
         <Title size='three' className='leading-none'>
-          Vision
+          Protecting the privacy of individuals
         </Title>
-        <p>
+        <Paragraph>
           By IT security solutions. We believe that IT security is essential for protecting the privacy of individuals
           and supporting democracy. We are committed to creating a world where everyone can communicate freely and
           securely. By IT security solutions. We believe that IT security is essential for protecting the privacy of
           individuals and supporting democracy. We are committed to creating a world where everyone can communicate
           freely and securely.
-        </p>
+        </Paragraph>
       </div>
     </>
   );

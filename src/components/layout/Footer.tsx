@@ -17,7 +17,6 @@ export default function Footer() {
               human and machine blur, prompting users to share sensitive, personal moments.
             </span>
           </div>
-
           <div className='col-span-1 hidden sm:block'></div>
           <div className='col-span-1'>
             <h4 className='text-lg text-gray-900 font-medium mb-7'>Resources</h4>
