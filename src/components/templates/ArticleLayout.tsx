@@ -97,7 +97,7 @@ function ArticleHeader({ article }: ArticleProps) {
 export default function ArticleLayout({ article }: ArticleProps) {
   return (
     <>
-      <section className='py-36'>
+      <section className='py-24 sm:py-36'>
         <Container>
           <Crossbar />
           {/* Article Info Grid */}

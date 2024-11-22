@@ -6,7 +6,7 @@ import { Project } from '@/types/Project';
 
 export default function ProjectList({ projects }: { projects: Project[] }) {
   return (
-    <section className='py-36'>
+    <section className='py-24 sm:py-36'>
       <Container>
         <Crossbar />
         <Title size='two' className='sm:mb-16'>

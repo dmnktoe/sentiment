@@ -13,6 +13,7 @@ import {
   UniDUEIcon,
   UniKasselIcon,
 } from '@/components/ui/Icons';
+import Paragraph from '@/components/ui/typography/Paragraph';
 import { Title } from '@/components/ui/typography/Title';
 
 function Text() {
@@ -43,15 +44,16 @@ function Text() {
         <p className='font-secondary italic underline' ref={ref}>
           &nbsp;
         </p>
-        <span className='text-tertiary text-sm mt-7 block text-justify'>
+        <Paragraph isJustify color='light' size='sm' className='mt-4 block'>
           {new Date().getFullYear()} SENTIMENT explores the delicate
           intersection of privacy and intimacy in human-chatbot interactions. As
           conversational AI systems become more lifelike, the boundaries between
           human and machine blur, prompting users to share sensitive, personal
           moments.
-        </span>
-        <br />
-        <span className='font-primary text-tertiary'>2024 — 2027</span>
+        </Paragraph>
+        <Paragraph color='light' size='sm'>
+          2024 — 2027
+        </Paragraph>
         <Image
           alt='SENTIMENT Logo'
           width='400'
@@ -84,7 +86,7 @@ function Text() {
         <SmallText />
         <LargeImg />
         <div className='col-span-4 sm:col-span-3 row-start-3'>
-          <p className='text-justify text-tertiary text-sm'>
+          <Paragraph isJustify color='light' size='sm'>
             SENTIMENT explores the delicate intersection of privacy and intimacy
             in human-chatbot interactions. As conversational AI systems become
             more lifelike, the boundaries between human and machine blur,
@@ -93,7 +95,7 @@ function Text() {
             of such interactions, designing innovative Privacy-by-Design
             solutions to safeguard personal data and empower users in their
             digital experiences.
-          </p>
+          </Paragraph>
         </div>
       </div>
     </div>
@@ -154,7 +156,7 @@ function Partners() {
 export default function HeroIntro() {
   return (
     <>
-      <section className='pt-36 pb-24'>
+      <section className='pt-24 sm:pt-36 pb-24'>
         <Container>
           <Crossbar />
           <Text />

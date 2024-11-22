@@ -148,7 +148,7 @@ function AboutFooter() {
 
 export default function About() {
   return (
-    <section className='py-36'>
+    <section className='py-24 sm:py-36'>
       <Container>
         <Crossbar />
         <AboutHero />

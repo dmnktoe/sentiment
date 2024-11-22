@@ -97,7 +97,7 @@ function ProjectHeader({ project }: ProjectProps) {
 export default function ProjectLayout({ project }: ProjectProps) {
   return (
     <>
-      <section className='py-36'>
+      <section className='py-24 sm:py-36'>
         <Container>
           <Crossbar />
           {/* Project Info Grid */}

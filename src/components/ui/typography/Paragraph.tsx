@@ -21,19 +21,15 @@ export default function Paragraph({
 }: ParagraphProps) {
   return (
     <p
-      className={clsxm(
-        className,
-        {
-          'text-text': color === 'default',
-          'text-tertiary': color === 'light',
-          'font-semibold': isStrong,
-          'mb-6': margin,
-          'text-sm': size === 'sm',
-          'text-base': size === 'base',
-          'text-justify': isJustify,
-        },
-        'leading-normal'
-      )}
+      className={clsxm(className, {
+        'text-text': color === 'default',
+        'text-tertiary': color === 'light',
+        'font-semibold': isStrong,
+        'mb-4': margin,
+        'text-sm': size === 'sm',
+        'text-base': size === 'base',
+        'text-justify': isJustify,
+      })}
     >
       {children}
     </p>

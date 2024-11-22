@@ -3,6 +3,7 @@
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Image from 'next/image';
 
+import Paragraph from '@/components/ui/typography/Paragraph';
 import { Title } from '@/components/ui/typography/Title';
 
 import type { BlocksContent } from '@strapi/blocks-react-renderer';
@@ -51,7 +52,7 @@ export default function BlockRendererClient({
           }
         },
         paragraph: ({ children }) => (
-          <p className='font-secondary'>{children}</p>
+          <Paragraph className='font-secondary'>{children}</Paragraph>
         ),
       }}
     />
