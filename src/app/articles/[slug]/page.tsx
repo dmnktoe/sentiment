@@ -22,7 +22,6 @@ async function getArticle(slug: string) {
     }
     return data.data[0];
   } catch (error) {
-    console.error('Error fetching article:', error);
     throw error;
   }
 }

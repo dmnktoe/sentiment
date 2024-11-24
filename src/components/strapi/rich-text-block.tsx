@@ -21,7 +21,6 @@ export function RichTextBlock({ block }: { block: RichTextBlock }) {
         content={block.content}
         blocks={{
           image: ({ image }) => {
-            console.log('image', image);
             if (!image) return null;
             return (
               <div className='my-4 flex justify-center'>

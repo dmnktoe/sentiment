@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { RichTextBlock } from './rich-text-block';
 import { TitleBlock } from './title-block';
 

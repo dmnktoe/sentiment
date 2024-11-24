@@ -22,7 +22,6 @@ async function getProject(slug: string) {
     }
     return data.data[0];
   } catch (error) {
-    console.error('Error fetching project:', error);
     throw error;
   }
 }

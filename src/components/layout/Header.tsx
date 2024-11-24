@@ -26,7 +26,7 @@ function Navigation() {
 
 export default function Header() {
   return (
-    <header className='pointer-events-none fixed z-30 flex w-full justify-center bg-[#0000]'>
+    <header className='pointer-events-none fixed z-30 flex w-full justify-center'>
       <div className='pointer-events-auto relative mt-8 flex items-center justify-between gap-2 overflow-hidden rounded-full border-[1px] border-solid border-[#e9e9e9] bg-white/85 px-2 py-1 pl-4 shadow-sm backdrop-blur-md'>
         <Link
           href='/'

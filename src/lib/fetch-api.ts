@@ -8,7 +8,7 @@ type FetchOptions = {
 };
 
 interface QueryParams {
-  [key: string]: any;
+  [key: string]: string | number | boolean | object;
 }
 
 export async function fetchAPI(
