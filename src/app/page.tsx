@@ -1,8 +1,9 @@
 import HeroIntro from '@/components/templates/HeroIntro';
 import LatestWidget from '@/components/templates/LatestWidget';
-import { fetchAPI } from '@/lib/fetch-api';
+import { fetchDataWithHandling } from '@/lib/fetch-api';
 import { Article } from '@/types/Article';
 import { GlobalSettings } from '@/types/Global';
+import { Homepage } from '@/types/Homepage';
 import { Project } from '@/types/Project';
 
 const HOME_DATA_PATH = '/homepage';
@@ -23,48 +24,11 @@ const PAGINATION_QUERY = {
 };
 
 async function getGlobalSettings(): Promise<GlobalSettings> {
-  try {
-    const data = await fetchAPI(GLOBAL_SETTINGS_PATH, { cache: 'no-store' });
-    return data.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to fetch global settings: ${error.message}`);
-    } else {
-      throw new Error(
-        'Failed to fetch global settings due to an unknown error.'
-      );
-    }
-  }
-}
-
-async function fetchData(path: string) {
-  try {
-    const data = await fetchAPI(path, PAGINATION_QUERY);
-    return data.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to fetch data from ${path}: ${error.message}`);
-    } else {
-      throw new Error(
-        `Failed to fetch data from ${path} due to an unknown error.`
-      );
-    }
-  }
-}
-
-async function fetchContent(path: string) {
-  try {
-    const data = await fetchAPI(path, CONTENT_QUERY);
-    return data.data;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(`Failed to fetch data from ${path}: ${error.message}`);
-    } else {
-      throw new Error(
-        `Failed to fetch data from ${path} due to an unknown error.`
-      );
-    }
-  }
+  return await fetchDataWithHandling<GlobalSettings>(
+    GLOBAL_SETTINGS_PATH,
+    { cache: 'no-store' },
+    'Failed to fetch global settings'
+  );
 }
 
 export async function generateMetadata() {
@@ -76,9 +40,22 @@ export async function generateMetadata() {
 }
 
 export default async function HomePage() {
-  const content = await fetchContent(HOME_DATA_PATH);
-  const articles: Article[] = await fetchData(ARTICLES_PATH);
-  const projects: Project[] = await fetchData(PROJECTS_PATH);
+  const content = await fetchDataWithHandling<Homepage>(
+    HOME_DATA_PATH,
+    CONTENT_QUERY,
+    `Failed to fetch content from ${HOME_DATA_PATH}`
+  );
+  const articles = await fetchDataWithHandling<Article[]>(
+    ARTICLES_PATH,
+    PAGINATION_QUERY,
+    `Failed to fetch articles from ${ARTICLES_PATH}`
+  );
+  const projects = await fetchDataWithHandling<Project[]>(
+    PROJECTS_PATH,
+    PAGINATION_QUERY,
+    `Failed to fetch projects from ${PROJECTS_PATH}`
+  );
+
   return (
     <>
       <HeroIntro content={content} />

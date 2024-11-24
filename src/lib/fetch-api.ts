@@ -56,3 +56,24 @@ export async function fetchAPI(
     }
   }
 }
+
+function handleFetchError(error: unknown, defaultMessage: string): never {
+  if (error instanceof Error) {
+    throw new Error(`${defaultMessage}: ${error.message}`);
+  } else {
+    throw new Error(`${defaultMessage} due to an unknown error.`);
+  }
+}
+
+export async function fetchDataWithHandling<T>(
+  path: string,
+  query: QueryParams,
+  errorMessage: string
+): Promise<T> {
+  try {
+    const data = await fetchAPI(path, query);
+    return data.data;
+  } catch (error) {
+    handleFetchError(error, errorMessage);
+  }
+}
