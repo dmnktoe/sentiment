@@ -26,11 +26,11 @@ function Navigation() {
 
 export default function Header() {
   return (
-    <header className='bg-[#0000] justify-center w-full flex fixed z-30 pointer-events-none'>
-      <div className='backdrop-blur-md pointer-events-auto bg-white/85 items-center flex relative shadow-sm mt-8 pl-4 px-2 py-1 rounded-full gap-2 justify-between overflow-hidden border-[1px] border-solid border-[#e9e9e9]'>
+    <header className='pointer-events-none fixed z-30 flex w-full justify-center bg-[#0000]'>
+      <div className='pointer-events-auto relative mt-8 flex items-center justify-between gap-2 overflow-hidden rounded-full border-[1px] border-solid border-[#e9e9e9] bg-white/85 px-2 py-1 pl-4 shadow-sm backdrop-blur-md'>
         <Link
           href='/'
-          className='hover:text-primary hover:-rotate-12 hover:scale-125 transform transition ease-in-out active:scale-90 active:text-secondary'
+          className='transform transition ease-in-out hover:-rotate-12 hover:scale-125 hover:text-primary active:scale-90 active:text-secondary'
         >
           <Logo className='h-8 w-8' />
         </Link>

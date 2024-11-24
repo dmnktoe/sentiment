@@ -18,7 +18,7 @@ interface ProjectProps {
 function ProjectSidebar() {
   return (
     <div className='col-span-3 sm:col-span-1 sm:col-start-4'>
-      <ul className='space-y-2 text-sm bg-secondary/15 p-4 rounded-full'>
+      <ul className='space-y-2 rounded-full bg-secondary/15 p-4 text-sm'>
         <li>
           <span className='font-semibold'>Category:</span> Data Security
         </li>
@@ -72,7 +72,7 @@ function ProjectHeader({ project }: ProjectProps) {
               alt={project.title}
               width={1600}
               height={600}
-              className='block w-full h-[300px] object-cover'
+              className='block h-[300px] w-full object-cover'
             />
           </div>
         </div>
@@ -83,10 +83,10 @@ function ProjectHeader({ project }: ProjectProps) {
         </Title>
       </div>
       <div className='col-span-3 sm:col-span-2'>
-        <div className='text-primary text-sm mb-4'>
+        <div className='mb-4 text-sm text-primary'>
           Written by Dr. Jessica Szczuka
         </div>
-        <div className='prose text-tertiary text-justify text-sm'>
+        <div className='prose text-justify text-sm text-tertiary'>
           {project.description}
         </div>
       </div>
@@ -101,11 +101,11 @@ export default function ProjectLayout({ project }: ProjectProps) {
         <Container>
           <Crossbar />
           {/* Project Info Grid */}
-          <div className='grid grid-cols-3 sm:grid-cols-4 mb-6'>
+          <div className='mb-6 grid grid-cols-3 sm:grid-cols-4'>
             <ProjectInfo project={project} />
           </div>
           {/* Project Content Grid */}
-          <div className='grid grid-cols-3 sm:grid-cols-4 gap-0 gap-y-6'>
+          <div className='grid grid-cols-3 gap-0 gap-y-6 sm:grid-cols-4'>
             <ProjectHeader project={project} />
             <ProjectSidebar />
             <div className='col-span-3 sm:col-span-3'>

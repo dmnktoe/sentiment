@@ -26,8 +26,8 @@ export default function ArticleCard({
   if (prominent && imageUrl) {
     return (
       <Link href={'/articles/' + slug} className='group block'>
-        <div className='grid grid-cols-3 sm:grid-cols-8 group group-hover:bg-primary/20 rounded-full py-6'>
-          <div className='col-span-2 relative h-[125px]'>
+        <div className='group grid grid-cols-3 rounded-full py-6 group-hover:bg-primary/20 sm:grid-cols-8'>
+          <div className='relative col-span-2 h-[125px]'>
             <Image
               src={getStrapiMedia(imageUrl)}
               alt={title}
@@ -36,17 +36,17 @@ export default function ArticleCard({
               className='grayscale group-hover:grayscale-0'
             />
           </div>
-          <div className='col-span-3 sm:col-span-6 sm:col-start-4 mt-4 sm:mt-0'>
-            <div className='text-sm mb-4 text-primary group-hover:text-black group-hover:blur-sm'>
+          <div className='col-span-3 mt-4 sm:col-span-6 sm:col-start-4 sm:mt-0'>
+            <div className='mb-4 text-sm text-primary group-hover:text-black group-hover:blur-sm'>
               {formatDate(publishedAt)}
             </div>
             <Title size='three' className='group-hover:underline'>
               {title}
             </Title>
-            <div className='text-sm mt-2 text-justify line-clamp-5'>
+            <div className='mt-2 line-clamp-5 text-justify text-sm'>
               {description}
             </div>
-            <div className='text-sm mt-4 text-primary group-hover:text-black group-hover:underline'>
+            <div className='mt-4 text-sm text-primary group-hover:text-black group-hover:underline'>
               Read more <span className='font-secondary'>&rarr;</span>
             </div>
           </div>
@@ -57,7 +57,7 @@ export default function ArticleCard({
 
   return (
     <Link href={'/articles/' + slug} className='group block'>
-      <div className='grid grid-cols-3 sm:grid-cols-4 group group-hover:bg-primary/20 rounded-full py-6'>
+      <div className='group grid grid-cols-3 rounded-full py-6 group-hover:bg-primary/20 sm:grid-cols-4'>
         <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
           (News)
         </div>
@@ -67,11 +67,11 @@ export default function ArticleCard({
         <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
           {readingDuration(description)}
         </div>
-        <div className='col-span-3 sm:col-start-2 row-start-2 mt-4'>
+        <div className='col-span-3 row-start-2 mt-4 sm:col-start-2'>
           <Title size='four' className='group-hover:underline'>
             {title}
           </Title>
-          <div className='text-sm mt-2 text-justify line-clamp-2 group-hover:blur-sm'>
+          <div className='mt-2 line-clamp-2 text-justify text-sm group-hover:blur-sm'>
             {description}
           </div>
         </div>

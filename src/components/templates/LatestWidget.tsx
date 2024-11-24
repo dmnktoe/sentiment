@@ -26,13 +26,13 @@ export default function LatestWidget({
 
   return (
     <>
-      <section className='py-24 rounded-tl-[5rem] rounded-tr-[5rem] border-t-solid border-t-4 border-primary/30'>
+      <section className='border-t-solid rounded-tl-[5rem] rounded-tr-[5rem] border-t-4 border-primary/30 py-24'>
         <Container>
-          <div className='mb-4 text-md flex flex-row gap-0'>
+          <div className='text-md mb-4 flex flex-row gap-0'>
             <button
               className={clsxm(
                 activeTab === 'articles' && 'bg-primary/20 underline',
-                'py-1 px-4 rounded-full hover:bg-grid'
+                'rounded-full px-4 py-1 hover:bg-grid'
               )}
               onClick={() => setActiveTab('articles')}
             >
@@ -42,14 +42,14 @@ export default function LatestWidget({
               className={clsxm(
                 activeTab === 'projects' &&
                   'rounded-full bg-primary/20 underline',
-                'py-1 px-4 rounded-full hover:bg-grid'
+                'rounded-full px-4 py-1 hover:bg-grid'
               )}
               onClick={() => setActiveTab('projects')}
             >
               ({projects.length}) projects
             </button>
           </div>
-          <div className='grid grid-cols-6 gap-0 mb-4'>
+          <div className='mb-4 grid grid-cols-6 gap-0'>
             <div className='col-span-5'>
               <Title size='two' renderAs='h2' margin={false}>
                 Latest entries from {activeTab}
@@ -78,10 +78,10 @@ export default function LatestWidget({
                 />
               ))}
           </div>
-          <div className='flex justify-start mt-8'>
-            <Link href={`/${activeTab}`} className='hover:underline text-xl'>
+          <div className='mt-8 flex justify-start'>
+            <Link href={`/${activeTab}`} className='text-xl hover:underline'>
               View{' '}
-              <span className='text-primary font-secondary italic'> all</span>{' '}
+              <span className='font-secondary italic text-primary'> all</span>{' '}
               {activeTab} <span className='font-secondary italic'>»</span>
             </Link>
           </div>

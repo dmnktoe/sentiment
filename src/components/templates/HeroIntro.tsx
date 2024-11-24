@@ -19,16 +19,16 @@ import { Title } from '@/components/ui/typography/Title';
 function Text() {
   function LargeText() {
     return (
-      <div className='col-span-6 z-20'>
+      <div className='z-20 col-span-6'>
         <Title className='leading-none'>
           Sentiment: Creating
-          <span className='text-primary font-secondary italic'> Safe</span> &
-          <span className='text-primary font-secondary italic'>
+          <span className='font-secondary italic text-primary'> Safe</span> &
+          <span className='font-secondary italic text-primary'>
             {' '}
             Supportive
           </span>{' '}
           Spaces for Intimate Communication with Human-Chatbot{' '}
-          <Logo className='inline w-10 -mt-1.5 sm:w-20 sm:-mt-4 text-secondary' />
+          <Logo className='-mt-1.5 inline w-10 text-secondary sm:-mt-4 sm:w-20' />
           Interactions
         </Title>
       </div>
@@ -40,7 +40,7 @@ function Text() {
       text: 'Research Project',
     });
     return (
-      <div className='col-span-2 sm:col-span-1 mb-8 text-sm z-10'>
+      <div className='z-10 col-span-2 mb-8 text-sm sm:col-span-1'>
         <p className='font-secondary italic underline' ref={ref}>
           &nbsp;
         </p>
@@ -80,12 +80,12 @@ function Text() {
   }
 
   return (
-    <div className='border-b-grid border-b-solid border-b-[1px] mb-12 pb-12 sm:mb-24 sm:pb-24'>
-      <div className='grid grid-cols-3 sm:grid-cols-4 gap-0'>
+    <div className='border-b-solid mb-12 border-b-[1px] border-b-grid pb-12 sm:mb-24 sm:pb-24'>
+      <div className='grid grid-cols-3 gap-0 sm:grid-cols-4'>
         <LargeText />
         <SmallText />
         <LargeImg />
-        <div className='col-span-4 sm:col-span-3 row-start-3'>
+        <div className='col-span-4 row-start-3 sm:col-span-3'>
           <Paragraph isJustify color='light' size='sm'>
             SENTIMENT explores the delicate intersection of privacy and intimacy
             in human-chatbot interactions. As conversational AI systems become
@@ -105,17 +105,17 @@ function Text() {
 function Partners() {
   return (
     <>
-      <div className='grid grid-cols-3 sm:grid-cols-4 mb-4 text-primary text-xs'>
+      <div className='mb-4 grid grid-cols-3 text-xs text-primary sm:grid-cols-4'>
         <div>(Unterstützt)</div>
         <div>und</div>
         <div>(gefördert)</div>
         <div>durch</div>
       </div>
-      <div className='grid grid-cols-2 sm:grid-cols-4 grid-rows-2 sm:grid-rows-1 gap-y-8 gap-0'>
+      <div className='grid grid-cols-2 grid-rows-2 gap-0 gap-y-8 sm:grid-cols-4 sm:grid-rows-1'>
         <Link
           href='https://www.bmbf.de/'
           target='_blank'
-          className='hover:bg-secondary/20 rounded-full'
+          className='rounded-full hover:bg-secondary/20'
         >
           <div className='w-2/3'>
             <BMBFIcon />
@@ -124,7 +124,7 @@ function Partners() {
         <Link
           href='https://www.ruhr-uni-bochum.de/'
           target='_blank'
-          className='hover:bg-secondary/20 rounded-full'
+          className='rounded-full hover:bg-secondary/20'
         >
           <div className='w-2/3'>
             <RUBIcon />
@@ -133,7 +133,7 @@ function Partners() {
         <Link
           href='https://www.uni-due.de/'
           target='_blank'
-          className='hover:bg-secondary/20 rounded-full'
+          className='rounded-full hover:bg-secondary/20'
         >
           <div className='w-2/3'>
             <UniDUEIcon />
@@ -142,9 +142,9 @@ function Partners() {
         <Link
           href='https://www.uni-kassel.de/'
           target='_blank'
-          className='hover:bg-secondary/20 rounded-full'
+          className='rounded-full hover:bg-secondary/20'
         >
-          <div className='w-2/3 col-start-2 sm:col-start-4'>
+          <div className='col-start-2 w-2/3 sm:col-start-4'>
             <UniKasselIcon />
           </div>
         </Link>
@@ -156,7 +156,7 @@ function Partners() {
 export default function HeroIntro() {
   return (
     <>
-      <section className='pt-24 sm:pt-36 pb-24'>
+      <section className='pb-24 pt-24 sm:pt-36'>
         <Container>
           <Crossbar />
           <Text />

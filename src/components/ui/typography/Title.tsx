@@ -28,9 +28,9 @@ export const Title = ({
         {
           'text-4xl sm:text-7xl': size === 'one',
           'text-4xl sm:text-6xl': size === 'two',
-          'text-3xl sm:text-5xl font-secondary': size === 'three',
-          'text-2xl sm:text-4xl font-secondary': size === 'four',
-          'text-xl sm:text-2xl font-secondary': size === 'five',
+          'font-secondary text-3xl sm:text-5xl': size === 'three',
+          'font-secondary text-2xl sm:text-4xl': size === 'four',
+          'font-secondary text-xl sm:text-2xl': size === 'five',
         },
         {
           'mb-2 sm:mb-4': margin,

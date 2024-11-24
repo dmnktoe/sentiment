@@ -13,7 +13,8 @@
   "jsxSingleQuote": true,
   "plugins": [
     "prettier-plugin-sort-json",
-    "@ianvs/prettier-plugin-sort-imports"
+    "@ianvs/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss"
   ],
   "printWidth": 80,
   "singleQuote": true,

@@ -30,7 +30,7 @@ export function RichTextBlock({ block }: { block: RichTextBlock }) {
                   width={image.width || 800}
                   height={image.height || 600}
                   alt={image.alternativeText || ''}
-                  className='rounded-lg shadow-md h-[300px] w-full object-cover'
+                  className='h-[300px] w-full rounded-lg object-cover shadow-md'
                 />
               </div>
             );

@@ -10,25 +10,25 @@ function AboutHero() {
     <>
       <Title className='leading-none'>
         About
-        <span className='text-primary font-secondary italic'>
+        <span className='font-secondary italic text-primary'>
           {' '}
           »
         </span> Project{' '}
-        <span className='text-white rounded-full px-3 relative inline-flex items-center overflow-hidden'>
+        <span className='relative inline-flex items-center overflow-hidden rounded-full px-3 text-white'>
           <video
             controls={false}
             autoPlay={true}
             loop={true}
             muted={true}
             playsInline={true}
-            className='absolute left-0 top-0 w-full h-full object-cover'
+            className='absolute left-0 top-0 h-full w-full object-cover'
             src='/video/sentiment-bg-pill.mp4'
           />
           <span className='z-20'>Sentiment</span>
         </span>{' '}
-        <span className='text-primary font-secondary italic'>(dot) org</span>, -
+        <span className='font-secondary italic text-primary'>(dot) org</span>, -
         IT Security Protects Privacy and Supports Democracy
-        <span className='text-primary font-secondary italic'> «</span>
+        <span className='font-secondary italic text-primary'> «</span>
       </Title>
       <Paragraph size='sm' color='light' margin={false} isJustify>
         The project is a non-profit organization that aims to protect the
@@ -48,8 +48,8 @@ function AboutHero() {
 function AboutText() {
   return (
     <>
-      <div className='mt-24 mb-16 grid grid-cols-3 sm:grid-cols-4'>
-        <div className='col-span-2 pr-8 sm:pr-0 sm:col-span-1'>
+      <div className='mb-16 mt-24 grid grid-cols-3 sm:grid-cols-4'>
+        <div className='col-span-2 pr-8 sm:col-span-1 sm:pr-0'>
           <Title size='three' className='leading-none'>
             Our mission is to provide IT security
           </Title>
@@ -62,13 +62,13 @@ function AboutText() {
             support democracy.
           </Paragraph>
         </div>
-        <div className='hidden col-span-1 sm:col-span-1 sm:col-start-3 sm:block'>
+        <div className='col-span-1 hidden sm:col-span-1 sm:col-start-3 sm:block'>
           <Image
             src='/images/about/about-4.jpg'
             alt='SENTIMENT Logo'
             width={1000}
             height={1000}
-            className='h-[300px] sm:h-[400px] w-full object-cover mt-16'
+            className='mt-16 h-[300px] w-full object-cover sm:h-[400px]'
           />
         </div>
         <div className='col-start-3 sm:col-span-1 sm:col-start-4'>
@@ -77,7 +77,7 @@ function AboutText() {
             alt='SENTIMENT Logo'
             width={1000}
             height={1000}
-            className='h-[300px] sm:h-[400px] w-full object-cover -mt-4'
+            className='-mt-4 h-[300px] w-full object-cover sm:h-[400px]'
           />
         </div>
       </div>
@@ -101,7 +101,7 @@ function AboutText() {
 
 function AboutFooter() {
   return (
-    <div className='grid grid-cols-3 sm:grid-cols-4 gap-y-8 sm:gap-0 mt-16'>
+    <div className='mt-16 grid grid-cols-3 gap-y-8 sm:grid-cols-4 sm:gap-0'>
       <div className='col-span-1'>
         <Title size='five' className='leading-none'>
           Partners
