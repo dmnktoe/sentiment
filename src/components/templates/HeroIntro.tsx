@@ -2,17 +2,17 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useScramble } from 'use-scramble';
-
-import { Container } from '@/components/layout/Container';
-import Crossbar from '@/components/templates/Crossbar';
 import {
   BMBFIcon,
   Logo,
   RUBIcon,
   UniDUEIcon,
   UniKasselIcon,
-} from '@/components/ui/Icons';
+} from 'src/components/ui/icons';
+import { useScramble } from 'use-scramble';
+
+import { Container } from '@/components/layout/Container';
+import Crossbar from '@/components/templates/Crossbar';
 import Paragraph from '@/components/ui/typography/Paragraph';
 import { Title } from '@/components/ui/typography/Title';
 import { getStrapiMedia } from '@/lib/strapi-urls';

@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { Logo } from '@/components/ui/Icons/Logo';
+import { Logo } from '@/components/ui/icons/Logo';
 import NavLink from '@/components/ui/NavLink';
 
 const navLinks = [

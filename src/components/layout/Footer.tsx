@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import { Container } from '@/components/layout/Container';
-import { BMBFIcon } from '@/components/ui/Icons/BMBF';
-import { Logo } from '@/components/ui/Icons/Logo';
+import { BMBFIcon } from '@/components/ui/icons/BMBF';
+import { Logo } from '@/components/ui/icons/Logo';
 
 export default function Footer() {
   return (
