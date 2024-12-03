@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
 import clsxm from '@/lib/clsxm';
 
@@ -10,6 +10,7 @@ interface ParagraphProps {
   margin?: boolean;
   size?: 'sm' | 'base';
   isJustify?: boolean;
+  ref?: RefObject<HTMLParagraphElement>;
 }
 
 export default function Paragraph({
@@ -20,6 +21,7 @@ export default function Paragraph({
   margin = true,
   size = 'base',
   isJustify = false,
+  ref,
 }: ParagraphProps) {
   return (
     <p
@@ -32,6 +34,7 @@ export default function Paragraph({
         'text-base': size === 'base',
         'text-justify': isJustify,
       })}
+      ref={ref}
     >
       {children}
     </p>
