@@ -30,7 +30,7 @@ export default function Header() {
       <div className='pointer-events-auto relative mt-8 flex items-center justify-between gap-4 overflow-hidden rounded-full border-[1px] border-solid border-[#e9e9e9] bg-white/85 px-2 py-2 pl-4 shadow-sm backdrop-blur-md'>
         <Link
           href='/'
-          className='transform text-primary transition ease-in-out hover:text-secondary'
+          className='text-primary ease-in-out hover:text-secondary'
         >
           <Logo className='w-20 sm:w-32' variant='textOnly' />
         </Link>
