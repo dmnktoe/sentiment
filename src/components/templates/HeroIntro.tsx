@@ -46,15 +46,9 @@ function Text({ content }: { content: Homepage }) {
     });
     return (
       <div className='z-10 col-span-2 mb-8 text-sm sm:col-span-1'>
-        <p className='font-secondary italic underline' ref={ref}>
-          &nbsp;
-        </p>
-        <Paragraph isJustify color='light' size='sm' className='mt-4 block'>
-          {content.heroFirstText}
-        </Paragraph>
-        <Paragraph color='light' size='sm'>
-          {content.heroYear}
-        </Paragraph>
+        <Paragraph ref={ref}>&nbsp;</Paragraph>
+        <Paragraph className='mt-4 block'>{content.heroFirstText}</Paragraph>
+        <Paragraph>{content.heroYear}</Paragraph>
         <Image
           alt='SENTIMENT Logo'
           width='400'
@@ -87,9 +81,7 @@ function Text({ content }: { content: Homepage }) {
         <SmallText />
         <LargeImg />
         <div className='col-span-4 row-start-3 sm:col-span-3'>
-          <Paragraph isJustify color='light' size='sm'>
-            {content.heroSecondText}
-          </Paragraph>
+          <Paragraph>{content.heroSecondText}</Paragraph>
         </div>
       </div>
     </div>
