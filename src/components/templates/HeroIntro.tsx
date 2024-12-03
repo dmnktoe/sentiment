@@ -30,7 +30,10 @@ function Text({ content }: { content: Homepage }) {
             Supportive
           </span>{' '}
           Spaces for Intimate Communication with Human-Chatbot{' '}
-          <Logo className='-mt-1.5 inline w-10 text-secondary sm:-mt-4 sm:w-20' />
+          <Logo
+            variant='logoOnly'
+            className='-mt-1.5 inline w-10 text-secondary sm:-mt-4 sm:w-20'
+          />
           Interactions
         </Title>
       </div>

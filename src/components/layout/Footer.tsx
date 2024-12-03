@@ -10,7 +10,7 @@ export default function Footer() {
       <Container>
         <div className='grid grid-cols-3 gap-y-8 sm:grid-cols-4 sm:gap-0'>
           <div className='col-span-3 sm:col-span-1'>
-            <Logo />
+            <Logo variant='logoWithText' />
             <span className='mt-7 block text-justify text-sm text-tertiary'>
               {new Date().getFullYear()} SENTIMENT explores the delicate
               intersection of privacy and intimacy in human-chatbot
