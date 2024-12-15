@@ -22,7 +22,7 @@ dependencies:
 devDependencies:
   '@commitlint/cli':
     specifier: 19.5.0
-    version: 19.5.0(@types/node@22.9.0)(typescript@5.6.3)
+    version: 19.5.0(@types/node@22.10.2)(typescript@5.6.3)
   '@commitlint/config-conventional':
     specifier: 19.5.0
     version: 19.5.0
@@ -36,8 +36,8 @@ devDependencies:
     specifier: 4.4.0
     version: 4.4.0(prettier@3.3.3)
   '@types/node':
-    specifier: 22.9.0
-    version: 22.9.0
+    specifier: 22.10.2
+    version: 22.10.2
   '@types/react':
     specifier: npm:types-react@19.0.0-rc.1
     version: /types-react@19.0.0-rc.1
@@ -150,14 +150,14 @@ packages:
       '@babel/helper-validator-identifier': 7.25.9
     dev: true
 
-  /@commitlint/cli@19.5.0(@types/node@22.9.0)(typescript@5.6.3):
+  /@commitlint/cli@19.5.0(@types/node@22.10.2)(typescript@5.6.3):
     resolution: {integrity: sha512-gaGqSliGwB86MDmAAKAtV9SV1SHdmN8pnGq4EJU4+hLisQ7IFfx4jvU4s+pk6tl0+9bv6yT+CaZkufOinkSJIQ==}
     engines: {node: '>=v18'}
     hasBin: true
     dependencies:
       '@commitlint/format': 19.5.0
       '@commitlint/lint': 19.5.0
-      '@commitlint/load': 19.5.0(@types/node@22.9.0)(typescript@5.6.3)
+      '@commitlint/load': 19.5.0(@types/node@22.10.2)(typescript@5.6.3)
       '@commitlint/read': 19.5.0
       '@commitlint/types': 19.5.0
       tinyexec: 0.3.1
@@ -226,7 +226,7 @@ packages:
       '@commitlint/types': 19.5.0
     dev: true
 
-  /@commitlint/load@19.5.0(@types/node@22.9.0)(typescript@5.6.3):
+  /@commitlint/load@19.5.0(@types/node@22.10.2)(typescript@5.6.3):
     resolution: {integrity: sha512-INOUhkL/qaKqwcTUvCE8iIUf5XHsEPCLY9looJ/ipzi7jtGhgmtH7OOFiNvwYgH7mA8osUWOUDV8t4E2HAi4xA==}
     engines: {node: '>=v18'}
     dependencies:
@@ -236,7 +236,7 @@ packages:
       '@commitlint/types': 19.5.0
       chalk: 5.3.0
       cosmiconfig: 9.0.0(typescript@5.6.3)
-      cosmiconfig-typescript-loader: 5.1.0(@types/node@22.9.0)(cosmiconfig@9.0.0)(typescript@5.6.3)
+      cosmiconfig-typescript-loader: 5.1.0(@types/node@22.10.2)(cosmiconfig@9.0.0)(typescript@5.6.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -776,7 +776,7 @@ packages:
   /@types/conventional-commits-parser@5.0.0:
     resolution: {integrity: sha512-loB369iXNmAZglwWATL+WRe+CRMmmBPtpolYzIebFaX4YA3x+BEfLqhUAV9WanycKI3TG1IMr5bMJDajDKLlUQ==}
     dependencies:
-      '@types/node': 22.9.0
+      '@types/node': 22.10.2
     dev: true
 
   /@types/estree@1.0.6:
@@ -791,10 +791,10 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/node@22.9.0:
-    resolution: {integrity: sha512-vuyHg81vvWA1Z1ELfvLko2c8f34gyA0zaic0+Rllc5lbCnbSyuvb2Oxpm6TAUAC/2xZN3QGqxBNggD1nNR2AfQ==}
+  /@types/node@22.10.2:
+    resolution: {integrity: sha512-Xxr6BBRCAOQixvonOye19wnzyDiUtTeqldOOmj3CkeblonbccA12PFwlufvRdrpjXxqnmUaeiU5EOA+7s5diUQ==}
     dependencies:
-      undici-types: 6.19.8
+      undici-types: 6.20.0
     dev: true
 
   /@typescript-eslint/eslint-plugin@8.13.0(@typescript-eslint/parser@8.13.0)(eslint@9.14.0)(typescript@5.6.3):
@@ -1215,6 +1215,7 @@ packages:
 
   /color-name@1.1.4:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
+    requiresBuild: true
 
   /color-string@1.9.1:
     resolution: {integrity: sha512-shrVawQFojnZv6xM40anx4CkoDP+fZsw/ZerEMsW/pyzsRbElpsL/DBVW7q3ExxwusdNXI3lXpuhEZkzs8p5Eg==}
@@ -1280,7 +1281,7 @@ packages:
       split2: 4.2.0
     dev: true
 
-  /cosmiconfig-typescript-loader@5.1.0(@types/node@22.9.0)(cosmiconfig@9.0.0)(typescript@5.6.3):
+  /cosmiconfig-typescript-loader@5.1.0(@types/node@22.10.2)(cosmiconfig@9.0.0)(typescript@5.6.3):
     resolution: {integrity: sha512-7PtBB+6FdsOvZyJtlF3hEPpACq7RQX6BVGsgC7/lfVXnKMvNCu/XY3ykreqG5w/rBNdu2z8LCIKoF3kpHHdHlA==}
     engines: {node: '>=v16'}
     peerDependencies:
@@ -1288,7 +1289,7 @@ packages:
       cosmiconfig: '>=8.2'
       typescript: '>=4'
     dependencies:
-      '@types/node': 22.9.0
+      '@types/node': 22.10.2
       cosmiconfig: 9.0.0(typescript@5.6.3)
       jiti: 1.21.6
       typescript: 5.6.3
@@ -3543,8 +3544,8 @@ packages:
       which-boxed-primitive: 1.0.2
     dev: true
 
-  /undici-types@6.19.8:
-    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+  /undici-types@6.20.0:
+    resolution: {integrity: sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==}
     dev: true
 
   /unicorn-magic@0.1.0:
