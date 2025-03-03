@@ -32,7 +32,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function HomePage() {
+export default async function ProjectsPage() {
   const projects: Project[] = await fetchData(PROJECTS_PATH);
   return <ProjectList projects={projects} />;
 }

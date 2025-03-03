@@ -48,7 +48,7 @@ export const generateStaticParams = async () => {
   }));
 };
 
-export default async function ArticlePage({
+export default async function ArticleDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;

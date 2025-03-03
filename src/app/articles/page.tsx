@@ -32,7 +32,7 @@ export async function generateMetadata() {
   };
 }
 
-export default async function HomePage() {
+export default async function ArticlesPage() {
   const articles: Article[] = await fetchData(ARTICLES_PATH);
   return <ArticleList articles={articles} />;
 }

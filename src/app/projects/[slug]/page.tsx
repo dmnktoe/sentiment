@@ -48,7 +48,7 @@ export const generateStaticParams = async () => {
   }));
 };
 
-export default async function ProjectPage({
+export default async function ProjectDetailPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
