@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   BMBFIcon,
-  Logo,
   RUBIcon,
   UniDUEIcon,
   UniKasselIcon,
@@ -23,18 +22,13 @@ function Text({ content }: { content: Homepage }) {
     return (
       <div className='z-20 col-span-6'>
         <Title className='leading-none'>
-          Sentiment: Creating
-          <span className='font-secondary italic text-primary'> Safe</span> &
+          Creating{' '}
+          <span className='font-secondary italic text-primary'>Safe</span> &
           <span className='font-secondary italic text-primary'>
             {' '}
             Supportive
           </span>{' '}
-          Spaces for Intimate Communication with Human-Chatbot{' '}
-          <Logo
-            variant='logoOnly'
-            className='-mt-1.5 inline w-10 text-secondary sm:-mt-4 sm:w-20'
-          />
-          Interactions
+          Spaces for Intimate Communication with Human-Chatbot Interactions
         </Title>
       </div>
     );
