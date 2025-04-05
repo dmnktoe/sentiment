@@ -4,11 +4,9 @@ import { fetchDataWithHandling } from '@/lib/fetch-api';
 import { Article } from '@/types/Article';
 import { GlobalSettings } from '@/types/Global';
 import { Homepage } from '@/types/Homepage';
-import { Project } from '@/types/Project';
 
 const HOME_DATA_PATH = '/homepage';
 const ARTICLES_PATH = '/articles';
-const PROJECTS_PATH = '/projects';
 const GLOBAL_SETTINGS_PATH = '/global';
 
 const CONTENT_QUERY = {
@@ -50,16 +48,11 @@ export default async function HomePage() {
     PAGINATION_QUERY,
     `Failed to fetch articles from ${ARTICLES_PATH}`
   );
-  const projects = await fetchDataWithHandling<Project[]>(
-    PROJECTS_PATH,
-    PAGINATION_QUERY,
-    `Failed to fetch projects from ${PROJECTS_PATH}`
-  );
 
   return (
     <>
       <HeroIntro content={content} />
-      <LatestWidget articles={articles} projects={projects} />
+      <LatestWidget articles={articles} />
     </>
   );
 }

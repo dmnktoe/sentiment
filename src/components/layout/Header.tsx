@@ -4,10 +4,9 @@ import { Logo } from '@/components/ui/icons/Logo';
 import NavLink from '@/components/ui/NavLink';
 
 const navLinks = [
-  { href: '/', text: 'Main' },
-  { href: '/about', text: 'Story' },
+  { href: '/about', text: 'About' },
+  { href: '/team', text: 'Team' },
   { href: '/articles', text: 'Articles' },
-  { href: '/projects', text: 'Projects' },
 ];
 
 function Navigation() {
