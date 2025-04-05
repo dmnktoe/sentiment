@@ -7,14 +7,14 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        primary: ['Roobert', ...defaultTheme.fontFamily.sans],
-        secondary: ['Tobias', ...defaultTheme.fontFamily.serif],
+        primary: ['CircularStd', ...defaultTheme.fontFamily.sans],
+        secondary: [...defaultTheme.fontFamily.serif],
       },
       colors: {
-        primary: '#D2D05B',
-        secondary: '#71cecb',
+        primary: '#FF5C24',
+        secondary: '#1F35A5',
         tertiary: '#8b9094',
-        text: '#0a0440',
+        text: '#000000',
         grid: '#f2f2f2',
       },
     },
