@@ -9,4 +9,6 @@ export interface Article {
   content: BlocksContent;
   publishedAt: Date;
   image: Image;
+  author: string;
+  tags: string;
 }
