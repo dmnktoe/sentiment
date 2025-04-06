@@ -14,13 +14,14 @@ function AboutHero() {
           {' '}
           »
         </span> Project{' '}
-        <span className='relative inline-flex items-center overflow-hidden rounded-full border-2 border-solid border-black px-3'>
+        <span className='relative inline-flex items-center overflow-hidden rounded-full border-2 border-solid border-black px-3 py-2'>
           <div className='absolute left-0 top-0 h-full w-full bg-primary object-cover' />
           <span className='z-20'>
-            <Logo variant={'textOnly'} className='w-20 sm:w-48' />
+            <Logo variant={'textOnly'} className='w-32 sm:w-72' />
           </span>
         </span>{' '}
-        (dot) org, - IT Security Protects Privacy and Supports Democracy
+        <span className='font-secondary italic text-primary'>(dot) org</span>,
+        IT Security Protects Privacy and Supports Democracy
         <span className='font-secondary italic text-primary'> «</span>
       </Title>
       <Paragraph>
