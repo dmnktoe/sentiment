@@ -13,7 +13,7 @@ export default function LegalNotice() {
           <br />
           Contact Person
         </Title>
-        <Paragraph isJustify size='sm' color='light' className='mt-8'>
+        <Paragraph size='sm' color='light' className='mt-8'>
           The project is a non-profit organization that aims to protect the
           privacy of individuals and support democracy by providing IT security
           solutions. We are a team of IT security experts who are passionate
