@@ -1,3 +1,5 @@
+import Team from '@/components/templates/Team';
+
 export function generateMetadata() {
   return {
     title: `Team`,
@@ -5,10 +7,6 @@ export function generateMetadata() {
   };
 }
 
-export default async function ProjectsPage() {
-  return (
-    <>
-      <p>hi</p>
-    </>
-  );
+export default async function TeamPage() {
+  return <Team />;
 }
