@@ -18,7 +18,7 @@ export default function LatestWidget({ articles }: LatestWidgetProps) {
           <div className='mb-4 grid grid-cols-6 gap-0'>
             <div className='col-span-5'>
               <Title size='two' renderAs='h2' margin={false}>
-                ({articles.length}) entries from articles
+                Recent Articles ({articles.length})
               </Title>
             </div>
           </div>
@@ -30,6 +30,8 @@ export default function LatestWidget({ articles }: LatestWidgetProps) {
                 publishedAt={article.publishedAt}
                 slug={article.slug}
                 description={article.description}
+                tags={article.tags}
+                author={article.author}
               />
             ))}
           </div>
