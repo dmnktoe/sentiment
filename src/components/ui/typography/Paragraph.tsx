@@ -9,7 +9,6 @@ interface ParagraphProps {
   isStrong?: boolean;
   margin?: boolean;
   size?: 'sm' | 'base';
-  isJustify?: boolean;
   ref?: RefObject<HTMLParagraphElement>;
 }
 
@@ -20,7 +19,6 @@ export default function Paragraph({
   isStrong = false,
   margin = true,
   size = 'base',
-  isJustify = false,
   ref,
 }: ParagraphProps) {
   return (
@@ -32,7 +30,6 @@ export default function Paragraph({
         'mb-4': margin,
         'text-sm': size === 'sm',
         'text-base': size === 'base',
-        'text-justify': isJustify,
       })}
       ref={ref}
     >
