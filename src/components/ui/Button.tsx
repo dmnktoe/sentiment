@@ -42,6 +42,8 @@ export const Button = React.forwardRef<
     if (href) {
       if (external) {
         return (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
           <a
             ref={ref as React.Ref<HTMLAnchorElement>}
             href={href}
