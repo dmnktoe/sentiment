@@ -10,7 +10,7 @@ const ARTICLES_PATH = '/articles';
 const GLOBAL_SETTINGS_PATH = '/global';
 
 const CONTENT_QUERY = {
-  populate: ['heroCoverImage', 'heroTinyImage'],
+  populate: ['heroCoverImage'],
 };
 
 const PAGINATION_QUERY = {

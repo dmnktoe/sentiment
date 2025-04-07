@@ -38,10 +38,10 @@ function Text({ content }: { content: Homepage }) {
     return (
       <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
         <Image
-          alt='SENTIMENT Logo'
+          alt='Sentiment explores the delicate intersection of privacy and intimacy in human-chatbot interactions.'
           width='1000'
           height='600'
-          src={getStrapiMedia(content.heroTinyImage.url)}
+          src={getStrapiMedia(content.heroCoverImage.url)}
           className='w-full object-cover'
         />
       </div>
@@ -53,7 +53,7 @@ function Text({ content }: { content: Homepage }) {
       <div className='grid grid-cols-3 gap-0 sm:grid-cols-4'>
         <LargeText />
         <div className='col-span-3 mb-12 sm:col-span-4'>
-          <Paragraph>{content.heroSecondText}</Paragraph>
+          <Paragraph>{content.heroText}</Paragraph>
           <Button href={'/about'}>More</Button>
         </div>
         <HeroImage />
@@ -86,16 +86,8 @@ const partners = [
 ];
 
 function Partners() {
-  // const string = '(Backed) and (funded) by';
   return (
     <>
-      {/*<div className='mb-4 grid grid-cols-3 text-xs text-primary sm:grid-cols-4'>
-        {string.split(' ').map((word, index) => (
-          <span key={index} className='col-span-1'>
-            {word}
-          </span>
-        ))}
-      </div>*/}
       <div className='grid grid-cols-2 grid-rows-2 gap-0 gap-y-8 sm:grid-cols-4 sm:grid-rows-1'>
         {partners.map((partner, index) => (
           <Link
