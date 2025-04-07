@@ -9,21 +9,25 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
     <section className='py-24 sm:py-36'>
       <Container>
         <Crossbar />
-        <Title size='two' className='sm:mb-16'>
-          ({articles.length}) articles in ({articles.length}) categories
-        </Title>
-        <div className='flex flex-col gap-y-16'>
-          {articles.map((article) => (
-            <ArticleCard
-              key={article.slug}
-              title={article.title}
-              publishedAt={article.publishedAt}
-              slug={article.slug}
-              description={article.description}
-              prominent={true}
-              imageUrl={article.image.url}
-            />
-          ))}
+        <div className='px-2 sm:px-4'>
+          <Title size='two' className='sm:mb-16'>
+            ({articles.length}) articles
+          </Title>
+          <div className='flex flex-col gap-y-16'>
+            {articles.map((article) => (
+              <ArticleCard
+                key={article.slug}
+                title={article.title}
+                publishedAt={article.publishedAt}
+                slug={article.slug}
+                description={article.description}
+                prominent={true}
+                imageUrl={article.image.url}
+                tags={article.tags}
+                author={article.author}
+              />
+            ))}
+          </div>
         </div>
       </Container>
     </section>

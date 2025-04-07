@@ -15,7 +15,7 @@ interface ArticleProps {
   article: Article;
 }
 
-function ArticleSidebar() {
+function ArticleSidebar({ article }: ArticleProps) {
   return (
     <div className='col-span-3 sm:col-span-1 sm:col-start-4'>
       <ul className='space-y-2 rounded-full bg-secondary/15 p-4 text-sm'>
@@ -37,8 +37,7 @@ function ArticleSidebar() {
           Program
         </li>
         <li>
-          <span className='font-semibold'>Keywords:</span> Data Security,
-          Privacy, AI Encryption
+          <span className='font-semibold'>Keywords:</span> {article.tags}
         </li>
       </ul>
     </div>
@@ -84,11 +83,9 @@ function ArticleHeader({ article }: ArticleProps) {
       </div>
       <div className='col-span-3 sm:col-span-2'>
         <div className='mb-4 text-sm text-primary'>
-          Written by Dr. Jessica Szczuka
+          Written by {article.author}
         </div>
-        <div className='prose text-justify text-sm text-tertiary'>
-          {article.description}
-        </div>
+        <div className='prose text-sm text-tertiary'>{article.description}</div>
       </div>
     </>
   );
@@ -101,15 +98,17 @@ export default function ArticleLayout({ article }: ArticleProps) {
         <Container>
           <Crossbar />
           {/* Article Info Grid */}
-          <div className='mb-6 grid grid-cols-3 sm:grid-cols-4'>
-            <ArticleInfo article={article} />
-          </div>
-          {/* Article Content Grid */}
-          <div className='grid grid-cols-3 gap-0 gap-y-6 sm:grid-cols-4'>
-            <ArticleHeader article={article} />
-            <ArticleSidebar />
-            <div className='col-span-3 sm:col-span-3'>
-              <BlockRendererClient content={article.content} />
+          <div className={'px-2 sm:px-4'}>
+            <div className='mb-6 grid grid-cols-3 sm:grid-cols-4'>
+              <ArticleInfo article={article} />
+            </div>
+            {/* Article Content Grid */}
+            <div className='grid grid-cols-3 gap-0 gap-y-6 sm:grid-cols-4'>
+              <ArticleHeader article={article} />
+              <ArticleSidebar article={article} />
+              <div className='col-span-3 sm:col-span-3'>
+                <BlockRendererClient content={article.content} />
+              </div>
             </div>
           </div>
         </Container>

@@ -13,6 +13,8 @@ interface ArticleCardProps {
   description: string;
   imageUrl?: string;
   prominent?: boolean;
+  tags?: string;
+  author?: string;
 }
 
 export default function ArticleCard({
@@ -22,6 +24,7 @@ export default function ArticleCard({
   description,
   imageUrl,
   prominent = false,
+  author,
 }: ArticleCardProps) {
   if (prominent && imageUrl) {
     return (
@@ -43,9 +46,7 @@ export default function ArticleCard({
             <Title size='three' className='group-hover:underline'>
               {title}
             </Title>
-            <div className='mt-2 line-clamp-5 text-justify text-sm'>
-              {description}
-            </div>
+            <div className='mt-2 line-clamp-5 text-sm'>{description}</div>
             <div className='mt-4 text-sm text-primary group-hover:text-black group-hover:underline'>
               Read more <span className='font-secondary'>&rarr;</span>
             </div>
@@ -59,7 +60,7 @@ export default function ArticleCard({
     <Link href={'/articles/' + slug} className='group block'>
       <div className='group grid grid-cols-3 rounded-full py-6 group-hover:bg-primary/20 sm:grid-cols-4'>
         <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
-          (News)
+          {author}
         </div>
         <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
           {formatDate(publishedAt)}
@@ -71,7 +72,7 @@ export default function ArticleCard({
           <Title size='four' className='group-hover:underline'>
             {title}
           </Title>
-          <div className='mt-2 line-clamp-2 text-justify text-sm group-hover:blur-sm'>
+          <div className='mt-2 line-clamp-2 text-sm group-hover:blur-sm'>
             {description}
           </div>
         </div>
