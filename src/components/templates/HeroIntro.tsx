@@ -8,10 +8,10 @@ import {
   UniDUEIcon,
   UniKasselIcon,
 } from 'src/components/ui/icons';
-import { useScramble } from 'use-scramble';
 
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
+import { Button } from '@/components/ui/Button';
 import Paragraph from '@/components/ui/typography/Paragraph';
 import { Title } from '@/components/ui/typography/Title';
 import { getStrapiMedia } from '@/lib/strapi-urls';
@@ -21,7 +21,7 @@ function Text({ content }: { content: Homepage }) {
   function LargeText() {
     return (
       <div className='z-20 col-span-6'>
-        <Title className='leading-none'>
+        <Title className='leading-none' size='two'>
           Creating{' '}
           <span className='font-secondary italic text-primary'>Safe</span> &
           <span className='font-secondary italic text-primary'>
@@ -34,35 +34,15 @@ function Text({ content }: { content: Homepage }) {
     );
   }
 
-  function SmallText() {
-    const { ref } = useScramble({
-      text: content.heroTypewriter,
-    });
+  function HeroImage() {
     return (
-      <div className='z-10 col-span-2 mb-8 text-sm sm:col-span-1'>
-        <Paragraph ref={ref}>&nbsp;</Paragraph>
-        <Paragraph className='mt-4 block'>{content.heroFirstText}</Paragraph>
-        <Paragraph>{content.heroYear}</Paragraph>
+      <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
         <Image
           alt='SENTIMENT Logo'
-          width='400'
-          height='200'
+          width='1000'
+          height='600'
           src={getStrapiMedia(content.heroTinyImage.url)}
-          className='w-full object-cover sm:mt-24'
-        />
-      </div>
-    );
-  }
-
-  function LargeImg() {
-    return (
-      <div className='col-span-2 col-start-3 mb-8 hidden sm:block'>
-        <Image
-          alt='SENTIMENT Lecture'
-          width='600'
-          height='200'
-          src={getStrapiMedia(content.heroCoverImage.url)}
-          className='w-full object-cover sm:-mt-12'
+          className='w-full object-cover'
         />
       </div>
     );
@@ -72,11 +52,11 @@ function Text({ content }: { content: Homepage }) {
     <div className='border-b-solid mb-12 border-b-[1px] border-b-grid pb-12 sm:mb-24 sm:pb-24'>
       <div className='grid grid-cols-3 gap-0 sm:grid-cols-4'>
         <LargeText />
-        <SmallText />
-        <LargeImg />
-        <div className='col-span-4 row-start-3 sm:col-span-3'>
+        <div className='col-span-3 mb-12 sm:col-span-4'>
           <Paragraph>{content.heroSecondText}</Paragraph>
+          <Button href={'/about'}>More</Button>
         </div>
+        <HeroImage />
       </div>
     </div>
   );
@@ -106,16 +86,16 @@ const partners = [
 ];
 
 function Partners() {
-  const string = '(Backed) and (funded) by';
+  // const string = '(Backed) and (funded) by';
   return (
     <>
-      <div className='mb-4 grid grid-cols-3 text-xs text-primary sm:grid-cols-4'>
+      {/*<div className='mb-4 grid grid-cols-3 text-xs text-primary sm:grid-cols-4'>
         {string.split(' ').map((word, index) => (
           <span key={index} className='col-span-1'>
             {word}
           </span>
         ))}
-      </div>
+      </div>*/}
       <div className='grid grid-cols-2 grid-rows-2 gap-0 gap-y-8 sm:grid-cols-4 sm:grid-rows-1'>
         {partners.map((partner, index) => (
           <Link
@@ -138,8 +118,10 @@ export default function HeroIntro({ content }: { content: Homepage }) {
       <section className='pb-24 pt-24 sm:pt-36'>
         <Container>
           <Crossbar />
-          <Text content={content} />
-          <Partners />
+          <div className='px-2 sm:px-4'>
+            <Text content={content} />
+            <Partners />
+          </div>
         </Container>
       </section>
     </>
