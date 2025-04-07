@@ -36,7 +36,7 @@ export default function ArticleCard({
               {author}
             </div>
           </div>
-          <div className='col-span-2 mt-4 sm:col-span-3 sm:mt-0'>
+          <div className='col-span-2 sm:col-span-3 sm:mt-0'>
             <Title size='four' className='font-primary group-hover:underline'>
               {title}
             </Title>
