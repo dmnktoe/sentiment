@@ -63,7 +63,7 @@ export default function ArticleCard({
           {readingDuration(description)}
         </div>
         <div className='col-span-3 row-start-2 mt-4 sm:col-start-2'>
-          <Title size='four' className='group-hover:underline'>
+          <Title size='four' className='font-primary group-hover:underline'>
             {title}
           </Title>
           <div className='mt-2 line-clamp-2 text-sm group-hover:blur-sm'>
