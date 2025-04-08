@@ -72,17 +72,6 @@ const teamMembers: TeamMember[] = [
     ),
   },
   {
-    name: 'B. Sc. Anna Straub',
-    image: '/images/team/uni-duisburg-essen_anna-straub.webp',
-    description: (
-      <Paragraph>
-        Anna is a student assistant in the SENTIMENT project and is currently
-        pursuing a Bachelor’s degree in Applied Cognitive and Media Sciences at
-        the University of Duisburg-Essen
-      </Paragraph>
-    ),
-  },
-  {
     name: 'M. Sc. Lisa Mühl',
     image: '/images/team/uni-duisburg-essen_lisa-muehl.webp',
     description: (
@@ -120,6 +109,17 @@ const teamMembers: TeamMember[] = [
           user interaction patterns.
         </Paragraph>
       </>
+    ),
+  },
+  {
+    name: 'B. Sc. Anna Straub',
+    image: '/images/team/uni-duisburg-essen_anna-straub.webp',
+    description: (
+      <Paragraph>
+        Anna is a student assistant in the SENTIMENT project and is currently
+        pursuing a Bachelor’s degree in Applied Cognitive and Media Sciences at
+        the University of Duisburg-Essen
+      </Paragraph>
     ),
   },
   {
@@ -174,7 +174,34 @@ const teamMembers: TeamMember[] = [
   {
     name: 'Joel Baumann',
     image: '/images/team/kunsthochschule-kassel_joel-baumann.webp',
-    description: 'Research Assistant',
+    description: (
+      <>
+        <Paragraph>
+          Prof. Joel Baumann is Professor of New Media at the Kunsthochschule
+          Kassel. In the SENTIMENT project, he examines processes of
+          self-disclosure in human-machine interaction from a critical-artistic
+          perspective, with a particular focus on the societal and ethical
+          implications of digital intimacy.
+        </Paragraph>
+        <Paragraph>
+          Prof. Baumann is known for his work at the intersection of research
+          and artistic mediation. His curatorial practice—exemplified by
+          projects such as Privacy Arena—employs exhibition formats as
+          dialogical spaces in which scientific knowledge becomes sensually and
+          emotionally accessible. These formats enable the translation of
+          complex, interdisciplinary research into public discourse, fostering
+          collective reflection and engagement.
+        </Paragraph>
+        <Paragraph>
+          Through the integration of arts-based methodologies into empirical
+          research, Prof. Baumann advances new forms of knowledge production and
+          transfer. His work contributes to the development of innovative
+          mediation strategies that connect technology, ethics, and aesthetics,
+          enabling broader societal understanding of digital transformation and
+          its impact on human communication.
+        </Paragraph>
+      </>
+    ),
   },
   {
     name: 'Dr. Maxi Nebel',
