@@ -18,9 +18,9 @@ import { getStrapiMedia } from '@/lib/strapi-urls';
 import { Homepage } from '@/types/Homepage';
 
 function Text({ content }: { content: Homepage }) {
-  function LargeText() {
+  function ProminentText() {
     return (
-      <div className='z-20 col-span-6'>
+      <div className='z-20 col-span-3 sm:col-span-4'>
         <Title className='leading-none' size='two'>
           Creating{' '}
           <span className='font-secondary italic text-primary'>Safe</span> &
@@ -34,6 +34,15 @@ function Text({ content }: { content: Homepage }) {
     );
   }
 
+  function HeroText() {
+    return (
+      <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
+        <Paragraph>{content.heroText}</Paragraph>
+        <Button href={'/about'}>More</Button>
+      </div>
+    );
+  }
+
   function HeroImage() {
     return (
       <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
@@ -43,6 +52,7 @@ function Text({ content }: { content: Homepage }) {
           height='600'
           src={getStrapiMedia(content.heroCoverImage.url)}
           className='w-full object-cover'
+          priority
         />
       </div>
     );
@@ -51,11 +61,8 @@ function Text({ content }: { content: Homepage }) {
   return (
     <div className='border-b-solid mb-12 border-b-[1px] border-b-grid pb-12 sm:mb-24 sm:pb-24'>
       <div className='grid grid-cols-3 gap-0 sm:grid-cols-4'>
-        <LargeText />
-        <div className='col-span-3 mb-12 sm:col-span-4'>
-          <Paragraph>{content.heroText}</Paragraph>
-          <Button href={'/about'}>More</Button>
-        </div>
+        <ProminentText />
+        <HeroText />
         <HeroImage />
       </div>
     </div>
