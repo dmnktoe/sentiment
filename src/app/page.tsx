@@ -1,76 +1,58 @@
-import Image from 'next/image';
+import HeroIntro from '@/components/templates/HeroIntro';
+import LatestWidget from '@/components/templates/LatestWidget';
+import { fetchDataWithHandling } from '@/lib/fetch-api';
+import { Article } from '@/types/Article';
+import { GlobalSettings } from '@/types/Global';
+import { Homepage } from '@/types/Homepage';
 
-import styles from './page.module.css';
+const HOME_DATA_PATH = '/homepage';
+const ARTICLES_PATH = '/articles';
+const GLOBAL_SETTINGS_PATH = '/global';
 
-export default function Home() {
+const CONTENT_QUERY = {
+  populate: ['heroCoverImage'],
+};
+
+const PAGINATION_QUERY = {
+  pagination: {
+    page: 1,
+    pageSize: 3,
+  },
+  sort: 'publishedAt:desc',
+};
+
+async function getGlobalSettings(): Promise<GlobalSettings> {
+  return await fetchDataWithHandling<GlobalSettings>(
+    GLOBAL_SETTINGS_PATH,
+    { cache: 'no-store' },
+    'Failed to fetch global settings'
+  );
+}
+
+export async function generateMetadata() {
+  const globalSettings: GlobalSettings = await getGlobalSettings();
+  return {
+    title: globalSettings.pageTitle,
+    description: globalSettings.pageDescription,
+  };
+}
+
+export default async function HomePage() {
+  const content = await fetchDataWithHandling<Homepage>(
+    HOME_DATA_PATH,
+    CONTENT_QUERY,
+    `Failed to fetch content from ${HOME_DATA_PATH}`
+  );
+  const articles = await fetchDataWithHandling<Article[]>(
+    ARTICLES_PATH,
+    PAGINATION_QUERY,
+    `Failed to fetch articles from ${ARTICLES_PATH}`
+  );
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a href="https://vercel.com?utm_source=typescript-nextjs-starter" target="_blank" rel="noopener noreferrer">
-            By{' '}
-            <Image src="/vercel.svg" alt="Vercel Logo" className={styles.vercelLogo} width={100} height={24} priority />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image className={styles.logo} src="/next.svg" alt="Next.js Logo" width={180} height={37} priority />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=typescript-nextjs-starter"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=typescript-nextjs-starter"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=typescript-nextjs-starter"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=typescript-nextjs-starter"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>Instantly deploy your Next.js site to a shareable URL with Vercel.</p>
-        </a>
-      </div>
-    </main>
+    <>
+      <HeroIntro content={content} />
+      <LatestWidget articles={articles} />
+    </>
   );
 }

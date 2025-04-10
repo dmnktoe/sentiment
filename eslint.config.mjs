@@ -30,6 +30,8 @@ export default [
       'react/no-unused-prop-types': 'off',
       'react/require-default-props': 'off',
 
+      quotes: ['warn', 'single', { avoidEscape: true }],
+
       'import/extensions': [
         'error',
         'ignorePackages',
@@ -51,10 +53,12 @@ export default [
       ],
     },
   },
-  ...compat.extends('plugin:@typescript-eslint/recommended', 'prettier').map((config) => ({
-    ...config,
-    files: ['**/*.+(ts|tsx)'],
-  })),
+  ...compat
+    .extends('plugin:@typescript-eslint/recommended', 'prettier')
+    .map((config) => ({
+      ...config,
+      files: ['**/*.+(ts|tsx)'],
+    })),
   {
     files: ['**/*.+(ts|tsx)'],
 
@@ -67,11 +71,11 @@ export default [
     },
 
     rules: {
+      'no-use-before-define': [0],
+      'no-console': 'warn',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
-      'no-use-before-define': [0],
       '@typescript-eslint/no-use-before-define': [1],
-      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-var-requires': 'off',
     },
   },
