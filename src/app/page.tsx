@@ -1,6 +1,8 @@
+import { fetchDataWithHandling } from '@/lib/fetch-api';
+
 import HeroIntro from '@/components/templates/HeroIntro';
 import LatestWidget from '@/components/templates/LatestWidget';
-import { fetchDataWithHandling } from '@/lib/fetch-api';
+
 import { Article } from '@/types/Article';
 import { GlobalSettings } from '@/types/Global';
 import { Homepage } from '@/types/Homepage';
@@ -25,7 +27,7 @@ async function getGlobalSettings(): Promise<GlobalSettings> {
   return await fetchDataWithHandling<GlobalSettings>(
     GLOBAL_SETTINGS_PATH,
     { cache: 'no-store' },
-    'Failed to fetch global settings'
+    'Failed to fetch global settings',
   );
 }
 
@@ -41,12 +43,12 @@ export default async function HomePage() {
   const content = await fetchDataWithHandling<Homepage>(
     HOME_DATA_PATH,
     CONTENT_QUERY,
-    `Failed to fetch content from ${HOME_DATA_PATH}`
+    `Failed to fetch content from ${HOME_DATA_PATH}`,
   );
   const articles = await fetchDataWithHandling<Article[]>(
     ARTICLES_PATH,
     PAGINATION_QUERY,
-    `Failed to fetch articles from ${ARTICLES_PATH}`
+    `Failed to fetch articles from ${ARTICLES_PATH}`,
   );
 
   return (

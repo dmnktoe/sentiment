@@ -1,11 +1,12 @@
+import React from 'react';
+
 import '../styles/globals.css';
 
-import React from 'react';
+import { CircularStd } from '@/lib/fonts';
 
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import VisualGrid from '@/components/layout/VisualGrid';
-import { CircularStd } from '@/lib/fonts';
 
 export default function RootLayout({
   children,

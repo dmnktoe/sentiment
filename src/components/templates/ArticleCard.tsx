@@ -1,8 +1,9 @@
 import Link from 'next/link';
 
-import { Title } from '@/components/ui/typography/Title';
 import { formatDate } from '@/lib/format-date';
 import { readingDuration } from '@/lib/get-reading-time';
+
+import { Title } from '@/components/ui/typography/Title';
 
 interface ArticleCardProps {
   title: string;

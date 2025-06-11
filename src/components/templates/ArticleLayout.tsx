@@ -2,13 +2,15 @@
 
 import Image from 'next/image';
 
+import { formatDate } from '@/lib/format-date';
+import { readingDuration } from '@/lib/get-reading-time';
+import { getStrapiMedia } from '@/lib/strapi-urls';
+
 import BlockRendererClient from '@/components/helpers/BlockRendererClient';
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
 import { Title } from '@/components/ui/typography/Title';
-import { formatDate } from '@/lib/format-date';
-import { readingDuration } from '@/lib/get-reading-time';
-import { getStrapiMedia } from '@/lib/strapi-urls';
+
 import { Article } from '@/types/Article';
 
 interface ArticleProps {
@@ -68,7 +70,7 @@ export default function ArticleLayout({ article }: ArticleProps) {
         <Container>
           <Crossbar />
           {/* Article Info Grid */}
-          <div className={'px-2 sm:px-4'}>
+          <div className='px-2 sm:px-4'>
             {/* Article Content Grid */}
             <div className='grid grid-cols-3 gap-0 gap-y-6 sm:grid-cols-4'>
               <ArticleHeader article={article} />

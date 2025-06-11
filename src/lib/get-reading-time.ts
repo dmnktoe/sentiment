@@ -5,7 +5,7 @@ interface ReadingOptions {
 
 export function readingDuration(
   text: string,
-  options: ReadingOptions = { emoji: false, wordsPerMinute: 200 }
+  options: ReadingOptions = { emoji: false, wordsPerMinute: 200 },
 ): string {
   const words = text.trim().split(/\s+/).length;
   const wordsPerMinute = options.wordsPerMinute ?? 200;

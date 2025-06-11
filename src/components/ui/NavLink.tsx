@@ -21,7 +21,7 @@ const NavLink = ({
       href={href}
       className={clsxm(
         'rounded-2xl px-2 py-1 text-sm hover:bg-neutral-200/75 hover:text-black sm:text-lg',
-        isActive && 'bg-black text-white'
+        isActive && 'bg-black text-white',
       )}
     >
       {children}

@@ -35,7 +35,7 @@ export const Title = ({
         {
           'mb-2 sm:mb-4': margin,
         },
-        className
+        className,
       )}
     >
       {children}

@@ -2,13 +2,12 @@
 
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import * as React from 'react';
-
 import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
   ReactNode,
 } from 'react';
+import * as React from 'react';
 
 type BaseProps = {
   loading?: boolean;
@@ -35,7 +34,7 @@ export const Button = React.forwardRef<
 >(
   (
     { loading, className = '', children, href, disabled, external, ...props },
-    ref
+    ref,
   ) => {
     const sharedClasses = `cursor-pointer bg-primary border-black border-solid border inline-flex items-center justify-center px-6 py-1 lowercase rounded-e-lg text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed ${className} hover:bg-secondary hover:text-white`;
 
@@ -86,7 +85,7 @@ export const Button = React.forwardRef<
         {children}
       </button>
     );
-  }
+  },
 );
 
 Button.displayName = 'Button';
