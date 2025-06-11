@@ -1,4 +1,6 @@
 <div>
+  <img src="https://img.shields.io/github/checks-status/dmnktoe/sentiment/main?style=flat-square&logo=github&logoColor=%23fff&label=CI&labelColor=%23000" alt="Main Branch Checks">
+  <img src="https://img.shields.io/github/issues-pr/dmnktoe/sentiment?style=flat-square&labelColor=%23000" alt="Open Pull Requests">
   <img src="https://img.shields.io/static/v1?label=PRs&message=welcome&style=flat-square&color=5e17eb&labelColor=000000" alt="PRs welcome!" />
   <img alt="License" src="https://img.shields.io/github/license/dmnktoe/sentiment?style=flat-square&color=5e17eb&labelColor=000000">
 </div>
