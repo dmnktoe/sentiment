@@ -47,5 +47,10 @@ jobs:
       - name: 🃏 Run jest
         run: pnpm run test
 
+      - name: 📊 Upload coverage
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
       - name: 📦 Build
         run: pnpm run build
