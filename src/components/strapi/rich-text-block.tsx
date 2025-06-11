@@ -1,9 +1,8 @@
 'use client';
 
+import type { BlocksContent } from '@strapi/blocks-react-renderer';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Image from 'next/image';
-
-import type { BlocksContent } from '@strapi/blocks-react-renderer';
 
 export interface RichTextBlock {
   __component: 'blocks.rich-text';

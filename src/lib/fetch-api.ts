@@ -14,7 +14,7 @@ interface QueryParams {
 export async function fetchAPI(
   path: string,
   query: QueryParams = {},
-  options: FetchOptions = {}
+  options: FetchOptions = {},
 ) {
   try {
     const defaultOptions = {
@@ -49,7 +49,7 @@ export async function fetchAPI(
   } catch (error: unknown) {
     if (error instanceof Error) {
       throw new Error(
-        `Please check if your server is running and you set all the required tokens. Error: ${error.message}`
+        `Please check if your server is running and you set all the required tokens. Error: ${error.message}`,
       );
     } else {
       throw new Error('An unknown error occurred.');
@@ -68,7 +68,7 @@ function handleFetchError(error: unknown, defaultMessage: string): never {
 export async function fetchDataWithHandling<T>(
   path: string,
   query: QueryParams,
-  errorMessage: string
+  errorMessage: string,
 ): Promise<T> {
   try {
     const data = await fetchAPI(path, query);

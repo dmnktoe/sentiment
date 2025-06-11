@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`VisualGrid matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="fixed inset-0 z-[-1] mx-auto flex h-full justify-between px-2 sm:max-w-[var(--max-width)] sm:px-4"
+  >
+    <div
+      class="h-full w-[1px] bg-grid "
+    />
+    <div
+      class="h-full w-[1px] bg-grid "
+    />
+    <div
+      class="h-full w-[1px] bg-grid "
+    />
+    <div
+      class="h-full w-[1px] bg-grid "
+    />
+    <div
+      class="h-full w-[1px] bg-grid hidden sm:block"
+    />
+  </div>
+</DocumentFragment>
+`;

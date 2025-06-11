@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
 
-import ArticleLayout from '@/components/templates/ArticleLayout';
 import { fetchAPI } from '@/lib/fetch-api';
+
+import ArticleLayout from '@/components/templates/ArticleLayout';
 
 const ARTICLE_PATH = '/articles';
 const createArticleQuery = (slug: string) => ({
@@ -15,15 +16,11 @@ const createArticleQuery = (slug: string) => ({
 
 async function getArticle(slug: string) {
   const query = createArticleQuery(slug);
-  try {
-    const data = await fetchAPI(ARTICLE_PATH, query);
-    if (!data.data || data.data.length === 0) {
-      throw new Error(`No article found for slug: ${slug}`);
-    }
-    return data.data[0];
-  } catch (error) {
-    throw error;
+  const data = await fetchAPI(ARTICLE_PATH, query);
+  if (!data.data || data.data.length === 0) {
+    throw new Error(`No article found for slug: ${slug}`);
   }
+  return data.data[0];
 }
 
 export const generateMetadata = async ({

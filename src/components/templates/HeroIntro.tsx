@@ -9,12 +9,14 @@ import {
   UniKasselIcon,
 } from 'src/components/ui/icons';
 
+import { getStrapiMedia } from '@/lib/strapi-urls';
+
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
 import { Button } from '@/components/ui/Button';
 import Paragraph from '@/components/ui/typography/Paragraph';
 import { Title } from '@/components/ui/typography/Title';
-import { getStrapiMedia } from '@/lib/strapi-urls';
+
 import { Homepage } from '@/types/Homepage';
 
 function Text({ content }: { content: Homepage }) {
@@ -38,7 +40,7 @@ function Text({ content }: { content: Homepage }) {
     return (
       <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
         <Paragraph>{content.heroText}</Paragraph>
-        <Button href={'/about'}>More</Button>
+        <Button href='/about'>More</Button>
       </div>
     );
   }

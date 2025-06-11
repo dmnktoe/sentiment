@@ -2,6 +2,7 @@ import { Container } from '@/components/layout/Container';
 import ArticleCard from '@/components/templates/ArticleCard';
 import Crossbar from '@/components/templates/Crossbar';
 import { Title } from '@/components/ui/typography/Title';
+
 import { Article } from '@/types/Article';
 
 export default function ArticleList({ articles }: { articles: Article[] }) {

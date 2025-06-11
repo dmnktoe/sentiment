@@ -4,6 +4,7 @@ import { Key } from 'react';
 import { Container } from '@/components/layout/Container';
 import ArticleCard from '@/components/templates/ArticleCard';
 import { Title } from '@/components/ui/typography/Title';
+
 import { Article } from '@/types/Article';
 
 interface LatestWidgetProps {
@@ -37,7 +38,7 @@ export default function LatestWidget({ articles }: LatestWidgetProps) {
               ))}
             </div>
             <div className='mt-8 flex justify-start'>
-              <Link href={`/articles`} className='text-xl hover:underline'>
+              <Link href='/articles' className='text-xl hover:underline'>
                 View{' '}
                 <span className='font-secondary italic text-primary'> all</span>{' '}
                 articles <span className='font-secondary italic'>»</span>
