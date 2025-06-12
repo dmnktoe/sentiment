@@ -11,6 +11,14 @@ const customJestConfig = {
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 
+  collectCoverageFrom: [
+    'src/**/*.{js,ts,jsx,tsx}', // Passe den Pfad und die Endungen an dein Projekt an
+    '!**/node_modules/**',
+    '!**/dist/**',
+    '!**/*.d.ts',
+    '!**/__tests__/**',
+  ],
+
   // if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
   moduleDirectories: ['node_modules', '<rootDir>/'],
 
