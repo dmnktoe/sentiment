@@ -21,6 +21,7 @@
     "lint:fix": "eslint src --fix && pnpm format",
     "lint:strict": "eslint --max-warnings=0 src",
     "typecheck": "tsc --noEmit",
+    "test:coverage": "jest --coverage",
     "test:watch": "jest --watch",
     "test": "jest",
     "format": "prettier -w .",
