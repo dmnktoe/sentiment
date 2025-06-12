@@ -50,7 +50,7 @@
     "qs": "6.14.0",
     "react": "19.2.0-canary-f9ae0a4c-20250527",
     "react-dom": "19.2.0-canary-f9ae0a4c-20250527",
-    "tailwind-merge": "2.6.0"
+    "tailwind-merge": "3.3.1"
   },
   "devDependencies": {
     "@commitlint/cli": "19.8.1",
