@@ -8,6 +8,8 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const customJestConfig = {
+  testMatch: ['**/?(*.)+(test).ts?(x)'],
+
   // Add more setup options before each test is run
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 
