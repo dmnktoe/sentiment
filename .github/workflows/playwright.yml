@@ -1,4 +1,4 @@
-name: CI
+name: Playwright Tests
 
 on:
   push:
@@ -14,14 +14,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    name: ⬣ ESLint, ʦ TypeScript, 💅 Prettier, and 🃏 Test
+  e2e:
+    name: Test Playwright
     runs-on: ubuntu-latest
     steps:
-      - name: ⬇️ Checkout repo
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: 🤌 Setup pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
@@ -32,25 +32,14 @@ jobs:
           node-version: 20
           cache: 'pnpm'
 
-      - name: 📥 Download deps
+      - name: Download deps
         run: pnpm install --frozen-lockfile
 
-      - name: 🔬 Lint
-        run: pnpm run lint:strict
-
-      - name: 🔎 Type check
-        run: pnpm run typecheck
-
-      - name: 💅 Prettier check
-        run: pnpm run format:check
-
-      - name: 🃏 Run jest
-        run: pnpm run test:coverage
-
-      - name: 📊 Upload coverage
-        uses: codecov/codecov-action@v5
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
 
       - name: 📦 Build
         run: pnpm run build
+
+      - name: 🐳 Run Playwright tests
+        run: pnpm run test:e2e
