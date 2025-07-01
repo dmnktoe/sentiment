@@ -204,6 +204,28 @@ const teamMembers: TeamMember[] = [
     ),
   },
   {
+    name: 'Laura Därr',
+    image: '/images/team/kunsthochschule-kassel_laura-daerr.webp',
+    description: (
+      <Paragraph>
+        Laura Därr is an artistic research associate in New Media at
+        Kunsthochschule Kassel and a member of the SENTIMENT project. Her
+        artistic research focuses on algorithmic intervention, particularly
+        within AI-based systems that autonomously structure and influence human
+        interaction patterns. This theme formed the core of both her completed
+        diploma thesis under Prof. Alba d'Urbano and her completed master's
+        thesis under Prof. Joel Baumann and Prof. Dr. Johanna Schaffer. Her
+        practice employs critical making methodologies to interrogate the
+        sociopolitical implications of automated decision-making processes,
+        developing experimental frameworks that expose the hidden logics
+        embedded within computational systems. Through interdisciplinary
+        collaboration and speculative design approaches, her work contributes to
+        emerging discourses on algorithmic agency and the democratization of
+        technological literacy within contemporary art contexts.
+      </Paragraph>
+    ),
+  },
+  {
     name: 'Dr. Maxi Nebel',
     image: '/images/team/uni-kassel_maxi-nebel.webp',
     description: (
