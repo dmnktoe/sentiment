@@ -285,13 +285,14 @@ function TeamHero() {
 
 function TeamMembers() {
   return (
-    <div className='relative'>
+    <ul className='relative team-list'>
       {teamMembers.map((member) => (
-        <div
+        <li
           key={member.name}
           className='mb-24 grid grid-cols-3 sm:grid-cols-4 sm:gap-x-16'
         >
           <Title
+            renderAs='h2'
             size='four'
             className='col-span-4 font-primary uppercase sm:text-right'
           >
@@ -305,9 +306,9 @@ function TeamMembers() {
             height={200}
             className='col-span-4 w-full object-cover sm:col-span-2 sm:col-start-3 sm:mt-0 sm:h-[600px]'
           />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
