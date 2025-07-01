@@ -48,20 +48,18 @@ const teamMembers: TeamMember[] = [
         <Paragraph>
           Through her research group INTITEC, she pursues two core research
           directions:
+        </Paragraph>{' '}
+        <Paragraph>
+          • The human perspective: What makes us unique in our interaction with
+          machines? What fosters emotional closeness with artificial systems?
+          Which aspects of intimacy and social connection remain irreplicable by
+          technology?
+        </Paragraph>{' '}
+        <Paragraph>
+          • The technological perspective: What ethical and societal frameworks
+          are needed to ensure the responsible development and use of digital
+          intimacy technologies?
         </Paragraph>
-        <ul>
-          <li className='mb-4'>
-            • The human perspective: What makes us unique in our interaction
-            with machines? What fosters emotional closeness with artificial
-            systems? Which aspects of intimacy and social connection remain
-            irreplicable by technology?
-          </li>
-          <li>
-            • The technological perspective: What ethical and societal
-            frameworks are needed to ensure the responsible development and use
-            of digital intimacy technologies?
-          </li>
-        </ul>
         <Paragraph>
           Additionally, she sees it as her responsibility to empirically address
           potential risks, including privacy concerns in intimate chat

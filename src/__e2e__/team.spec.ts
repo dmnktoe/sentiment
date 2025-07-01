@@ -11,5 +11,5 @@ test('should navigate to the team page', async ({ page }) => {
   await expect(page.locator('h1')).toContainText('Meet the');
   // Check if the page contains a list of team members
   const teamMembers = page.locator('ul.team-list li');
-  await expect(teamMembers).toHaveCount(11); // Adjust the count based on your
+  await expect(teamMembers).toHaveCount(9); // Adjust the count based on your
 });
