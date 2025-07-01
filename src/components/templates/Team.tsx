@@ -48,20 +48,18 @@ const teamMembers: TeamMember[] = [
         <Paragraph>
           Through her research group INTITEC, she pursues two core research
           directions:
+        </Paragraph>{' '}
+        <Paragraph>
+          • The human perspective: What makes us unique in our interaction with
+          machines? What fosters emotional closeness with artificial systems?
+          Which aspects of intimacy and social connection remain irreplicable by
+          technology?
+        </Paragraph>{' '}
+        <Paragraph>
+          • The technological perspective: What ethical and societal frameworks
+          are needed to ensure the responsible development and use of digital
+          intimacy technologies?
         </Paragraph>
-        <ul>
-          <li className='mb-4'>
-            • The human perspective: What makes us unique in our interaction
-            with machines? What fosters emotional closeness with artificial
-            systems? Which aspects of intimacy and social connection remain
-            irreplicable by technology?
-          </li>
-          <li>
-            • The technological perspective: What ethical and societal
-            frameworks are needed to ensure the responsible development and use
-            of digital intimacy technologies?
-          </li>
-        </ul>
         <Paragraph>
           Additionally, she sees it as her responsibility to empirically address
           potential risks, including privacy concerns in intimate chat
@@ -204,6 +202,28 @@ const teamMembers: TeamMember[] = [
     ),
   },
   {
+    name: 'Laura Därr',
+    image: '/images/team/kunsthochschule-kassel_laura-daerr.webp',
+    description: (
+      <Paragraph>
+        Laura Därr is an artistic research associate in New Media at
+        Kunsthochschule Kassel and a member of the SENTIMENT project. Her
+        artistic research focuses on algorithmic intervention, particularly
+        within AI-based systems that autonomously structure and influence human
+        interaction patterns. This theme formed the core of both her completed
+        diploma thesis under Prof. Alba d'Urbano and her completed master's
+        thesis under Prof. Joel Baumann and Prof. Dr. Johanna Schaffer. Her
+        practice employs critical making methodologies to interrogate the
+        sociopolitical implications of automated decision-making processes,
+        developing experimental frameworks that expose the hidden logics
+        embedded within computational systems. Through interdisciplinary
+        collaboration and speculative design approaches, her work contributes to
+        emerging discourses on algorithmic agency and the democratization of
+        technological literacy within contemporary art contexts.
+      </Paragraph>
+    ),
+  },
+  {
     name: 'Dr. Maxi Nebel',
     image: '/images/team/uni-kassel_maxi-nebel.webp',
     description: (
@@ -263,13 +283,14 @@ function TeamHero() {
 
 function TeamMembers() {
   return (
-    <div className='relative'>
+    <ul className='relative team-list'>
       {teamMembers.map((member) => (
-        <div
+        <li
           key={member.name}
           className='mb-24 grid grid-cols-3 sm:grid-cols-4 sm:gap-x-16'
         >
           <Title
+            renderAs='h2'
             size='four'
             className='col-span-4 font-primary uppercase sm:text-right'
           >
@@ -283,9 +304,9 @@ function TeamMembers() {
             height={200}
             className='col-span-4 w-full object-cover sm:col-span-2 sm:col-start-3 sm:mt-0 sm:h-[600px]'
           />
-        </div>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 

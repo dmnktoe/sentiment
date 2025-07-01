@@ -50,7 +50,7 @@ export default function BlockRendererClient({
           }
         },
         paragraph: ({ children }) => (
-          <Paragraph className='font-secondary'>{children}</Paragraph>
+          <Paragraph className='font-primary'>{children}</Paragraph>
         ),
       }}
     />

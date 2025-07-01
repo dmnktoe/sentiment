@@ -33,11 +33,11 @@ function AboutHero() {
       <Paragraph>
         A consortium comprising esteemed researchers from the disciplines
         psychology (INTITEC), law (Christian Geminn, University of Kassel),
-        computer science (Veelasha Moonsamy, Theodor Schnitzer, and Christof
-        Paar, Ruhr-University Bochum), and art (Joel Baumann, University of
-        Kassel), is dedicated to exploring the impact of natural language on
-        self-disclosure tendencies and, consequently, privacy in intimate
-        communication with large language models.
+        computer science (Veelasha Moonsamy, Ruhr University Bochum), and art
+        (Joel Baumann, University of Kassel), is dedicated to exploring the
+        impact of natural language on self-disclosure tendencies and,
+        consequently, privacy in intimate communication with large language
+        models.
       </Paragraph>
       <Paragraph>
         The primary objective of the project is to explore the tendency for
