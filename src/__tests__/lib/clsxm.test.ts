@@ -6,8 +6,8 @@ describe('clsxm', () => {
   });
 
   it('handles conditional classes', () => {
-    expect(clsxm('foo', false && 'bar', 'baz')).toBe('foo baz');
-    expect(clsxm('foo', true && 'bar')).toBe('foo bar');
+    expect(clsxm('foo', false, 'baz')).toBe('foo baz');
+    expect(clsxm('foo', 'bar')).toBe('foo bar');
   });
 
   it('removes duplicate tailwind classes', () => {
