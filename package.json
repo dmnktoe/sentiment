@@ -45,7 +45,7 @@
   "dependencies": {
     "@strapi/blocks-react-renderer": "1.0.2",
     "clsx": "2.1.1",
-    "lucide-react": "0.539.0",
+    "lucide-react": "0.541.0",
     "next": "15.4.7",
     "next-sitemap": "4.2.3",
     "qs": "6.14.0",
