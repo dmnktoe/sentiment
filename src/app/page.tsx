@@ -20,7 +20,7 @@ const PAGINATION_QUERY = {
     page: 1,
     pageSize: 3,
   },
-  sort: 'publishedAt:desc',
+  sort: 'createdAt:desc',
 };
 
 async function getGlobalSettings(): Promise<GlobalSettings> {

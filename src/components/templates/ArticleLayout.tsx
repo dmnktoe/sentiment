@@ -28,7 +28,7 @@ function ArticleHeader({ article }: ArticleProps) {
       <div className='col-span-4 mb-4 grid grid-cols-3 gap-0 text-sm text-primary sm:grid-cols-4'>
         <div className='text-sm text-primary'>{article.author}</div>
         <div className='text-sm text-primary'>
-          {formatDate(article.publishedAt)}
+          {formatDate(article.createdAt)}
         </div>
         <div className='text-sm text-primary'>
           {readingDuration(article.description)}

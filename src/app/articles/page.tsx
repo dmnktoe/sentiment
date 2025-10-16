@@ -8,7 +8,7 @@ const ARTICLES_PATH = '/articles';
 
 const QUERY = {
   populate: ['image'],
-  sort: 'publishedAt:desc',
+  sort: 'createdAt:desc',
 };
 
 async function fetchData(path: string) {
