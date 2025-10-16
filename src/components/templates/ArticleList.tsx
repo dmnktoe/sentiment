@@ -19,7 +19,7 @@ export default function ArticleList({ articles }: { articles: Article[] }) {
               <ArticleCard
                 key={article.slug}
                 title={article.title}
-                publishedAt={article.publishedAt}
+                createdAt={article.createdAt}
                 slug={article.slug}
                 description={article.description}
                 prominent={true}

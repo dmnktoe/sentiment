@@ -7,7 +7,7 @@ export interface Article {
   slug: string;
   description: string;
   content: BlocksContent;
-  publishedAt: Date;
+  createdAt: Date;
   image: Image;
   author: string;
   tags: string;

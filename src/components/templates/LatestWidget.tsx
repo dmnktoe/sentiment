@@ -29,7 +29,7 @@ export default function LatestWidget({ articles }: LatestWidgetProps) {
                 <ArticleCard
                   key={index as Key}
                   title={article.title}
-                  publishedAt={article.publishedAt}
+                  createdAt={article.createdAt}
                   slug={article.slug}
                   description={article.description}
                   tags={article.tags}

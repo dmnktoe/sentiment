@@ -7,7 +7,7 @@ import { Title } from '@/components/ui/typography/Title';
 
 interface ArticleCardProps {
   title: string;
-  publishedAt: Date;
+  createdAt: Date;
   slug: string;
   description: string;
   imageUrl?: string;
@@ -18,7 +18,7 @@ interface ArticleCardProps {
 
 export default function ArticleCard({
   title,
-  publishedAt,
+  createdAt,
   slug,
   description,
   imageUrl,
@@ -31,7 +31,7 @@ export default function ArticleCard({
         <div className='group grid grid-cols-3 rounded-full py-6 group-hover:bg-primary/20 sm:grid-cols-4'>
           <div className='relative col-span-1'>
             <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
-              {formatDate(publishedAt)}
+              {formatDate(createdAt)}
             </div>
             <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
               {author}
@@ -58,7 +58,7 @@ export default function ArticleCard({
           {author}
         </div>
         <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
-          {formatDate(publishedAt)}
+          {formatDate(createdAt)}
         </div>
         <div className='text-sm text-primary group-hover:text-black group-hover:blur-sm'>
           {readingDuration(description)}
