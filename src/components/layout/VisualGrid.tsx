@@ -6,7 +6,7 @@ export default function VisualGrid() {
         .map((_, index) => (
           <div
             key={index}
-            className={`h-full w-[1px] bg-grid ${index === 4 ? 'hidden sm:block' : ''}`}
+            className={`bg-grid h-full w-[1px] ${index === 4 ? 'hidden sm:block' : ''}`}
           ></div>
         ))}
     </div>

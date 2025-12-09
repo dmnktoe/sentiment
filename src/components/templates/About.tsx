@@ -10,19 +10,19 @@ function AboutHero() {
     <>
       <Title className='leading-none' size='two'>
         About
-        <span className='font-secondary italic text-primary'>
+        <span className='font-secondary text-primary italic'>
           {' '}
           »
         </span> Project{' '}
         <span className='relative inline-flex items-center overflow-hidden rounded-full border-2 border-solid border-black px-3 py-2'>
-          <div className='absolute left-0 top-0 h-full w-full bg-primary object-cover' />
+          <div className='bg-primary absolute top-0 left-0 h-full w-full object-cover' />
           <span className='z-20'>
             <Logo variant='textOnly' className='w-32 sm:w-72' />
           </span>
         </span>{' '}
-        <span className='font-secondary italic text-primary'>(dot) org</span>,
+        <span className='font-secondary text-primary italic'>(dot) org</span>,
         IT Security Protects Privacy and Supports Democracy
-        <span className='font-secondary italic text-primary'> «</span>
+        <span className='font-secondary text-primary italic'> «</span>
       </Title>
       <Paragraph>
         SENTIMENT, an interdisciplinary research on self-disclosure in intimate

@@ -25,8 +25,8 @@ function Text({ content }: { content: Homepage }) {
       <div className='z-20 col-span-3 sm:col-span-4'>
         <Title className='leading-none' size='two'>
           Creating{' '}
-          <span className='font-secondary italic text-primary'>Safe</span> &
-          <span className='font-secondary italic text-primary'>
+          <span className='font-secondary text-primary italic'>Safe</span> &
+          <span className='font-secondary text-primary italic'>
             {' '}
             Supportive
           </span>{' '}
@@ -61,7 +61,7 @@ function Text({ content }: { content: Homepage }) {
   }
 
   return (
-    <div className='border-b-solid mb-12 border-b-[1px] border-b-grid pb-12 sm:mb-24 sm:pb-24'>
+    <div className='border-b-solid border-b-grid mb-12 border-b-[1px] pb-12 sm:mb-24 sm:pb-24'>
       <div className='grid grid-cols-3 gap-0 sm:grid-cols-4'>
         <ProminentText />
         <HeroText />
@@ -103,7 +103,7 @@ function Partners() {
             key={index}
             href={partner.url}
             target='_blank'
-            className='rounded-full hover:bg-secondary/20'
+            className='hover:bg-secondary/20 rounded-full'
           >
             <div className='mx-auto w-2/3'>{partner.icon}</div>
           </Link>
@@ -116,7 +116,7 @@ function Partners() {
 export default function HeroIntro({ content }: { content: Homepage }) {
   return (
     <>
-      <section className='pb-24 pt-24 sm:pt-36'>
+      <section className='pt-24 pb-24 sm:pt-36'>
         <Container>
           <Crossbar />
           <div className='px-2 sm:px-4'>
