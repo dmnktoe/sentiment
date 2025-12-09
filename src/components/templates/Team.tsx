@@ -129,7 +129,7 @@ const teamMembers: TeamMember[] = [
         Science at Ruhr University Bochum (Germany), where she leads the{' '}
         <Link
           href='https://informatik.rub.de/ubisys/'
-          className='cursor-pointer text-primary underline'
+          className='text-primary cursor-pointer underline'
           target='_blank'
         >
           Chair for Security and Privacy of Ubiquitous Systems
@@ -154,7 +154,7 @@ const teamMembers: TeamMember[] = [
         Ramya Kandula is a PhD student at the{' '}
         <Link
           href='https://informatik.rub.de/ubisys/'
-          className='cursor-pointer text-primary underline'
+          className='text-primary cursor-pointer underline'
           target='_blank'
         >
           Chair for Security and Privacy of Ubiquitous Systems (UbiSys)
@@ -237,7 +237,7 @@ const teamMembers: TeamMember[] = [
         author of numerous publications. Detailed information is available at{' '}
         <Link
           href='https://goto.uni-kassel.de/go/dr-maxi-nebel'
-          className='cursor-pointer text-primary underline'
+          className='text-primary cursor-pointer underline'
           target='_blank'
         >
           https://goto.uni-kassel.de/go/dr-maxi-nebel
@@ -260,7 +260,7 @@ const teamMembers: TeamMember[] = [
         technology law. Detailed information is available at{' '}
         <Link
           href='https://www.uni-kassel.de/go/geminn'
-          className='cursor-pointer text-primary underline'
+          className='text-primary cursor-pointer underline'
           target='_blank'
         >
           https://www.uni-kassel.de/go/geminn
@@ -275,7 +275,7 @@ function TeamHero() {
     <>
       <Title className='leading-none' size='two'>
         Meet the{' '}
-        <span className='font-secondary italic text-primary'>Team</span>
+        <span className='font-secondary text-primary italic'>Team</span>
       </Title>
     </>
   );
@@ -283,7 +283,7 @@ function TeamHero() {
 
 function TeamMembers() {
   return (
-    <ul className='relative team-list'>
+    <ul className='team-list relative'>
       {teamMembers.map((member) => (
         <li
           key={member.name}
@@ -292,7 +292,7 @@ function TeamMembers() {
           <Title
             renderAs='h2'
             size='four'
-            className='col-span-4 font-primary uppercase sm:text-right'
+            className='font-primary col-span-4 uppercase sm:text-right'
           >
             {member.name}
           </Title>

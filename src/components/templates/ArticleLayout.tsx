@@ -25,12 +25,12 @@ function ArticleHeader({ article }: ArticleProps) {
           {article.title}
         </Title>
       </div>
-      <div className='col-span-4 mb-4 grid grid-cols-3 gap-0 text-sm text-primary sm:grid-cols-4'>
-        <div className='text-sm text-primary'>{article.author}</div>
-        <div className='text-sm text-primary'>
+      <div className='text-primary col-span-4 mb-4 grid grid-cols-3 gap-0 text-sm sm:grid-cols-4'>
+        <div className='text-primary text-sm'>{article.author}</div>
+        <div className='text-primary text-sm'>
           {formatDate(article.createdAt)}
         </div>
-        <div className='text-sm text-primary'>
+        <div className='text-primary text-sm'>
           {readingDuration(article.description)}
         </div>
       </div>

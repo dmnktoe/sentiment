@@ -14,7 +14,7 @@ interface LatestWidgetProps {
 export default function LatestWidget({ articles }: LatestWidgetProps) {
   return (
     <>
-      <section className='border-t-solid rounded-tl-[5rem] rounded-tr-[5rem] border-t-4 border-primary/30 py-24'>
+      <section className='border-t-solid border-primary/30 rounded-tl-[5rem] rounded-tr-[5rem] border-t-4 py-24'>
         <Container>
           <div className='px-2 sm:px-4'>
             <div className='mb-4 grid grid-cols-6 gap-0'>
@@ -40,7 +40,7 @@ export default function LatestWidget({ articles }: LatestWidgetProps) {
             <div className='mt-8 flex justify-start'>
               <Link href='/articles' className='text-xl hover:underline'>
                 View{' '}
-                <span className='font-secondary italic text-primary'> all</span>{' '}
+                <span className='font-secondary text-primary italic'> all</span>{' '}
                 articles <span className='font-secondary italic'>»</span>
               </Link>
             </div>
