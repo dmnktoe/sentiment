@@ -14,8 +14,7 @@ import { getStrapiMedia } from '@/lib/strapi-urls';
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
 import { Button } from '@/components/ui/Button';
-import Paragraph from '@/components/ui/typography/Paragraph';
-import { Title } from '@/components/ui/typography/Title';
+import { Paragraph, Title } from '@/components/ui/typography';
 
 import { Homepage } from '@/types/Homepage';
 

@@ -12,7 +12,7 @@ interface ParagraphProps {
   ref?: RefObject<HTMLParagraphElement>;
 }
 
-export default function Paragraph({
+export const Paragraph = ({
   children,
   className,
   color = 'default',
@@ -20,7 +20,7 @@ export default function Paragraph({
   margin = true,
   size = 'base',
   ref,
-}: ParagraphProps) {
+}: ParagraphProps) => {
   return (
     <p
       className={clsxm(className, {
@@ -36,4 +36,4 @@ export default function Paragraph({
       {children}
     </p>
   );
-}
+};

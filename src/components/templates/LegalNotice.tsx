@@ -1,7 +1,6 @@
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
-import Paragraph from '@/components/ui/typography/Paragraph';
-import { Title } from '@/components/ui/typography/Title';
+import { Paragraph, Title } from '@/components/ui/typography';
 
 export default function LegalNotice() {
   return (
