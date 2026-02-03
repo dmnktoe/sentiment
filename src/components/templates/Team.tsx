@@ -1,9 +1,10 @@
 import Image from 'next/image';
-import Link from 'next/link';
 import { JSX } from 'react';
 
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
+import { Link } from '@/components/ui/Link';
+import { List, ListItem } from '@/components/ui/List';
 import { Paragraph, Title } from '@/components/ui/typography';
 
 interface TeamMember {
@@ -47,18 +48,20 @@ const teamMembers: TeamMember[] = [
         <Paragraph>
           Through her research group INTITEC, she pursues two core research
           directions:
-        </Paragraph>{' '}
-        <Paragraph>
-          • The human perspective: What makes us unique in our interaction with
-          machines? What fosters emotional closeness with artificial systems?
-          Which aspects of intimacy and social connection remain irreplicable by
-          technology?
-        </Paragraph>{' '}
-        <Paragraph>
-          • The technological perspective: What ethical and societal frameworks
-          are needed to ensure the responsible development and use of digital
-          intimacy technologies?
         </Paragraph>
+        <List>
+          <ListItem>
+            The human perspective: What makes us unique in our interaction with
+            machines? What fosters emotional closeness with artificial systems?
+            Which aspects of intimacy and social connection remain irreplicable
+            by technology?
+          </ListItem>
+          <ListItem>
+            The technological perspective: What ethical and societal frameworks
+            are needed to ensure the responsible development and use of digital
+            intimacy technologies?
+          </ListItem>
+        </List>
         <Paragraph>
           Additionally, she sees it as her responsibility to empirically address
           potential risks, including privacy concerns in intimate chat

@@ -4,8 +4,9 @@ import type { BlocksContent } from '@strapi/blocks-react-renderer';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Image from 'next/image';
 
-import Paragraph from '@/components/ui/typography/Paragraph';
-import { Title } from '@/components/ui/typography/Title';
+import { Link } from '@/components/ui/Link';
+import { List, ListItem } from '@/components/ui/List';
+import { Paragraph, Title } from '@/components/ui/typography';
 
 export default function BlockRendererClient({
   content,
@@ -52,6 +53,22 @@ export default function BlockRendererClient({
         paragraph: ({ children }) => (
           <Paragraph className='font-primary'>{children}</Paragraph>
         ),
+        link: ({ children, url }) => {
+          const isExternal =
+            url.startsWith('http://') || url.startsWith('https://');
+          return (
+            <Link href={url} external={isExternal} variant='underline'>
+              {children}
+            </Link>
+          );
+        },
+        list: ({ children, format }) => {
+          const ordered = format === 'ordered';
+          return <List ordered={ordered}>{children}</List>;
+        },
+        'list-item': ({ children }) => {
+          return <ListItem>{children}</ListItem>;
+        },
       }}
     />
   );

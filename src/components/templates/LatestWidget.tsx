@@ -1,8 +1,8 @@
-import Link from 'next/link';
 import { Key } from 'react';
 
 import { Container } from '@/components/layout/Container';
 import ArticleCard from '@/components/templates/ArticleCard';
+import { Link } from '@/components/ui/Link';
 import { Title } from '@/components/ui/typography/Title';
 
 import { Article } from '@/types/Article';
