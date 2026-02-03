@@ -24,7 +24,7 @@ export default function LegalNotice() {
         </Paragraph>
         <Paragraph>
           E-Mail:{' '}
-          <Link href='mailto:jbaumann@uni-kassel.de'>
+          <Link href='mailto:jbaumann@uni-kassel.de' variant='underline'>
             jbaumann@uni-kassel.de
           </Link>
           <br /> Telefon: 49 561 804 5368
