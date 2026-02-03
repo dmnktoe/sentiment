@@ -58,18 +58,17 @@ export const Button = React.forwardRef<
       }
 
       return (
-        <Link href={href} passHref legacyBehavior>
-          <a
-            ref={ref as React.Ref<HTMLAnchorElement>}
-            className={sharedClasses}
-            {...(props as Omit<
-              AnchorHTMLAttributes<HTMLAnchorElement>,
-              'onCopy'
-            >)}
-          >
-            {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
-            {children}
-          </a>
+        <Link
+          href={href}
+          ref={ref as React.Ref<HTMLAnchorElement>}
+          className={sharedClasses}
+          {...(props as Omit<
+            AnchorHTMLAttributes<HTMLAnchorElement>,
+            'onCopy'
+          >)}
+        >
+          {loading && <Loader2 className='mr-2 h-4 w-4 animate-spin' />}
+          {children}
         </Link>
       );
     }
