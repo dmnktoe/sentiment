@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server';
 
+/**
+ * Confirm subscription endpoint
+ * Handles email confirmation link clicks for double opt-in
+ * GDPR Compliant: User explicitly confirms subscription
+ */
 async function confirmSubscription(token: string): Promise<boolean> {
   try {
-    // Strapi API-Aufruf um Subscriber zu bestätigen
+    // Strapi API call to confirm subscriber
     const response = await fetch(
       `${process.env.STRAPI_API_URL}/api/subscribers/confirm?token=${token}`,
       {
@@ -14,7 +19,11 @@ async function confirmSubscription(token: string): Promise<boolean> {
       },
     );
 
-    return response.ok;
+    if (!response.ok) {
+      return false;
+    }
+
+    return true;
   } catch (error) {
     console.error('Confirm subscription error:', error);
     return false;
@@ -26,23 +35,27 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
+    // Validate token parameter
     if (!token) {
       return NextResponse.redirect(
         new URL('/newsletter/error?reason=missing-token', request.url),
       );
     }
 
+    // Confirm the subscription
     const success = await confirmSubscription(token);
 
     if (success) {
+      // Redirect to success page
       return NextResponse.redirect(new URL('/newsletter/success', request.url));
     } else {
+      // Redirect to error page (token invalid, already used, or expired)
       return NextResponse.redirect(
         new URL('/newsletter/error?reason=invalid-token', request.url),
       );
     }
   } catch (error) {
-    console.error('Confirmation error:', error);
+    console.error('Confirmation route error:', error);
     return NextResponse.redirect(
       new URL('/newsletter/error?reason=server-error', request.url),
     );
