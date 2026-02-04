@@ -5,27 +5,41 @@ import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
 
 import ConfirmSubscriptionEmail from '@/emails/confirm-subscription';
 
-// ALTCHA Payload Validierung
+/**
+ * ALTCHA Payload Verification
+ * Verifies the proof-of-work solution from the client
+ */
 async function verifyAltcha(payload: string): Promise<boolean> {
   try {
-    // Hier sollte die tatsächliche ALTCHA Server-Side Verification stattfinden
-    // Für Production: https://altcha.org/docs/api/#server-side-validation
+    // Validate ALTCHA_SECRET environment variable
+    const hmacKey = process.env.ALTCHA_SECRET;
+
+    if (!hmacKey) {
+      console.error('ALTCHA_SECRET environment variable is not set');
+      return false;
+    }
 
     if (!payload || payload.length < 10) {
       return false;
     }
 
-    // Placeholder für echte Validierung
-    // In Production würde hier die ALTCHA-Bibliothek verwendet:
-    // const isValid = await verifyServerSignature(payload, secret);
+    // Import verifySolution from altcha-lib for server-side verification
+    const { verifySolution } = await import('altcha-lib');
 
-    return true;
-  } catch {
+    // Verify the ALTCHA solution with signature and expiration check
+    const isValid = await verifySolution(payload, hmacKey, true);
+
+    return isValid;
+  } catch (error) {
+    console.error('ALTCHA verification error:', error);
     return false;
   }
 }
 
-// Subscriber-Datenbank Schnittstelle (für Strapi)
+/**
+ * Create subscriber in Strapi database
+ * GDPR: Data minimization - only stores email and confirmation token
+ */
 interface Subscriber {
   email: string;
   token: string;
@@ -37,8 +51,7 @@ async function createSubscriber(email: string): Promise<Subscriber | null> {
   try {
     const token = crypto.randomUUID();
 
-    // Hier würde die Strapi API aufgerufen werden
-    // Beispiel für Strapi v5:
+    // Call Strapi API to create subscriber
     const response = await fetch(
       `${process.env.STRAPI_API_URL}/api/subscribers`,
       {
@@ -51,7 +64,7 @@ async function createSubscriber(email: string): Promise<Subscriber | null> {
           data: {
             email,
             token,
-            confirmed: false,
+            confirmed: false, // Requires confirmation (double opt-in)
             status: 'active',
           },
         }),
@@ -59,7 +72,7 @@ async function createSubscriber(email: string): Promise<Subscriber | null> {
     );
 
     if (!response.ok) {
-      // Silent failure bei bereits existierender E-Mail (Security)
+      // Silent failure if email already exists (Security: prevents user enumeration)
       if (response.status === 400 || response.status === 409) {
         return null;
       }
@@ -74,17 +87,22 @@ async function createSubscriber(email: string): Promise<Subscriber | null> {
   }
 }
 
+/**
+ * Send double opt-in confirmation email
+ * GDPR Compliant: User must explicitly confirm subscription
+ */
 async function sendConfirmationEmail(
   email: string,
   token: string,
 ): Promise<boolean> {
   try {
-    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/newsletter/confirm?token=${token}`;
+    // Generate confirmation URL with token
+    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/newsletter/confirm?token=${token}`;
 
+    // Render email template
     const emailHtml = await render(ConfirmSubscriptionEmail({ confirmUrl }));
 
-    // Hier würde die E-Mail über Strapi Email Plugin gesendet
-    // Oder alternativ über einen E-Mail-Service wie Resend/Sendgrid
+    // Send email via Strapi email plugin
     const response = await fetch(`${process.env.STRAPI_API_URL}/api/email`, {
       method: 'POST',
       headers: {
@@ -93,7 +111,7 @@ async function sendConfirmationEmail(
       },
       body: JSON.stringify({
         to: email,
-        subject: 'Bestätigen Sie Ihre Newsletter-Anmeldung',
+        subject: 'Bestätigen Sie Ihre Newsletter-Anmeldung - SENTIMENT',
         html: emailHtml,
       }),
     });
@@ -105,11 +123,20 @@ async function sendConfirmationEmail(
   }
 }
 
+/**
+ * Newsletter subscription endpoint
+ * Implements double opt-in and GDPR compliance:
+ * - Bot protection (ALTCHA)
+ * - Data minimization (only email)
+ * - Explicit consent (privacy checkbox)
+ * - Double opt-in (email confirmation)
+ * - Right to be forgotten (unsubscribe link in every email)
+ */
 export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    // Validierung mit Zod
+    // Validate input with Zod schema
     const validation = newsletterSubscribeSchema.safeParse(body);
 
     if (!validation.success) {
@@ -119,9 +146,17 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, altcha } = validation.data;
+    const { email, altcha, privacy } = validation.data;
 
-    // ALTCHA Verification
+    // Verify privacy policy acceptance (GDPR requirement)
+    if (!privacy) {
+      return NextResponse.json(
+        { error: 'Bitte akzeptieren Sie die Datenschutzerklärung' },
+        { status: 400 },
+      );
+    }
+
+    // Verify ALTCHA solution (bot protection)
     const isValidCaptcha = await verifyAltcha(altcha);
     if (!isValidCaptcha) {
       return NextResponse.json(
@@ -130,11 +165,11 @@ export async function POST(request: Request) {
       );
     }
 
-    // Subscriber erstellen
+    // Create subscriber (unconfirmed)
     const subscriber = await createSubscriber(email);
 
-    // Silent failure bei bereits existierender E-Mail (Security Best Practice)
-    // Verhindert User-Enumeration
+    // Silent failure if email already exists
+    // GDPR: Prevents user enumeration attack
     if (!subscriber) {
       return NextResponse.json({
         message:
@@ -142,7 +177,7 @@ export async function POST(request: Request) {
       });
     }
 
-    // Bestätigungs-E-Mail senden
+    // Send double opt-in confirmation email
     await sendConfirmationEmail(email, subscriber.token);
 
     return NextResponse.json({

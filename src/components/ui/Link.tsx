@@ -61,7 +61,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
         ref={ref}
         href={href}
         className={combinedClasses}
-        {...(props as React.ComponentProps<typeof NextLink>)}
+        {...(props as Omit<React.ComponentProps<typeof NextLink>, 'href'>)}
       >
         {children}
       </NextLink>

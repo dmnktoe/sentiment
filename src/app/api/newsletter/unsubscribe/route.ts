@@ -3,6 +3,10 @@ import { NextResponse } from 'next/server';
 
 import GoodbyeEmail from '@/emails/goodbye';
 
+/**
+ * Unsubscribe user endpoint
+ * GDPR Compliant: Allows users to easily opt-out at any time
+ */
 async function unsubscribeUser(
   token: string,
 ): Promise<{ success: boolean; email?: string }> {
@@ -30,6 +34,10 @@ async function unsubscribeUser(
   }
 }
 
+/**
+ * Send goodbye confirmation email
+ * GDPR Compliant: Confirms unsubscription action
+ */
 async function sendGoodbyeEmail(email: string): Promise<void> {
   try {
     const emailHtml = await render(GoodbyeEmail());
@@ -42,12 +50,13 @@ async function sendGoodbyeEmail(email: string): Promise<void> {
       },
       body: JSON.stringify({
         to: email,
-        subject: 'Newsletter-Abmeldung bestätigt',
+        subject: 'Newsletter-Abmeldung bestätigt - SENTIMENT',
         html: emailHtml,
       }),
     });
   } catch (error) {
     console.error('Send goodbye email error:', error);
+    // Don't throw - unsubscribe still succeeded
   }
 }
 
@@ -56,20 +65,26 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
 
+    // Validate token parameter
     if (!token) {
       return NextResponse.redirect(
         new URL('/newsletter/error?reason=missing-token', request.url),
       );
     }
 
+    // Unsubscribe the user
     const result = await unsubscribeUser(token);
 
     if (result.success && result.email) {
+      // Send confirmation email (non-blocking)
       await sendGoodbyeEmail(result.email);
+
+      // Redirect to unsubscribed confirmation page
       return NextResponse.redirect(
         new URL('/newsletter/unsubscribed', request.url),
       );
     } else {
+      // Redirect to error page
       return NextResponse.redirect(
         new URL('/newsletter/error?reason=invalid-token', request.url),
       );
