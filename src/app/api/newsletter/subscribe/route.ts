@@ -8,19 +8,27 @@ import ConfirmSubscriptionEmail from '@/emails/confirm-subscription';
 // ALTCHA Payload Validierung
 async function verifyAltcha(payload: string): Promise<boolean> {
   try {
-    // Hier sollte die tatsächliche ALTCHA Server-Side Verification stattfinden
-    // Für Production: https://altcha.org/docs/api/#server-side-validation
+    // Validate ALTCHA_SECRET environment variable
+    const hmacKey = process.env.ALTCHA_SECRET;
+
+    if (!hmacKey) {
+      console.error('ALTCHA_SECRET environment variable is not set');
+      return false;
+    }
 
     if (!payload || payload.length < 10) {
       return false;
     }
 
-    // Placeholder für echte Validierung
-    // In Production würde hier die ALTCHA-Bibliothek verwendet:
-    // const isValid = await verifyServerSignature(payload, secret);
+    // Import verifySolution from altcha-lib for server-side verification
+    const { verifySolution } = await import('altcha-lib');
 
-    return true;
-  } catch {
+    // Verify the ALTCHA solution
+    const isValid = await verifySolution(payload, hmacKey, true);
+
+    return isValid;
+  } catch (error) {
+    console.error('ALTCHA verification error:', error);
     return false;
   }
 }
