@@ -41,18 +41,19 @@ Visit [http://localhost:3000](http://localhost:3000) to see the application.
 
 ### Newsletter & ALTCHA Setup
 
-- **[ALTCHA Server Setup](./ALTCHA_SERVER_SETUP.md)** - Complete guide for production-ready ALTCHA implementation
-- **[Strapi Backend Setup](./STRAPI_BACKEND_SETUP.md)** - Step-by-step Strapi configuration with code examples
-- **[Newsletter README](./NEWSLETTER_README.md)** - Quick start guide for newsletter system
-- **[Newsletter Setup Details](./NEWSLETTER_SETUP.md)** - Detailed setup instructions
+- **[Complete Strapi Setup Guide](./COMPLETE_STRAPI_SETUP.md)** - ⭐ **ONE comprehensive guide** for Strapi backend and configuration
+- **[GDPR Compliance Guide](./GDPR_COMPLIANCE.md)** - Full GDPR compliance documentation
+- **[Testing Guide](./TESTING_GUIDE.md)** - API testing instructions
+- **[Newsletter README](./NEWSLETTER_README.md)** - Quick overview
 
 ### Key Features
 
 - ✅ **ALTCHA Bot Protection** - Privacy-first, self-hosted CAPTCHA alternative
 - ✅ **Double Opt-In** - Secure email confirmation process
+- ✅ **GDPR Compliant** - Full compliance with data protection regulations
 - ✅ **Production-Ready** - Comprehensive error handling and security
 - ✅ **Strapi v5 Backend** - Modern, service-based architecture
-- ✅ **React Email Templates** - Beautiful, responsive email designs
+- ✅ **Branded Email Templates** - Beautiful, responsive emails with SENTIMENT branding
 - ✅ **Health Monitoring** - Built-in health check endpoint
 
 ## 🚀 Quick Configuration
