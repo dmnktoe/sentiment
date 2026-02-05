@@ -12,13 +12,13 @@ export default function NewsletterCTA() {
         <Container>
           <Crossbar />
           <div id='newsletter' className='px-2 sm:px-4'>
-            <div className='group grid grid-cols-1 gap-8 rounded-lg bg-primary/5 p-8 transition-all hover:bg-primary/10 lg:grid-cols-2 lg:gap-12 lg:p-12'>
+            <div className='group grid grid-cols-1 gap-8 rounded-lg bg-primary/5 p-8 hover:bg-primary/20 lg:grid-cols-2 lg:gap-12 lg:p-12'>
               {/* Text Section - Left */}
               <div className='flex flex-col justify-center'>
                 <Title
                   renderAs='h2'
                   size='three'
-                  className='mb-4 transition-colors group-hover:text-primary'
+                  className='mb-4 group-hover:underline group-hover:decoration-primary/50'
                 >
                   Research Insights <br />
                   Delivered

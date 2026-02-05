@@ -64,7 +64,7 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const emailInput = screen.getByPlaceholderText(/ihre@email/i);
+      const emailInput = screen.getByPlaceholderText(/your@email/i);
       expect(emailInput).toBeInTheDocument();
       expect(emailInput).toHaveAttribute('type', 'email');
     });
@@ -73,7 +73,9 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const submitButton = screen.getByRole('button', { name: /anmelden/i });
+      const submitButton = screen.getByRole('button', {
+        name: /subscribe now/i,
+      });
       expect(submitButton).toBeInTheDocument();
     });
 
@@ -81,7 +83,7 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const privacyLink = screen.getByRole('link', { name: /Datenschutz/i });
+      const privacyLink = screen.getByRole('link', { name: /Privacy Policy/i });
       expect(privacyLink).toBeInTheDocument();
     });
 
@@ -89,7 +91,9 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const formContainer = screen.getByRole('button', { name: /anmelden/i });
+      const formContainer = screen.getByRole('button', {
+        name: /subscribe now/i,
+      });
       expect(formContainer).toBeInTheDocument();
     });
   });
@@ -99,7 +103,9 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const submitButton = screen.getByRole('button', { name: /anmelden/i });
+      const submitButton = screen.getByRole('button', {
+        name: /subscribe now/i,
+      });
 
       await act(async () => {
         fireEvent.click(submitButton);
@@ -114,9 +120,11 @@ describe('NewsletterForm Component', () => {
         render(<NewsletterForm />);
       });
       const emailInput = screen.getByPlaceholderText(
-        /ihre@email/i,
+        /your@email/i,
       ) as HTMLInputElement;
-      const submitButton = screen.getByRole('button', { name: /anmelden/i });
+      const submitButton = screen.getByRole('button', {
+        name: /subscribe now/i,
+      });
 
       await act(async () => {
         fireEvent.change(emailInput, { target: { value: 'invalid-email' } });
@@ -133,7 +141,7 @@ describe('NewsletterForm Component', () => {
         render(<NewsletterForm />);
       });
       const emailInput = screen.getByPlaceholderText(
-        /ihre@email/i,
+        /your@email/i,
       ) as HTMLInputElement;
 
       await act(async () => {
@@ -147,7 +155,7 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const emailInput = screen.getByPlaceholderText(/ihre@email/i);
+      const emailInput = screen.getByPlaceholderText(/your@email/i);
       expect(emailInput).toHaveAttribute('type', 'email');
     });
   });
@@ -158,9 +166,9 @@ describe('NewsletterForm Component', () => {
         render(<NewsletterForm />);
       });
       // Form should render without errors
-      expect(screen.getByPlaceholderText(/ihre@email/i)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(/your@email/i)).toBeInTheDocument();
       expect(
-        screen.getByRole('button', { name: /anmelden/i }),
+        screen.getByRole('button', { name: /subscribe now/i }),
       ).toBeInTheDocument();
     });
 
@@ -191,9 +199,11 @@ describe('NewsletterForm Component', () => {
         render(<NewsletterForm />);
       });
       const emailInput = screen.getByPlaceholderText(
-        /ihre@email/i,
+        /your@email/i,
       ) as HTMLInputElement;
-      const submitButton = screen.getByRole('button', { name: /anmelden/i });
+      const submitButton = screen.getByRole('button', {
+        name: /subscribe now/i,
+      });
 
       await act(async () => {
         fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
@@ -213,9 +223,11 @@ describe('NewsletterForm Component', () => {
         render(<NewsletterForm />);
       });
       const emailInput = screen.getByPlaceholderText(
-        /ihre@email/i,
+        /your@email/i,
       ) as HTMLInputElement;
-      const submitButton = screen.getByRole('button', { name: /anmelden/i });
+      const submitButton = screen.getByRole('button', {
+        name: /subscribe now/i,
+      });
 
       await act(async () => {
         fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
@@ -231,7 +243,7 @@ describe('NewsletterForm Component', () => {
         render(<NewsletterForm />);
       });
       const emailInput = screen.getByPlaceholderText(
-        /ihre@email/i,
+        /your@email/i,
       ) as HTMLInputElement;
       const privacyCheckbox = screen.getByRole('checkbox');
 
@@ -267,7 +279,7 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const emailInput = screen.getByPlaceholderText(/ihre@email/i);
+      const emailInput = screen.getByPlaceholderText(/your@email/i);
       expect(emailInput).toHaveAttribute('type', 'email');
     });
 
@@ -275,7 +287,7 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const emailLabel = screen.getByText(/E-Mail-Adresse/i);
+      const emailLabel = screen.getByText(/Email Address/i);
       expect(emailLabel).toBeInTheDocument();
     });
 
@@ -283,7 +295,7 @@ describe('NewsletterForm Component', () => {
       await act(async () => {
         render(<NewsletterForm />);
       });
-      const privacyLabel = screen.getByText(/Datenschutz/i);
+      const privacyLabel = screen.getByText(/Privacy Policy/i);
       expect(privacyLabel).toBeInTheDocument();
     });
   });
@@ -303,9 +315,9 @@ describe('NewsletterForm Component', () => {
         render(<NewsletterForm />);
       });
 
-      expect(screen.getByPlaceholderText(/ihre@email/i)).toBeInTheDocument();
+      expect(screen.getByPlaceholderText(/your@email/i)).toBeInTheDocument();
       expect(
-        screen.getByRole('button', { name: /anmelden/i }),
+        screen.getByRole('button', { name: /subscribe now/i }),
       ).toBeInTheDocument();
     });
 
@@ -315,7 +327,7 @@ describe('NewsletterForm Component', () => {
       });
 
       // Check for privacy link existing
-      const privacyLink = screen.getByRole('link', { name: /Datenschutz/i });
+      const privacyLink = screen.getByRole('link', { name: /Privacy Policy/i });
       expect(privacyLink).toBeInTheDocument();
     });
   });

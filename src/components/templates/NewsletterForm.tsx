@@ -203,7 +203,7 @@ export function NewsletterForm() {
       </div>
 
       {/* Privacy Checkbox */}
-      <div className='group flex items-start gap-3 rounded-lg p-3 transition-all hover:bg-grid'>
+      <div className='group flex items-center gap-3 rounded-lg p-3 transition-all hover:bg-grid'>
         <input
           {...register('privacy')}
           type='checkbox'
