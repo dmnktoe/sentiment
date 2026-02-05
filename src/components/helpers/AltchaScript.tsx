@@ -4,23 +4,21 @@ import { useEffect } from 'react';
 
 export function AltchaScript() {
   useEffect(() => {
-    if (document.querySelector('script[src*="altcha"]')) {
+    if (typeof window === 'undefined') {
       return;
     }
 
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/altcha/dist/altcha.min.js';
-    script.type = 'module';
-    script.async = true;
+    if (typeof window.customElements === 'undefined') {
+      return;
+    }
 
-    document.head.appendChild(script);
+    if (window.customElements.get('altcha-widget')) {
+      return;
+    }
 
-    return () => {
-      const existingScript = document.querySelector('script[src*="altcha"]');
-      if (existingScript) {
-        existingScript.remove();
-      }
-    };
+    import('altcha').catch(() => {
+      // Intentionally ignore load errors; form can still be submitted.
+    });
   }, []);
 
   return null;
