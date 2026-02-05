@@ -135,7 +135,7 @@ async function sendConfirmationEmail(
         signal: controller.signal,
         body: JSON.stringify({
           to: email,
-          subject: 'Bestätigen Sie Ihre Newsletter-Anmeldung - SENTIMENT',
+          subject: 'Confirm your newsletter subscription',
           html: emailHtml,
         }),
       });
@@ -167,7 +167,7 @@ export async function POST(request: Request) {
 
     if (!validation.success) {
       return NextResponse.json(
-        { error: 'Ungültige Eingabedaten', details: validation.error.issues },
+        { error: 'Invalid input data', details: validation.error.issues },
         { status: 400 },
       );
     }
@@ -177,7 +177,7 @@ export async function POST(request: Request) {
     // Verify privacy policy acceptance (GDPR requirement)
     if (!privacy) {
       return NextResponse.json(
-        { error: 'Bitte akzeptieren Sie die Datenschutzerklärung' },
+        { error: 'Please accept the privacy policy' },
         { status: 400 },
       );
     }
@@ -186,7 +186,7 @@ export async function POST(request: Request) {
     const isValidCaptcha = await verifyAltcha(altcha);
     if (!isValidCaptcha) {
       return NextResponse.json(
-        { error: 'Bot-Verifizierung fehlgeschlagen' },
+        { error: 'Bot verification failed' },
         { status: 400 },
       );
     }
@@ -199,7 +199,7 @@ export async function POST(request: Request) {
     if (!subscriber) {
       return NextResponse.json({
         message:
-          'Vielen Dank! Falls die E-Mail-Adresse noch nicht registriert ist, erhalten Sie eine Bestätigungs-E-Mail.',
+          'Thank you! If the email address is not yet registered, you will receive a confirmation email.',
       });
     }
 
@@ -210,8 +210,7 @@ export async function POST(request: Request) {
     if (!emailSent) {
       return NextResponse.json(
         {
-          error:
-            'E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.',
+          error: 'Email could not be sent. Please try again later.',
         },
         { status: 500 },
       );
@@ -219,11 +218,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       message:
-        'Vielen Dank! Bitte überprüfen Sie Ihr E-Mail-Postfach und bestätigen Sie Ihre Anmeldung.',
+        'Thank you! Please check your inbox and confirm your subscription.',
     });
   } catch {
     return NextResponse.json(
-      { error: 'Ein interner Fehler ist aufgetreten' },
+      { error: 'An internal error occurred' },
       { status: 500 },
     );
   }

@@ -51,7 +51,7 @@ async function sendGoodbyeEmail(email: string): Promise<void> {
       },
       body: JSON.stringify({
         to: email,
-        subject: 'Newsletter-Abmeldung bestätigt - SENTIMENT',
+        subject: 'Newsletter unsubscription confirmed',
         html: emailHtml,
       }),
     });
