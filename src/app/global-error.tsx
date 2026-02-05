@@ -16,6 +16,10 @@ export default function GlobalError({
           title='Critical System Error'
           message='We encountered a critical error. Please refresh the page or try again later.'
           showRetry={true}
+          onRetry={reset}
+          errorDetails={
+            process.env.NODE_ENV === 'development' ? error.message : undefined
+          }
         />
       </body>
     </html>

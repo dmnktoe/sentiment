@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
-
 import { MaintenanceScreen } from '@/components/templates/MaintenanceScreen';
 
 export default function Error({
@@ -11,10 +9,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-    // Log the error to an error reporting service
-    console.error('Application error:', error);
-  }, [error]);
+  // In production, you could send error to error reporting service like Sentry
 
   // Check if error is related to Strapi/CMS
   const isCMSError =
@@ -29,6 +24,10 @@ export default function Error({
         title='Service Temporarily Unavailable'
         message='We are experiencing technical difficulties with our content delivery system. Our team is working to restore service as quickly as possible.'
         showRetry={true}
+        onRetry={reset}
+        errorDetails={
+          process.env.NODE_ENV === 'development' ? error.message : undefined
+        }
       />
     );
   }
@@ -39,6 +38,10 @@ export default function Error({
       title='Something Went Wrong'
       message='An unexpected error occurred. Please try again or contact support if the problem persists.'
       showRetry={true}
+      onRetry={reset}
+      errorDetails={
+        process.env.NODE_ENV === 'development' ? error.message : undefined
+      }
     />
   );
 }
