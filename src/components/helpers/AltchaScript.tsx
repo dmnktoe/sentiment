@@ -4,16 +4,22 @@ import { useEffect } from 'react';
 
 export function AltchaScript() {
   useEffect(() => {
-    // ALTCHA Widget Script laden
+    if (document.querySelector('script[src*="altcha"]')) {
+      return;
+    }
+
     const script = document.createElement('script');
     script.src = 'https://cdn.jsdelivr.net/npm/altcha/dist/altcha.min.js';
     script.type = 'module';
     script.async = true;
 
-    document.body.appendChild(script);
+    document.head.appendChild(script);
 
     return () => {
-      document.body.removeChild(script);
+      const existingScript = document.querySelector('script[src*="altcha"]');
+      if (existingScript) {
+        existingScript.remove();
+      }
     };
   }, []);
 

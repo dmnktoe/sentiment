@@ -80,7 +80,21 @@ async function createSubscriber(email: string): Promise<Subscriber | null> {
     }
 
     const data = await response.json();
-    return data.data;
+    console.log('✅ Subscriber erstellt:', data.data.email);
+
+    // Strapi v5 returns data directly (not in attributes)
+    if (!data.data) {
+      console.error('Unexpected Strapi response format:', data);
+      return null;
+    }
+
+    // Use the token we generated, as Strapi might not return it (if marked private)
+    return {
+      email: data.data.email,
+      token: data.data.token || token, // Fallback to generated token
+      confirmed: data.data.confirmed,
+      status: data.data.status,
+    };
   } catch (error) {
     console.error('Create subscriber error:', error);
     return null;
