@@ -14,7 +14,9 @@ export default function GoodbyeEmail() {
   return (
     <Html>
       <Head />
-      <Preview>Sie wurden vom SENTIMENT Newsletter abgemeldet</Preview>
+      <Preview>
+        You have been unsubscribed from the SENTIMENT newsletter
+      </Preview>
       <Body style={main}>
         <Container style={container}>
           {/* Logo/Branding */}
@@ -76,39 +78,39 @@ export default function GoodbyeEmail() {
             </table>
             <Heading style={logo}>SENTIMENT</Heading>
             <Text style={tagline}>
-              Sichere Selbstoffenbarung bei intimer Kommunikation mit
-              Dialogsystemen
+              Secure self-disclosure in intimate communication with dialog
+              systems
             </Text>
           </Section>
 
           <Hr style={divider} />
 
           {/* Main Content */}
-          <Heading style={h1}>Abmeldung bestätigt</Heading>
+          <Heading style={h1}>Unsubscription confirmed</Heading>
           <Text style={text}>
-            Sie wurden erfolgreich vom SENTIMENT Newsletter abgemeldet.
+            You have been successfully unsubscribed from the SENTIMENT
+            newsletter.
           </Text>
           <Text style={text}>
-            Schade, dass Sie keine Updates mehr erhalten möchten! Falls Sie Ihre
-            Meinung ändern, können Sie sich jederzeit wieder auf unserer Website
-            anmelden.
+            We are sorry to see you go! If you change your mind, you can
+            subscribe again anytime on our website.
           </Text>
 
           <Hr style={divider} />
 
           {/* Footer */}
           <Text style={footer}>
-            Falls Sie diese Abmeldung nicht selbst durchgeführt haben,
-            kontaktieren Sie uns bitte umgehend.
+            If you did not request this unsubscription, please contact us
+            immediately.
           </Text>
           <Text style={footer}>
-            Vielen Dank für Ihr bisheriges Interesse am SENTIMENT-Projekt.
+            Thank you for your interest in the SENTIMENT project.
           </Text>
           <Text style={disclaimer}>
-            SENTIMENT ist ein Forschungsprojekt im Rahmen der Förderrichtlinie
-            "Plattform Privatheit – IT-Sicherheit schützt Privatheit und stützt
-            Demokratie" des Forschungsrahmenprogramms der Bundesregierung zur
-            IT-Sicherheit "Digital. Sicher. Souverän".
+            SENTIMENT is a research project under the funding guideline
+            "Platform Privacy - IT security protects privacy and supports
+            democracy" of the Federal Government's IT Security Research Program
+            "Digital. Secure. Sovereign".
           </Text>
         </Container>
       </Body>

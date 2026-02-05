@@ -21,7 +21,7 @@ export default function ConfirmSubscriptionEmail({
   return (
     <Html>
       <Head />
-      <Preview>Bestätigen Sie Ihre Newsletter-Anmeldung - SENTIMENT</Preview>
+      <Preview>Confirm your newsletter subscription - SENTIMENT</Preview>
       <Body style={main}>
         <Container style={container}>
           {/* Logo/Branding */}
@@ -83,54 +83,49 @@ export default function ConfirmSubscriptionEmail({
             </table>
             <Heading style={logo}>SENTIMENT</Heading>
             <Text style={tagline}>
-              Sichere Selbstoffenbarung bei intimer Kommunikation mit
-              Dialogsystemen
+              Secure self-disclosure in intimate communication with dialog
+              systems
             </Text>
           </Section>
 
           <Hr style={divider} />
 
           {/* Main Content */}
-          <Heading style={h1}>Newsletter-Anmeldung bestätigen</Heading>
+          <Heading style={h1}>Confirm newsletter subscription</Heading>
           <Text style={text}>
-            Vielen Dank für Ihr Interesse an unserem Newsletter!
+            Thank you for your interest in our newsletter!
           </Text>
           <Text style={text}>
-            Um Ihre Anmeldung abzuschließen und regelmäßig Updates über das
-            SENTIMENT-Projekt zu erhalten, klicken Sie bitte auf den folgenden
-            Button:
+            To complete your subscription and receive regular updates about the
+            SENTIMENT project, please click the button below:
           </Text>
 
           {/* Call-to-Action Button */}
           <Section style={buttonContainer}>
             <Button style={button} href={confirmUrl}>
-              Anmeldung jetzt bestätigen
+              Confirm subscription now
             </Button>
           </Section>
 
           {/* Alternative Link */}
-          <Text style={text}>
-            Oder kopieren Sie diesen Link in Ihren Browser:
-          </Text>
+          <Text style={text}>Or copy this link into your browser:</Text>
           <Text style={link}>{confirmUrl}</Text>
 
           <Hr style={divider} />
 
           {/* Footer */}
           <Text style={footer}>
-            Falls Sie sich nicht für unseren Newsletter angemeldet haben, können
-            Sie diese E-Mail ignorieren. Es werden keine weiteren E-Mails
-            versendet.
+            If you did not sign up for our newsletter, you can ignore this
+            email. No further emails will be sent.
           </Text>
           <Text style={footer}>
-            Diese E-Mail wurde im Rahmen des Forschungsprojekts SENTIMENT
-            versendet.
+            This email was sent as part of the SENTIMENT research project.
           </Text>
           <Text style={disclaimer}>
-            SENTIMENT ist ein Forschungsprojekt im Rahmen der Förderrichtlinie
-            "Plattform Privatheit – IT-Sicherheit schützt Privatheit und stützt
-            Demokratie" des Forschungsrahmenprogramms der Bundesregierung zur
-            IT-Sicherheit "Digital. Sicher. Souverän".
+            SENTIMENT is a research project under the funding guideline
+            "Platform Privacy - IT security protects privacy and supports
+            democracy" of the Federal Government's IT Security Research Program
+            "Digital. Secure. Sovereign".
           </Text>
         </Container>
       </Body>
