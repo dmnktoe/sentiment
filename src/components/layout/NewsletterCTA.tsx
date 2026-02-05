@@ -16,6 +16,7 @@ export default function NewsletterCTA() {
               {/* Text Sektion - Links */}
               <div className='flex flex-col justify-center'>
                 <Title
+                  renderAs='h2'
                   size='three'
                   className='mb-4 transition-colors group-hover:text-primary'
                 >
