@@ -203,13 +203,13 @@ export function NewsletterForm() {
       </div>
 
       {/* Privacy Checkbox */}
-      <div className='group flex items-center gap-3 rounded-lg p-3 transition-all hover:bg-grid'>
+      <div className='group flex items-center gap-3 rounded-lg p-3 hover:bg-grid'>
         <input
           {...register('privacy')}
           type='checkbox'
           id='privacy'
           disabled={status === 'loading'}
-          className='mt-0.5 h-5 w-5 rounded border-2 border-black text-primary transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed'
+          className='mt-0.5 h-5 w-5 rounded border-2 border-black text-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed'
         />
         <label
           htmlFor='privacy'
@@ -236,7 +236,7 @@ export function NewsletterForm() {
       <Button
         type='submit'
         disabled={status === 'loading'}
-        className='w-full py-3 text-base font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100'
+        className='w-full py-3 text-base font-semibold'
       >
         {status === 'loading' ? 'Sending...' : 'Subscribe Now'}
       </Button>
