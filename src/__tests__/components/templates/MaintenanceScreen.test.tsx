@@ -60,9 +60,7 @@ describe('MaintenanceScreen Component', () => {
     it('should call onRetry with fallback to reload when no callback', () => {
       // When onRetry is not provided, button should trigger reload
       // We skip JSDOM reload test due to not-implemented navigation
-      const { _rerender: _ } = render(
-        <MaintenanceScreen showRetry={true} onRetry={jest.fn()} />,
-      );
+      render(<MaintenanceScreen showRetry={true} onRetry={jest.fn()} />);
       const retryButton = screen.getByRole('button', { name: /retry/i });
       expect(retryButton).toBeInTheDocument();
       expect(retryButton).toBeEnabled();
