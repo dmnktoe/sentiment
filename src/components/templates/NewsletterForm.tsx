@@ -18,6 +18,18 @@ interface AltchaStateChangeEvent extends Event {
   };
 }
 
+const altchaStyle: AltchaWidgetCSSProperties = {
+  '--altcha-border-width': '1px',
+  '--altcha-border-radius': '8px',
+  '--altcha-color-base': '#ffffff',
+  '--altcha-color-border': '#000000',
+  '--altcha-color-text': '#000000',
+  '--altcha-color-border-focus': '#FF5C24',
+  '--altcha-color-error-text': '#f23939',
+  '--altcha-color-footer-bg': '#f2f2f2',
+  '--altcha-max-width': '100%',
+};
+
 export function NewsletterForm() {
   const [status, setStatus] = useState<
     'idle' | 'loading' | 'success' | 'error'
@@ -156,26 +168,13 @@ export function NewsletterForm() {
       </div>
 
       <div className='min-h-[100px]'>
-        {/* @ts-expect-error - altcha-widget is a custom element loaded at runtime */}
         <altcha-widget
           id='altcha-widget'
           challengeurl='/api/newsletter/challenge'
           hidefooter={false}
           hidelogo={false}
           strings='{"label":"I am not a robot","verifying":"Verifying...","verified":"Verified","error":"Verification failed. Please try again later."}'
-          style={
-            {
-              '--altcha-border-width': '1px',
-              '--altcha-border-radius': '8px',
-              '--altcha-color-base': '#ffffff',
-              '--altcha-color-border': '#000000',
-              '--altcha-color-text': '#000000',
-              '--altcha-color-border-focus': '#FF5C24',
-              '--altcha-color-error-text': '#f23939',
-              '--altcha-color-footer-bg': '#f2f2f2',
-              '--altcha-max-width': '100%',
-            } as React.CSSProperties
-          }
+          style={altchaStyle}
         />
 
         {/* Hidden field monitored by react-hook-form */}
