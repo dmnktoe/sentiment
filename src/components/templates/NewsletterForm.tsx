@@ -114,9 +114,9 @@ export function NewsletterForm() {
       reset();
 
       // Widget zurücksetzen
-      const widget = document.querySelector(
-        'altcha-widget',
-      ) as HTMLElementTagNameMap['altcha-widget'];
+      const widget = document.querySelector('altcha-widget') as HTMLElement & {
+        reset?: () => void;
+      };
       if (widget?.reset) {
         widget.reset();
       }
@@ -131,10 +131,13 @@ export function NewsletterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='space-y-4'>
+    <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
       {/* E-Mail Feld */}
-      <div>
-        <label htmlFor='email' className='mb-2 block text-sm font-medium'>
+      <div className='group'>
+        <label
+          htmlFor='email'
+          className='mb-2 block text-sm font-medium text-text/70 group-hover:text-text transition-colors'
+        >
           E-Mail-Adresse
         </label>
         <input
@@ -142,7 +145,7 @@ export function NewsletterForm() {
           type='email'
           id='email'
           disabled={status === 'loading'}
-          className='w-full rounded-lg border border-black bg-white px-4 py-2 text-base focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50'
+          className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed'
           placeholder='ihre@email.de'
         />
         {errors.email && (
@@ -157,12 +160,27 @@ export function NewsletterForm() {
       </div>
 
       {/* ALTCHA Widget */}
-      <div className='min-h-[80px]'>
+      <div className='min-h-[100px]'>
+        {/* @ts-expect-error - altcha-widget is a custom element loaded at runtime */}
         <altcha-widget
           id='altcha-widget'
           challengeurl='/api/newsletter/challenge'
-          hidefooter='false'
-          hidelogo='false'
+          hidefooter={false}
+          hidelogo={false}
+          strings='{"label":"Ich bin kein Bot","verifying":"Überprüfe...","verified":"Verifiziert","error":"Verifizierung fehlgeschlagen. Bitte versuchen Sie es später erneut."}'
+          style={
+            {
+              '--altcha-border-width': '1px',
+              '--altcha-border-radius': '8px',
+              '--altcha-color-base': '#ffffff',
+              '--altcha-color-border': '#000000',
+              '--altcha-color-text': '#000000',
+              '--altcha-color-border-focus': '#FF5C24',
+              '--altcha-color-error-text': '#f23939',
+              '--altcha-color-footer-bg': '#f2f2f2',
+              '--altcha-max-width': '100%',
+            } as React.CSSProperties
+          }
         />
 
         {/* Verstecktes Feld, das von react-hook-form überwacht wird */}
@@ -190,17 +208,24 @@ export function NewsletterForm() {
       </div>
 
       {/* Datenschutz Checkbox */}
-      <div className='flex items-start gap-2'>
+      <div className='group flex items-start gap-3 rounded-lg p-3 transition-all hover:bg-grid'>
         <input
           {...register('privacy')}
           type='checkbox'
           id='privacy'
           disabled={status === 'loading'}
-          className='mt-1 h-4 w-4 rounded border-black text-black focus:ring-2 focus:ring-black disabled:opacity-50'
+          className='mt-0.5 h-5 w-5 rounded border-2 border-black text-primary transition-all focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed'
         />
-        <label htmlFor='privacy' className='text-sm'>
+        <label
+          htmlFor='privacy'
+          className='cursor-pointer text-sm leading-tight group-hover:text-text/90'
+        >
           Ich habe die{' '}
-          <Link href='/privacy' variant='underline' className='font-medium'>
+          <Link
+            href='/privacy'
+            variant='underline'
+            className='font-medium text-primary hover:text-secondary'
+          >
             Datenschutzerklärung
           </Link>{' '}
           gelesen und akzeptiere diese.
@@ -213,20 +238,26 @@ export function NewsletterForm() {
       )}
 
       {/* Submit Button */}
-      <Button type='submit' disabled={status === 'loading'} className='w-full'>
+      <Button
+        type='submit'
+        disabled={status === 'loading'}
+        className='w-full py-3 text-base font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100'
+      >
         {status === 'loading' ? 'Wird gesendet...' : 'Jetzt anmelden'}
       </Button>
 
       {/* Status Nachrichten */}
       {message && (
         <div
-          className={`rounded-lg p-4 transition-all ${
+          className={`animate-in fade-in slide-in-from-top-2 rounded-lg p-4 transition-all duration-300 ${
             status === 'success'
-              ? 'bg-green-50 text-green-800 border border-green-200'
-              : 'bg-red-50 text-red-800 border border-red-200'
+              ? 'bg-green-50 text-green-800 border-2 border-green-200'
+              : 'bg-red-50 text-red-800 border-2 border-red-200'
           }`}
         >
-          {message}
+          <Paragraph className='text-sm' margin={false}>
+            {message}
+          </Paragraph>
         </div>
       )}
     </form>
