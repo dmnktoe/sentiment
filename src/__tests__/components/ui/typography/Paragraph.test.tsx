@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import Paragraph from '@/components/ui/typography/Paragraph';
+import { Paragraph } from '@/components/ui/typography/Paragraph';
 
 describe('Body', () => {
   it('renders without error', () => {

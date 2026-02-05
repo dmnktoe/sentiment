@@ -9,7 +9,7 @@ test('should navigate to the team page', async ({ page }) => {
   await expect(page).toHaveURL('http://localhost:3000/team');
   // The new page should contain an h1 with "Meet the (Team)"
   await expect(page.locator('h1')).toContainText('Meet the');
-  // Check if the page contains a list of team members
-  const teamMembers = page.locator('ul.team-list li');
-  await expect(teamMembers).toHaveCount(9); // Adjust the count based on your
+  // Check if the page contains a list of team members (use > for direct children only)
+  const teamMembers = page.locator('ul.team-list > li');
+  await expect(teamMembers).toHaveCount(9);
 });

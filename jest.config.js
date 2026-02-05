@@ -15,11 +15,25 @@ const customJestConfig = {
 
   collectCoverageFrom: [
     'src/**/*.{js,ts,jsx,tsx}', // Passe den Pfad und die Endungen an dein Projekt an
+    'app/**/*.{js,ts,jsx,tsx}',
     '!**/node_modules/**',
     '!**/dist/**',
     '!**/*.d.ts',
     '!**/__tests__/**',
+    '!**/__mocks__/**',
+    '!**/*.config.{js,ts}',
   ],
+
+  coverageThreshold: {
+    global: {
+      branches: 15,
+      functions: 15,
+      lines: 15,
+      statements: 15,
+    },
+  },
+
+  coverageReporters: ['text', 'json', 'lcov', 'html'],
 
   // if using TypeScript with a baseUrl set to the root directory then you need the below for alias' to work
   moduleDirectories: ['node_modules', '<rootDir>/'],

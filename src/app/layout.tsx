@@ -6,6 +6,7 @@ import { CircularStd } from '@/lib/fonts';
 
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
+import NewsletterCTA from '@/components/layout/NewsletterCTA';
 import VisualGrid from '@/components/layout/VisualGrid';
 
 export default function RootLayout({
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <Header />
         <main>{children}</main>
+        <NewsletterCTA />
         <Footer />
         <VisualGrid />
       </body>
