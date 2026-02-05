@@ -15,7 +15,6 @@ async function verifyAltcha(payload: string): Promise<boolean> {
     const hmacKey = process.env.ALTCHA_SECRET;
 
     if (!hmacKey) {
-      console.error('ALTCHA_SECRET environment variable is not set');
       return false;
     }
 

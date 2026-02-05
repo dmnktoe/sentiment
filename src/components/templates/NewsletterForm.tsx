@@ -9,6 +9,7 @@ import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
 
 import { Button } from '@/components/ui/Button';
 import { Link } from '@/components/ui/Link';
+import { Paragraph } from '@/components/ui/typography';
 
 // TypeScript Typen für ALTCHA
 interface AltchaStateChangeEvent extends Event {
@@ -16,14 +17,6 @@ interface AltchaStateChangeEvent extends Event {
     payload?: string;
     state?: 'unverified' | 'verifying' | 'verified' | 'error';
   };
-}
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'altcha-widget': HTMLElement & {
-      reset: () => void;
-    };
-  }
 }
 
 export function NewsletterForm() {
@@ -128,7 +121,6 @@ export function NewsletterForm() {
         widget.reset();
       }
     } catch (error) {
-      console.error('❌ Submit Error:', error);
       setStatus('error');
       setMessage(
         error instanceof Error
@@ -154,7 +146,13 @@ export function NewsletterForm() {
           placeholder='ihre@email.de'
         />
         {errors.email && (
-          <p className='mt-1 text-sm text-red-600'>{errors.email.message}</p>
+          <Paragraph
+            className='mt-1 text-sm text-red-600'
+            margin={false}
+            size='sm'
+          >
+            {errors.email.message}
+          </Paragraph>
         )}
       </div>
 
@@ -171,13 +169,23 @@ export function NewsletterForm() {
         <input type='hidden' {...register('altcha')} />
 
         {errors.altcha && (
-          <p className='mt-1 text-sm text-red-600'>{errors.altcha.message}</p>
+          <Paragraph
+            className='mt-1 text-sm text-red-600'
+            margin={false}
+            size='sm'
+          >
+            {errors.altcha.message}
+          </Paragraph>
         )}
 
         {!widgetReady && (
-          <p className='mt-2 text-xs text-gray-500'>
+          <Paragraph
+            className='mt-2 text-xs text-gray-500'
+            margin={false}
+            size='sm'
+          >
             Bot-Schutz wird geladen...
-          </p>
+          </Paragraph>
         )}
       </div>
 
@@ -199,7 +207,9 @@ export function NewsletterForm() {
         </label>
       </div>
       {errors.privacy && (
-        <p className='text-sm text-red-600'>{errors.privacy.message}</p>
+        <Paragraph className='text-sm text-red-600' margin={false} size='sm'>
+          {errors.privacy.message}
+        </Paragraph>
       )}
 
       {/* Submit Button */}
