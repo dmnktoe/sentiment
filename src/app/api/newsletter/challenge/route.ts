@@ -7,7 +7,6 @@ export async function GET() {
     const hmacKey = process.env.ALTCHA_SECRET;
 
     if (!hmacKey) {
-      console.error('ALTCHA_SECRET environment variable is not set');
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 },
@@ -23,8 +22,7 @@ export async function GET() {
     });
 
     return NextResponse.json(challenge);
-  } catch (error) {
-    console.error('Challenge generation error:', error);
+  } catch {
     return NextResponse.json(
       { error: 'Failed to generate challenge' },
       { status: 500 },

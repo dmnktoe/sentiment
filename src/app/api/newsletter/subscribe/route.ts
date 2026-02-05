@@ -30,8 +30,7 @@ async function verifyAltcha(payload: string): Promise<boolean> {
     const isValid = await verifySolution(payload, hmacKey, true);
 
     return isValid;
-  } catch (error) {
-    console.error('ALTCHA verification error:', error);
+  } catch {
     return false;
   }
 }
@@ -80,11 +79,9 @@ async function createSubscriber(email: string): Promise<Subscriber | null> {
     }
 
     const data = await response.json();
-    console.log('✅ Subscriber erstellt:', data.data.email);
 
     // Strapi v5 returns data directly (not in attributes)
     if (!data.data) {
-      console.error('Unexpected Strapi response format:', data);
       return null;
     }
 
@@ -95,8 +92,7 @@ async function createSubscriber(email: string): Promise<Subscriber | null> {
       confirmed: data.data.confirmed,
       status: data.data.status,
     };
-  } catch (error) {
-    console.error('Create subscriber error:', error);
+  } catch {
     return null;
   }
 }
@@ -131,8 +127,7 @@ async function sendConfirmationEmail(
     });
 
     return response.ok;
-  } catch (error) {
-    console.error('Send email error:', error);
+  } catch {
     return false;
   }
 }
@@ -198,8 +193,7 @@ export async function POST(request: Request) {
       message:
         'Vielen Dank! Bitte überprüfen Sie Ihr E-Mail-Postfach und bestätigen Sie Ihre Anmeldung.',
     });
-  } catch (error) {
-    console.error('Subscribe error:', error);
+  } catch {
     return NextResponse.json(
       { error: 'Ein interner Fehler ist aufgetreten' },
       { status: 500 },

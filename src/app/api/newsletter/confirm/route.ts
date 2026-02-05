@@ -24,8 +24,7 @@ async function confirmSubscription(token: string): Promise<boolean> {
     }
 
     return true;
-  } catch (error) {
-    console.error('Confirm subscription error:', error);
+  } catch {
     return false;
   }
 }
@@ -54,8 +53,7 @@ export async function GET(request: Request) {
         new URL('/newsletter/error?reason=invalid-token', request.url),
       );
     }
-  } catch (error) {
-    console.error('Confirmation route error:', error);
+  } catch {
     return NextResponse.redirect(
       new URL('/newsletter/error?reason=server-error', request.url),
     );

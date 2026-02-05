@@ -11,14 +11,6 @@ import { Button } from '@/components/ui/Button';
 import { Link } from '@/components/ui/Link';
 
 // TypeScript Typen für ALTCHA
-interface AltchaPayload {
-  algorithm: string;
-  challenge: string;
-  number: number;
-  salt: string;
-  signature: string;
-}
-
 interface AltchaStateChangeEvent extends Event {
   detail: {
     payload?: string;
@@ -61,7 +53,6 @@ export function NewsletterForm() {
     const checkWidget = setInterval(() => {
       const widget = document.querySelector('altcha-widget');
       if (widget) {
-        console.log('✅ ALTCHA Widget gefunden');
         setWidgetReady(true);
         clearInterval(checkWidget);
       }
@@ -70,11 +61,6 @@ export function NewsletterForm() {
     // Timeout nach 5 Sekunden
     const timeout = setTimeout(() => {
       clearInterval(checkWidget);
-      // Finale Prüfung ob Widget wirklich nicht da ist
-      const widget = document.querySelector('altcha-widget');
-      if (!widget) {
-        console.error('❌ ALTCHA Widget konnte nicht geladen werden');
-      }
     }, 5000);
 
     return () => {
@@ -91,20 +77,13 @@ export function NewsletterForm() {
 
     const handleStateChange = (ev: Event) => {
       const event = ev as AltchaStateChangeEvent;
-      console.log('🔔 ALTCHA Event:', event.detail);
 
       if (event.detail?.payload) {
-        console.log('✅ Payload empfangen:', event.detail.payload);
         setValue('altcha', event.detail.payload, {
           shouldValidate: true,
           shouldDirty: true,
           shouldTouch: true,
         });
-      }
-
-      // Status-Logging
-      if (event.detail?.state) {
-        console.log('📊 ALTCHA State:', event.detail.state);
       }
     };
 
@@ -112,22 +91,13 @@ export function NewsletterForm() {
     widget.addEventListener('statechange', handleStateChange);
     widget.addEventListener('verified', handleStateChange);
 
-    console.log('👂 Event Listener registriert');
-
     return () => {
       widget.removeEventListener('statechange', handleStateChange);
       widget.removeEventListener('verified', handleStateChange);
-      console.log('🔇 Event Listener entfernt');
     };
   }, [widgetReady, setValue]);
 
   const onSubmit = async (data: NewsletterSubscribeInput) => {
-    console.log('📤 Form Submit:', {
-      email: data.email,
-      hasAltcha: !!data.altcha,
-      privacy: data.privacy,
-    });
-
     setStatus('loading');
     setMessage('');
 

@@ -28,8 +28,7 @@ async function unsubscribeUser(
 
     const data = await response.json();
     return { success: true, email: data.email };
-  } catch (error) {
-    console.error('Unsubscribe error:', error);
+  } catch {
     return { success: false };
   }
 }
@@ -54,8 +53,7 @@ async function sendGoodbyeEmail(email: string): Promise<void> {
         html: emailHtml,
       }),
     });
-  } catch (error) {
-    console.error('Send goodbye email error:', error);
+  } catch {
     // Don't throw - unsubscribe still succeeded
   }
 }
@@ -89,8 +87,7 @@ export async function GET(request: Request) {
         new URL('/newsletter/error?reason=invalid-token', request.url),
       );
     }
-  } catch (error) {
-    console.error('Unsubscribe route error:', error);
+  } catch {
     return NextResponse.redirect(
       new URL('/newsletter/error?reason=server-error', request.url),
     );
