@@ -8,14 +8,14 @@ export default function NewsletterUnsubscribedPage() {
       <Container>
         <div className='mx-auto max-w-2xl text-center'>
           <Title size='two' className='mb-6'>
-            Abmeldung <span className='text-primary'>bestätigt</span>
+            Unsubscription <span className='text-primary'>confirmed</span>
           </Title>
           <Paragraph className='mb-8'>
-            Sie wurden erfolgreich vom Newsletter abgemeldet. Schade, dass Sie
-            gehen! Falls Sie Ihre Meinung ändern, können Sie sich jederzeit
-            wieder anmelden.
+            You have been successfully unsubscribed from the newsletter. We are
+            sorry to see you go! If you change your mind, you can subscribe
+            again at any time.
           </Paragraph>
-          <Button href='/'>Zurück zur Startseite</Button>
+          <Button href='/'>Back to homepage</Button>
         </div>
       </Container>
     </section>

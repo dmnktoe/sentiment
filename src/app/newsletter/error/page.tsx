@@ -12,12 +12,11 @@ function ErrorContent() {
   const reason = searchParams.get('reason') || 'unknown';
 
   const errorMessages: Record<string, string> = {
-    'missing-token': 'Der Bestätigungslink ist ungültig oder unvollständig.',
+    'missing-token': 'The confirmation link is invalid or incomplete.',
     'invalid-token':
-      'Der Token ist ungültig oder abgelaufen. Bitte melden Sie sich erneut an.',
-    'server-error':
-      'Es ist ein technischer Fehler aufgetreten. Bitte versuchen Sie es später erneut.',
-    unknown: 'Ein unbekannter Fehler ist aufgetreten.',
+      'The token is invalid or has expired. Please sign up again.',
+    'server-error': 'A technical error occurred. Please try again later.',
+    unknown: 'An unknown error occurred.',
   };
 
   return (
@@ -25,14 +24,14 @@ function ErrorContent() {
       <Container>
         <div className='mx-auto max-w-2xl text-center'>
           <Title size='two' className='mb-6'>
-            <span className='text-primary'>Fehler</span> aufgetreten
+            <span className='text-primary'>Error</span> occurred
           </Title>
           <Paragraph className='mb-8'>
             {errorMessages[reason] || errorMessages.unknown}
           </Paragraph>
           <div className='flex flex-col gap-4 sm:flex-row sm:justify-center'>
-            <Button href='/'>Zurück zur Startseite</Button>
-            <Button href='/#newsletter'>Erneut versuchen</Button>
+            <Button href='/'>Back to homepage</Button>
+            <Button href='/#newsletter'>Try again</Button>
           </div>
         </div>
       </Container>
@@ -47,7 +46,7 @@ export default function NewsletterErrorPage() {
         <section className='py-24 sm:py-36'>
           <Container>
             <div className='mx-auto max-w-2xl text-center'>
-              <Title size='two'>Laden...</Title>
+              <Title size='two'>Loading...</Title>
             </div>
           </Container>
         </section>

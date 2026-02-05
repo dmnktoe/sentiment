@@ -8,13 +8,13 @@ export default function NewsletterSuccessPage() {
       <Container>
         <div className='mx-auto max-w-2xl text-center'>
           <Title size='two' className='mb-6'>
-            Anmeldung <span className='text-primary'>bestätigt</span>
+            Subscription <span className='text-primary'>confirmed</span>
           </Title>
           <Paragraph className='mb-8'>
-            Vielen Dank! Ihre Newsletter-Anmeldung wurde erfolgreich bestätigt.
-            Sie erhalten ab sofort unsere neuesten Updates.
+            Thank you! Your newsletter subscription has been successfully
+            confirmed. You will now receive our latest updates.
           </Paragraph>
-          <Button href='/'>Zurück zur Startseite</Button>
+          <Button href='/'>Back to homepage</Button>
         </div>
       </Container>
     </section>
