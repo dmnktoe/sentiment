@@ -49,48 +49,57 @@ async function createSubscriber(email: string): Promise<Subscriber | null> {
   try {
     const token = crypto.randomUUID();
 
-    // Call Strapi API to create subscriber
-    const response = await fetch(
-      `${process.env.STRAPI_API_URL}/api/subscribers`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-        },
-        body: JSON.stringify({
-          data: {
-            email,
-            token,
-            confirmed: false, // Requires confirmation (double opt-in)
-            status: 'active',
-          },
-        }),
-      },
-    );
+    // Create AbortController with 10s timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    if (!response.ok) {
-      // Silent failure if email already exists (Security: prevents user enumeration)
-      if (response.status === 400 || response.status === 409) {
+    try {
+      // Call Strapi API to create subscriber
+      const response = await fetch(
+        `${process.env.STRAPI_API_URL}/api/subscribers`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+          },
+          signal: controller.signal,
+          body: JSON.stringify({
+            data: {
+              email,
+              token,
+              confirmed: false, // Requires confirmation (double opt-in)
+              status: 'active',
+            },
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        // Silent failure if email already exists (Security: prevents user enumeration)
+        if (response.status === 400 || response.status === 409) {
+          return null;
+        }
+        throw new Error('Failed to create subscriber');
+      }
+
+      const data = await response.json();
+
+      // Strapi v5 returns data directly (not in attributes)
+      if (!data.data) {
         return null;
       }
-      throw new Error('Failed to create subscriber');
+
+      // Use the token we generated, as Strapi might not return it (if marked private)
+      return {
+        email: data.data.email,
+        token: data.data.token || token, // Fallback to generated token
+        confirmed: data.data.confirmed,
+        status: data.data.status,
+      };
+    } finally {
+      clearTimeout(timeoutId);
     }
-
-    const data = await response.json();
-
-    // Strapi v5 returns data directly (not in attributes)
-    if (!data.data) {
-      return null;
-    }
-
-    // Use the token we generated, as Strapi might not return it (if marked private)
-    return {
-      email: data.data.email,
-      token: data.data.token || token, // Fallback to generated token
-      confirmed: data.data.confirmed,
-      status: data.data.status,
-    };
   } catch {
     return null;
   }
@@ -105,27 +114,36 @@ async function sendConfirmationEmail(
   token: string,
 ): Promise<boolean> {
   try {
-    // Generate confirmation URL with token
-    const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/newsletter/confirm?token=${token}`;
+    // Create AbortController with 10s timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-    // Render email template
-    const emailHtml = await render(ConfirmSubscriptionEmail({ confirmUrl }));
+    try {
+      // Generate confirmation URL with token
+      const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
 
-    // Send email via Strapi email plugin
-    const response = await fetch(`${process.env.STRAPI_API_URL}/api/email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-      },
-      body: JSON.stringify({
-        to: email,
-        subject: 'Bestätigen Sie Ihre Newsletter-Anmeldung - SENTIMENT',
-        html: emailHtml,
-      }),
-    });
+      // Render email template
+      const emailHtml = await render(ConfirmSubscriptionEmail({ confirmUrl }));
 
-    return response.ok;
+      // Send email via Strapi email plugin
+      const response = await fetch(`${process.env.STRAPI_API_URL}/api/email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          to: email,
+          subject: 'Bestätigen Sie Ihre Newsletter-Anmeldung - SENTIMENT',
+          html: emailHtml,
+        }),
+      });
+
+      return response.ok;
+    } finally {
+      clearTimeout(timeoutId);
+    }
   } catch {
     return false;
   }
@@ -185,8 +203,19 @@ export async function POST(request: Request) {
       });
     }
 
-    // Send double opt-in confirmation email
-    await sendConfirmationEmail(email, subscriber.token);
+    // Send double opt-in confirmation email with error handling
+    const emailSent = await sendConfirmationEmail(email, subscriber.token);
+
+    // If email failed, return error so client knows to retry
+    if (!emailSent) {
+      return NextResponse.json(
+        {
+          error:
+            'E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es später erneut.',
+        },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json({
       message:

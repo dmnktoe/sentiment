@@ -11,8 +11,10 @@ async function unsubscribeUser(
   token: string,
 ): Promise<{ success: boolean; email?: string }> {
   try {
+    // URL-encode token to safely handle special characters
+    const encodedToken = encodeURIComponent(token);
     const response = await fetch(
-      `${process.env.STRAPI_API_URL}/api/subscribers/unsubscribe?token=${token}`,
+      `${process.env.STRAPI_API_URL}/api/subscribers/unsubscribe?token=${encodedToken}`,
       {
         method: 'PUT',
         headers: {
@@ -73,9 +75,13 @@ export async function GET(request: Request) {
     // Unsubscribe the user
     const result = await unsubscribeUser(token);
 
-    if (result.success && result.email) {
-      // Send confirmation email (non-blocking)
-      await sendGoodbyeEmail(result.email);
+    if (result.success) {
+      // Send confirmation email (fire-and-forget with error handling)
+      if (result.email) {
+        sendGoodbyeEmail(result.email).catch(() => {
+          // Error handling for fire-and-forget promise - user still redirected successfully
+        });
+      }
 
       // Redirect to unsubscribed confirmation page
       return NextResponse.redirect(
