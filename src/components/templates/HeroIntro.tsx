@@ -18,54 +18,39 @@ import { Paragraph, Title } from '@/components/ui/typography';
 
 import { Homepage } from '@/types/Homepage';
 
-function Text({ content }: { content: Homepage }) {
-  function ProminentText() {
-    return (
-      <div className='z-20 col-span-3 sm:col-span-4'>
-        <Title className='leading-none' size='two'>
-          Creating{' '}
-          <span className='font-secondary italic text-primary'>Safe</span> &
-          <span className='font-secondary italic text-primary'>
-            {' '}
-            Supportive
-          </span>{' '}
-          Spaces for Intimate Communication with Human-Chatbot Interactions
-        </Title>
-      </div>
-    );
-  }
-
-  function HeroText() {
-    return (
-      <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
-        <Paragraph>{content.heroText}</Paragraph>
-        <Button href='/about'>More</Button>
-      </div>
-    );
-  }
-
-  function HeroImage() {
-    return (
-      <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
-        <Image
-          alt='Sentiment explores the delicate intersection of privacy and intimacy in human-chatbot interactions.'
-          width='1000'
-          height='600'
-          src={getStrapiMedia(content.heroCoverImage.url)}
-          className='w-full object-cover'
-          priority
-        />
-      </div>
-    );
-  }
-
+function ProminentText() {
   return (
-    <div className='border-b-solid mb-12 border-b-[1px] border-b-grid pb-12 sm:mb-24 sm:pb-24'>
-      <div className='grid grid-cols-3 gap-0 sm:grid-cols-4'>
-        <ProminentText />
-        <HeroText />
-        <HeroImage />
-      </div>
+    <div className='z-20 col-span-3 sm:col-span-4'>
+      <Title className='leading-none' size='two'>
+        Creating{' '}
+        <span className='font-secondary italic text-primary'>Safe</span> &
+        <span className='font-secondary italic text-primary'> Supportive</span>{' '}
+        Spaces for Intimate Communication with Human-Chatbot Interactions
+      </Title>
+    </div>
+  );
+}
+
+function HeroText({ heroText }: { heroText: string }) {
+  return (
+    <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
+      <Paragraph>{heroText}</Paragraph>
+      <Button href='/about'>More</Button>
+    </div>
+  );
+}
+
+function HeroImage({ imageUrl }: { imageUrl: string }) {
+  return (
+    <div className='z-10 col-span-3 mb-8 sm:col-span-4'>
+      <Image
+        alt='Sentiment explores the delicate intersection of privacy and intimacy in human-chatbot interactions.'
+        width='1000'
+        height='600'
+        src={getStrapiMedia(imageUrl)}
+        className='w-full object-cover'
+        priority
+      />
     </div>
   );
 }
@@ -119,7 +104,13 @@ export default function HeroIntro({ content }: { content: Homepage }) {
         <Container>
           <Crossbar />
           <div className='px-2 sm:px-4'>
-            <Text content={content} />
+            <div className='border-b-solid mb-12 border-b-[1px] border-b-grid pb-12 sm:mb-24 sm:pb-24'>
+              <div className='grid grid-cols-3 gap-0 sm:grid-cols-4'>
+                <ProminentText />
+                <HeroText heroText={content.heroText} />
+                <HeroImage imageUrl={content.heroCoverImage.url} />
+              </div>
+            </div>
             <Partners />
           </div>
         </Container>

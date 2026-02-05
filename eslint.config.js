@@ -4,17 +4,17 @@ const globals = require('globals');
 const typescriptEslint = require('@typescript-eslint/eslint-plugin');
 const simpleImportSort = require('eslint-plugin-simple-import-sort');
 const unusedImports = require('eslint-plugin-unused-imports');
-const js = require('@eslint/js');
-
 const { FlatCompat } = require('@eslint/eslintrc');
+const reactPlugin = require('eslint-plugin-react');
+const reactHooksPlugin = require('eslint-plugin-react-hooks');
+const eslintNext = require('eslint-config-next');
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all,
 });
 
 module.exports = defineConfig([
+  ...eslintNext,
   {
     languageOptions: {
       globals: {
@@ -29,12 +29,11 @@ module.exports = defineConfig([
       '@typescript-eslint': typescriptEslint,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
+      react: reactPlugin,
+      'react-hooks': reactHooksPlugin,
     },
 
     extends: compat.extends(
-      'eslint:recommended',
-      'next',
-      'next/core-web-vitals',
       'plugin:@typescript-eslint/recommended',
       'prettier',
       'plugin:prettier/recommended',
