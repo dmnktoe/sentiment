@@ -165,22 +165,22 @@ describe('NewsletterForm Component', () => {
     });
 
     it('should have form with correct structure for ALTCHA', async () => {
-      let container: HTMLElement;
+      let container: HTMLElement | undefined;
       await act(async () => {
         const result = render(<NewsletterForm />);
         container = result.container;
       });
-      const form = container.querySelector('form');
+      const form = container?.querySelector('form');
       expect(form).toBeInTheDocument();
     });
 
     it('should have ALTCHA widget element', async () => {
-      let container: HTMLElement;
+      let container: HTMLElement | undefined;
       await act(async () => {
         const result = render(<NewsletterForm />);
         container = result.container;
       });
-      const altchaWidget = container.querySelector('altcha-widget');
+      const altchaWidget = container?.querySelector('altcha-widget');
       expect(altchaWidget).toBeInTheDocument();
     });
   });
@@ -243,12 +243,12 @@ describe('NewsletterForm Component', () => {
 
   describe('Accessibility', () => {
     it('should have proper semantic HTML structure', async () => {
-      let container: HTMLElement;
+      let container: HTMLElement | undefined;
       await act(async () => {
         const result = render(<NewsletterForm />);
         container = result.container;
       });
-      const form = container.querySelector('form');
+      const form = container?.querySelector('form');
       expect(form).toBeInTheDocument();
     });
 
@@ -290,7 +290,7 @@ describe('NewsletterForm Component', () => {
 
   describe('Form State Management', () => {
     it('should render component without errors', async () => {
-      let container: HTMLElement;
+      let container: HTMLElement | undefined;
       await act(async () => {
         const result = render(<NewsletterForm />);
         container = result.container;

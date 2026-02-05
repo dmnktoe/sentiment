@@ -57,12 +57,24 @@ describe('BlockRendererClient', () => {
       const content: BlocksContent = [
         {
           type: 'image',
+          children: [{ type: 'text', text: '' }],
           image: {
             name: 'test.jpg',
             alternativeText: 'Test Image',
             url: '/uploads/test.jpg',
             width: 800,
             height: 600,
+            hash: 'test_hash',
+            ext: '.jpg',
+            mime: 'image/jpeg',
+            size: 12345,
+            formats: {},
+            previewUrl: null,
+            provider: 'local',
+            provider_metadata: null,
+            createdAt: '2024-01-01T00:00:00.000Z',
+            updatedAt: '2024-01-01T00:00:00.000Z',
+            caption: null,
           },
         },
       ];
@@ -80,11 +92,24 @@ describe('BlockRendererClient', () => {
       const content: BlocksContent = [
         {
           type: 'image',
+          children: [{ type: 'text', text: '' }],
           image: {
             name: 'test.jpg',
+            alternativeText: null,
             url: '/uploads/test.jpg',
             width: 800,
             height: 600,
+            hash: 'test_hash',
+            ext: '.jpg',
+            mime: 'image/jpeg',
+            size: 12345,
+            formats: {},
+            previewUrl: null,
+            provider: 'local',
+            provider_metadata: null,
+            createdAt: '2024-01-01T00:00:00.000Z',
+            updatedAt: '2024-01-01T00:00:00.000Z',
+            caption: null,
           },
         },
       ];

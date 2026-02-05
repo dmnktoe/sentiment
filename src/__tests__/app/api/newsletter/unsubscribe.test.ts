@@ -61,14 +61,17 @@ describe('Newsletter Unsubscribe Helpers', () => {
 
   describe('Response Handling', () => {
     it('should extract email from Strapi response', () => {
-      const responses = [
+      const responses: Array<{
+        success: boolean;
+        data: { email?: string } | null;
+      }> = [
         { success: true, data: { email: 'test@example.com' } },
         { success: true, data: {} },
         { success: false, data: null },
       ];
 
-      expect(responses[0].data.email).toBe('test@example.com');
-      expect(responses[1].data.email).toBeUndefined();
+      expect(responses[0].data?.email).toBe('test@example.com');
+      expect(responses[1].data?.email).toBeUndefined();
       expect(responses[2].data).toBeNull();
     });
 

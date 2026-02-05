@@ -5,9 +5,60 @@ import HeroIntro from '@/components/templates/HeroIntro';
 
 import { Homepage } from '@/types/Homepage';
 
+// Define empty image formats for testing
+const emptyImageFormats = {
+  large: {
+    ext: '',
+    url: '',
+    hash: '',
+    mime: '',
+    name: '',
+    path: null,
+    size: 0,
+    width: 0,
+    height: 0,
+  },
+  small: {
+    ext: '',
+    url: '',
+    hash: '',
+    mime: '',
+    name: '',
+    path: null,
+    size: 0,
+    width: 0,
+    height: 0,
+  },
+  medium: {
+    ext: '',
+    url: '',
+    hash: '',
+    mime: '',
+    name: '',
+    path: null,
+    size: 0,
+    width: 0,
+    height: 0,
+  },
+  thumbnail: {
+    ext: '',
+    url: '',
+    hash: '',
+    mime: '',
+    name: '',
+    path: null,
+    size: 0,
+    width: 0,
+    height: 0,
+  },
+};
+
 // Mock Next.js components
 type MockImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   src?: string;
+  priority?: boolean;
+  blurDataURL?: string;
+  placeholder?: 'blur' | 'empty';
 };
 
 jest.mock('next/image', () => ({
@@ -46,15 +97,30 @@ jest.mock('@/lib/strapi-urls', () => ({
 
 describe('HeroIntro', () => {
   const mockContent: Homepage = {
-    id: 1,
+    id: '1',
+    documentId: 'doc_1',
     heroText: 'This is a test hero text about sentiment analysis.',
     heroCoverImage: {
-      id: 1,
+      name: 'test-image.jpg',
+      alternativeText: 'Test Image',
       url: '/test-image.jpg',
       width: 1000,
       height: 600,
-      alternativeText: 'Test Image',
+      caption: null,
+      formats: emptyImageFormats,
+      hash: 'test_hash',
+      ext: '.jpg',
+      mime: 'image/jpeg',
+      size: 12345,
+      previewUrl: null,
+      provider: 'local',
+      provider_metadata: null,
+      createdAt: '2024-01-01T00:00:00.000Z',
+      updatedAt: '2024-01-01T00:00:00.000Z',
     },
+    createdAt: new Date('2024-01-01T00:00:00.000Z'),
+    updatedAt: new Date('2024-01-01T00:00:00.000Z'),
+    publishedAt: new Date('2024-01-01T00:00:00.000Z'),
   };
 
   describe('Text Section', () => {
