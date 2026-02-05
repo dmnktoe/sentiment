@@ -78,8 +78,8 @@ export default function GoodbyeEmail() {
             </table>
             <Heading style={logo}>SENTIMENT</Heading>
             <Text style={tagline}>
-              Secure self-disclosure in intimate communication with dialog
-              systems
+              Creating Safe & Supportive Spaces for Intimate Communication with
+              Human-Chatbot Interactions
             </Text>
           </Section>
 
