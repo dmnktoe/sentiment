@@ -11,7 +11,6 @@ import { Button } from '@/components/ui/Button';
 import { Link } from '@/components/ui/Link';
 import { Paragraph } from '@/components/ui/typography';
 
-// TypeScript Typen für ALTCHA
 interface AltchaStateChangeEvent extends Event {
   detail: {
     payload?: string;
@@ -42,7 +41,6 @@ export function NewsletterForm() {
   });
 
   useEffect(() => {
-    // Warte auf ALTCHA Widget
     const checkWidget = setInterval(() => {
       const widget = document.querySelector('altcha-widget');
       if (widget) {
@@ -51,7 +49,6 @@ export function NewsletterForm() {
       }
     }, 100);
 
-    // Timeout nach 5 Sekunden
     const timeout = setTimeout(() => {
       clearInterval(checkWidget);
     }, 5000);
@@ -80,7 +77,6 @@ export function NewsletterForm() {
       }
     };
 
-    // Event Listener registrieren
     widget.addEventListener('statechange', handleStateChange);
     widget.addEventListener('verified', handleStateChange);
 
@@ -104,16 +100,16 @@ export function NewsletterForm() {
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Ein Fehler ist aufgetreten');
+        throw new Error(result.error || 'An error occurred');
       }
 
       setStatus('success');
       setMessage(
-        'Vielen Dank! Bitte überprüfen Sie Ihr E-Mail-Postfach und bestätigen Sie Ihre Anmeldung.',
+        'Thank you! Please check your email inbox and confirm your subscription.',
       );
       reset();
 
-      // Widget zurücksetzen
+      // Reset widget
       const widget = document.querySelector('altcha-widget') as HTMLElement & {
         reset?: () => void;
       };
@@ -125,20 +121,20 @@ export function NewsletterForm() {
       setMessage(
         error instanceof Error
           ? error.message
-          : 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.',
+          : 'An error occurred. Please try again later.',
       );
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
-      {/* E-Mail Feld */}
+      {/* Email Field */}
       <div className='group'>
         <label
           htmlFor='email'
           className='mb-2 block text-sm font-medium text-text/70 group-hover:text-text transition-colors'
         >
-          E-Mail-Adresse
+          Email Address
         </label>
         <input
           {...register('email')}
@@ -146,7 +142,7 @@ export function NewsletterForm() {
           id='email'
           disabled={status === 'loading'}
           className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed'
-          placeholder='ihre@email.de'
+          placeholder='your@email.com'
         />
         {errors.email && (
           <Paragraph
@@ -159,7 +155,6 @@ export function NewsletterForm() {
         )}
       </div>
 
-      {/* ALTCHA Widget */}
       <div className='min-h-[100px]'>
         {/* @ts-expect-error - altcha-widget is a custom element loaded at runtime */}
         <altcha-widget
@@ -167,7 +162,7 @@ export function NewsletterForm() {
           challengeurl='/api/newsletter/challenge'
           hidefooter={false}
           hidelogo={false}
-          strings='{"label":"Ich bin kein Bot","verifying":"Überprüfe...","verified":"Verifiziert","error":"Verifizierung fehlgeschlagen. Bitte versuchen Sie es später erneut."}'
+          strings='{"label":"I am not a robot","verifying":"Verifying...","verified":"Verified","error":"Verification failed. Please try again later."}'
           style={
             {
               '--altcha-border-width': '1px',
@@ -183,7 +178,7 @@ export function NewsletterForm() {
           }
         />
 
-        {/* Verstecktes Feld, das von react-hook-form überwacht wird */}
+        {/* Hidden field monitored by react-hook-form */}
         <input type='hidden' {...register('altcha')} />
 
         {errors.altcha && (
@@ -202,12 +197,12 @@ export function NewsletterForm() {
             margin={false}
             size='sm'
           >
-            Bot-Schutz wird geladen...
+            Bot protection loading...
           </Paragraph>
         )}
       </div>
 
-      {/* Datenschutz Checkbox */}
+      {/* Privacy Checkbox */}
       <div className='group flex items-start gap-3 rounded-lg p-3 transition-all hover:bg-grid'>
         <input
           {...register('privacy')}
@@ -220,15 +215,15 @@ export function NewsletterForm() {
           htmlFor='privacy'
           className='cursor-pointer text-sm leading-tight group-hover:text-text/90'
         >
-          Ich habe die{' '}
+          I have read the{' '}
           <Link
             href='/privacy'
             variant='underline'
             className='font-medium text-primary hover:text-secondary'
           >
-            Datenschutzerklärung
+            Privacy Policy
           </Link>{' '}
-          gelesen und akzeptiere diese.
+          and accept it.
         </label>
       </div>
       {errors.privacy && (
@@ -243,10 +238,10 @@ export function NewsletterForm() {
         disabled={status === 'loading'}
         className='w-full py-3 text-base font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100'
       >
-        {status === 'loading' ? 'Wird gesendet...' : 'Jetzt anmelden'}
+        {status === 'loading' ? 'Sending...' : 'Subscribe Now'}
       </Button>
 
-      {/* Status Nachrichten */}
+      {/* Status Messages */}
       {message && (
         <div
           className={`animate-in fade-in slide-in-from-top-2 rounded-lg p-4 transition-all duration-300 ${

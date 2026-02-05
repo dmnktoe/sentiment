@@ -13,37 +13,37 @@ export default function NewsletterCTA() {
           <Crossbar />
           <div id='newsletter' className='px-2 sm:px-4'>
             <div className='group grid grid-cols-1 gap-8 rounded-lg bg-primary/5 p-8 transition-all hover:bg-primary/10 lg:grid-cols-2 lg:gap-12 lg:p-12'>
-              {/* Text Sektion - Links */}
+              {/* Text Section - Left */}
               <div className='flex flex-col justify-center'>
                 <Title
                   renderAs='h2'
                   size='three'
                   className='mb-4 transition-colors group-hover:text-primary'
                 >
-                  Bleiben Sie auf dem Laufenden
+                  Research Insights <br />
+                  Delivered
                 </Title>
                 <Paragraph className='mb-6 text-base' color='light'>
-                  Abonnieren Sie unseren Newsletter und erhalten Sie die
-                  neuesten Updates über das SENTIMENT-Projekt direkt in Ihr
-                  Postfach.
+                  Subscribe to our newsletter and receive the latest updates
+                  about the SENTIMENT project directly in your inbox.
                 </Paragraph>
                 <div className='space-y-2 text-sm text-tertiary'>
                   <p className='flex items-center gap-2'>
                     <span className='text-primary'>✓</span>
-                    Regelmäßige Updates zu Forschungsergebnissen
+                    Regular updates on research findings
                   </p>
                   <p className='flex items-center gap-2'>
                     <span className='text-primary'>✓</span>
-                    Einblicke in aktuelle Entwicklungen
+                    Insights into current developments
                   </p>
                   <p className='flex items-center gap-2'>
                     <span className='text-primary'>✓</span>
-                    Jederzeit abbestellbar, DSGVO-konform
+                    Unsubscribe anytime, GDPR compliant
                   </p>
                 </div>
               </div>
 
-              {/* Form Sektion - Rechts */}
+              {/* Form Section - Right */}
               <div className='flex flex-col justify-center'>
                 <NewsletterForm />
               </div>
