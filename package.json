@@ -72,7 +72,7 @@
     "@types/jest": "30.0.0",
     "@types/node": "24.10.13",
     "@types/qs": "6.14.0",
-    "@types/react": "19.2.13",
+    "@types/react": "19.2.14",
     "@types/testing-library__jest-dom": "5.14.9",
     "@typescript-eslint/eslint-plugin": "8.54.0",
     "@typescript-eslint/parser": "8.54.0",
@@ -100,7 +100,7 @@
   },
   "pnpm": {
     "overrides": {
-      "@types/react": "19.2.13",
+      "@types/react": "19.2.14",
       "@types/react-dom": "npm:types-react-dom@19.0.0-rc.1"
     }
   }
