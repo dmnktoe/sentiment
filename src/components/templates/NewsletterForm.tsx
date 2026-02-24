@@ -2,11 +2,12 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTheme } from 'next-themes';
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import type { NewsletterSubscribeInput } from '@/lib/newsletter-schema';
 import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
+import { useHasMounted } from '@/lib/useHasMounted';
 
 import { Button } from '@/components/ui/Button';
 import { Link } from '@/components/ui/Link';
@@ -42,14 +43,6 @@ const altchaStyleDark: AltchaWidgetCSSProperties = {
   '--altcha-color-footer-bg': '#262626',
   '--altcha-max-width': '100%',
 };
-
-function useHasMounted() {
-  return useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-}
 
 export function NewsletterForm() {
   const { resolvedTheme } = useTheme();
@@ -219,7 +212,7 @@ export function NewsletterForm() {
 
         {!widgetReady && (
           <Paragraph
-            className='mt-2 text-xs text-gray-500'
+            className='mt-2 text-xs text-tertiary'
             margin={false}
             size='sm'
           >
@@ -272,8 +265,8 @@ export function NewsletterForm() {
         <div
           className={`animate-in fade-in slide-in-from-top-2 rounded-lg p-4 transition-all duration-300 ${
             status === 'success'
-              ? 'bg-green-50 text-green-800 border-2 border-green-200'
-              : 'bg-red-50 text-red-800 border-2 border-red-200'
+              ? 'border-2 border-green-200 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200'
+              : 'border-2 border-red-200 bg-red-50 text-red-800 dark:border-red-800 dark:bg-red-950 dark:text-red-200'
           }`}
         >
           <Paragraph className='text-sm' margin={false}>

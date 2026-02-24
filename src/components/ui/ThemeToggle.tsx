@@ -1,15 +1,8 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useSyncExternalStore } from 'react';
 
-function useHasMounted() {
-  return useSyncExternalStore(
-    () => () => {},
-    () => true,
-    () => false,
-  );
-}
+import { useHasMounted } from '@/lib/useHasMounted';
 
 export function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
@@ -26,6 +19,7 @@ export function ThemeToggle() {
 
   return (
     <button
+      type='button'
       onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
       aria-label={
         resolvedTheme === 'dark'
