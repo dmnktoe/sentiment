@@ -1,43 +1,52 @@
 import { NextResponse } from 'next/server';
 
+import { cmsApiToken, cmsApiUrl } from '@/constant/env';
+
 /**
- * Confirm subscription endpoint
- * Handles email confirmation link clicks for double opt-in
- * GDPR Compliant: User explicitly confirms subscription
+ * Confirm subscription endpoint helper
+ * Performs the PUT against Strapi to confirm a subscriber token.
  */
-async function confirmSubscription(token: string): Promise<boolean> {
+export async function confirmSubscription(token: string): Promise<boolean> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
   try {
-    // Strapi API call to confirm subscriber
+    // Strapi API call to confirm subscriber (token is URL-encoded)
     const response = await fetch(
-      `${process.env.STRAPI_API_URL}/api/subscribers/confirm?token=${token}`,
+      `${cmsApiUrl}/api/subscribers/confirm?token=${encodeURIComponent(token)}`,
       {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+          Authorization: `Bearer ${cmsApiToken}`,
         },
+        signal: controller.signal,
       },
     );
 
-    if (!response.ok) {
-      return false;
-    }
-
-    return true;
-  } catch {
-    return false;
+    // propagate network errors and return boolean for API result
+    return response.ok;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const token = searchParams.get('token');
 
-    // Validate token parameter
-    if (!token) {
+    // Distinguish between missing token parameter and empty token value
+    if (!searchParams.has('token')) {
       return NextResponse.redirect(
         new URL('/newsletter/error?reason=missing-token', request.url),
+      );
+    }
+
+    const token = searchParams.get('token') ?? '';
+
+    if (!token) {
+      return NextResponse.redirect(
+        new URL('/newsletter/error?reason=invalid-token', request.url),
       );
     }
 

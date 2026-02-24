@@ -3,7 +3,43 @@ import { NextResponse } from 'next/server';
 
 import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
 
+import {
+  altchaHmacSecret,
+  cmsApiToken,
+  cmsApiUrl,
+  siteUrl,
+} from '@/constant/env';
 import ConfirmSubscriptionEmail from '@/emails/confirm-subscription';
+
+// In-Memory Rate-Limiting (pro IP, 3 Versuche pro Stunde)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const windowMs = 60 * 60 * 1000; // 1 Stunde
+  const maxRequests = 3;
+
+  // Prune expired entries to prevent unbounded memory growth
+  rateLimitMap.forEach((value, key) => {
+    if (now > value.resetAt) {
+      rateLimitMap.delete(key);
+    }
+  });
+
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + windowMs });
+    return true;
+  }
+
+  if (entry.count >= maxRequests) {
+    return false;
+  }
+
+  entry.count++;
+  return true;
+}
 
 /**
  * ALTCHA Payload Verification
@@ -11,14 +47,23 @@ import ConfirmSubscriptionEmail from '@/emails/confirm-subscription';
  */
 async function verifyAltcha(payload: string): Promise<boolean> {
   try {
-    // Validate ALTCHA_SECRET environment variable
-    const hmacKey = process.env.ALTCHA_SECRET;
+    // Validate ALTCHA_HMAC_SECRET environment variable
+    const hmacKey = altchaHmacSecret;
 
     if (!hmacKey) {
       return false;
     }
 
-    if (!payload || payload.length < 10) {
+    // Mindestlänge für gültiges Base64-JSON Payload
+    if (!payload || payload.length < 100) {
+      return false;
+    }
+
+    // Prüfe ob es sich um gültiges Base64-JSON handelt
+    try {
+      const decoded = atob(payload);
+      JSON.parse(decoded);
+    } catch {
       return false;
     }
 
@@ -46,62 +91,89 @@ interface Subscriber {
 }
 
 async function createSubscriber(email: string): Promise<Subscriber | null> {
+  const token = crypto.randomUUID();
+
+  // Create AbortController with 10s timeout
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
   try {
-    const token = crypto.randomUUID();
-
-    // Create AbortController with 10s timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-    try {
-      // Call Strapi API to create subscriber
-      const response = await fetch(
-        `${process.env.STRAPI_API_URL}/api/subscribers`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
-          },
-          signal: controller.signal,
-          body: JSON.stringify({
-            data: {
-              email,
-              token,
-              confirmed: false, // Requires confirmation (double opt-in)
-              status: 'active',
-            },
-          }),
+    // Call Strapi API to create subscriber
+    const response = await fetch(`${cmsApiUrl}/api/subscribers`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${cmsApiToken}`,
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        data: {
+          email,
+          token,
+          confirmed: false, // Requires confirmation (double opt-in)
+          status: 'active',
         },
-      );
+      }),
+    });
 
-      if (!response.ok) {
-        // Silent failure if email already exists (Security: prevents user enumeration)
-        if (response.status === 400 || response.status === 409) {
-          return null;
-        }
-        throw new Error('Failed to create subscriber');
-      }
-
-      const data = await response.json();
-
-      // Strapi v5 returns data directly (not in attributes)
-      if (!data.data) {
+    if (!response.ok) {
+      // Return null only for known duplicate/validation responses
+      if (response.status === 400 || response.status === 409) {
         return null;
       }
+      // All other errors (5xx, auth failures, etc.) bubble up to the POST handler
+      const errorText = await response.text().catch(() => '');
+      throw new Error(
+        `Strapi responded with ${response.status} ${response.statusText}${errorText ? `: ${errorText}` : ''}`,
+      );
+    }
 
-      // Use the token we generated, as Strapi might not return it (if marked private)
-      return {
-        email: data.data.email,
-        token: data.data.token || token, // Fallback to generated token
-        confirmed: data.data.confirmed,
-        status: data.data.status,
-      };
+    const data = await response.json();
+
+    // Strapi v5 returns data directly (not in attributes)
+    // null here means a Strapi-internal issue, not a duplicate — treat as error
+    if (!data.data) {
+      throw new Error('Strapi returned empty data after creating subscriber');
+    }
+
+    // Use the token we generated, as Strapi might not return it (if marked private)
+    return {
+      email: data.data.email,
+      token: data.data.token || token, // Fallback to generated token
+      confirmed: data.data.confirmed,
+      status: data.data.status,
+    };
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+/**
+ * Delete a subscriber by token — called when confirmation email fails
+ * GDPR: Prevents orphaned unconfirmed records that block future retries
+ */
+async function deleteSubscriberByToken(token: string): Promise<void> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000);
+    try {
+      await fetch(
+        `${cmsApiUrl}/api/subscribers/by-token?token=${encodeURIComponent(token)}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${cmsApiToken}`,
+          },
+          signal: controller.signal,
+        },
+      );
     } finally {
       clearTimeout(timeoutId);
     }
   } catch {
-    return null;
+    // Best-effort cleanup — do not throw, unsubscribe still matters
+    // eslint-disable-next-line no-console
+    console.error('Failed to clean up subscriber after email delivery failure');
   }
 }
 
@@ -120,17 +192,17 @@ async function sendConfirmationEmail(
 
     try {
       // Generate confirmation URL with token
-      const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
+      const confirmUrl = `${siteUrl}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
 
       // Render email template
       const emailHtml = await render(ConfirmSubscriptionEmail({ confirmUrl }));
 
       // Send email via Strapi email plugin
-      const response = await fetch(`${process.env.STRAPI_API_URL}/api/email`, {
+      const response = await fetch(`${cmsApiUrl}/api/email`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+          Authorization: `Bearer ${cmsApiToken}`,
         },
         signal: controller.signal,
         body: JSON.stringify({
@@ -160,6 +232,19 @@ async function sendConfirmationEmail(
  */
 export async function POST(request: Request) {
   try {
+    // Rate-Limiting per IP
+    const ip =
+      request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+      request.headers.get('x-real-ip') ??
+      'unknown';
+
+    if (!checkRateLimit(ip)) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please try again later.' },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
 
     // Validate input with Zod schema
@@ -206,8 +291,10 @@ export async function POST(request: Request) {
     // Send double opt-in confirmation email with error handling
     const emailSent = await sendConfirmationEmail(email, subscriber.token);
 
-    // If email failed, return error so client knows to retry
+    // If email failed, delete the subscriber so the user can retry later
+    // GDPR: Prevents orphaned unconfirmed records that can never be confirmed
     if (!emailSent) {
+      await deleteSubscriberByToken(subscriber.token);
       return NextResponse.json(
         {
           error: 'Email could not be sent. Please try again later.',

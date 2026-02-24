@@ -1,10 +1,11 @@
 import { createChallenge } from 'altcha-lib';
 import { NextResponse } from 'next/server';
 
+import { altchaHmacSecret } from '@/constant/env';
+
 export async function GET() {
   try {
-    // Validate ALTCHA_SECRET environment variable
-    const hmacKey = process.env.ALTCHA_SECRET;
+    const hmacKey = altchaHmacSecret;
 
     if (!hmacKey) {
       return NextResponse.json(
