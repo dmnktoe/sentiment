@@ -1,7 +1,7 @@
-import { strapiApiUrl } from '@/constant/env';
+import { cmsApiUrl } from '@/constant/env';
 
 export function getStrapiURL(path = '') {
-  return `${strapiApiUrl}${path}`;
+  return `${cmsApiUrl}${path}`;
 }
 
 export function getStrapiMedia(url: string | null) {

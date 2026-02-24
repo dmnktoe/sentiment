@@ -1,7 +1,7 @@
 import { getStrapiMedia, getStrapiURL } from '@/lib/strapi-urls';
 
 jest.mock('@/constant/env', () => ({
-  strapiApiUrl: 'https://example.com',
+  cmsApiUrl: 'https://example.com',
 }));
 
 describe('getStrapiURL', () => {
