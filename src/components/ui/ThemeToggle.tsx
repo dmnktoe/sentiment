@@ -26,9 +26,14 @@ export function ThemeToggle() {
           ? 'Switch to light mode'
           : 'Switch to dark mode'
       }
-      className='rounded-2xl px-2 py-1 text-sm hover:bg-neutral-200/75 hover:text-black dark:hover:bg-neutral-700/75 dark:hover:text-white sm:text-lg'
+      title={
+        resolvedTheme === 'dark'
+          ? 'Switch to light mode'
+          : 'Switch to dark mode'
+      }
+      className='rounded-2xl px-2 py-1 text-sm hover:bg-neutral-200/75 hover:text-black dark:hover:bg-neutral-700/75 dark:hover:text-white sm:text-lg w-8 h-8 flex items-center justify-center transition-colors'
     >
-      {resolvedTheme === 'dark' ? '☀' : '☾'}
+      <span aria-hidden='true'>{resolvedTheme === 'dark' ? '✺' : '☾'}</span>
     </button>
   );
 }
