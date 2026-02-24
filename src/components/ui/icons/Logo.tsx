@@ -21,27 +21,27 @@ export const Logo = ({ className, variant }: LogoProps) => {
         />
         <path
           d='M26.1822 20.0255V22.155C26.1822 23.0247 26.8975 23.73 27.7795 23.73H29.3225V20.0255H26.1828H26.1822Z'
-          fill='white'
+          className='fill-[var(--color-bg)]'
         />
         <path
           d='M29.3483 17.0946V19.224C29.3483 20.0937 30.0636 20.7991 30.9456 20.7991H32.4886V17.0946H29.349H29.3483Z'
-          fill='white'
+          className='fill-[var(--color-bg)]'
         />
         <path
           d='M12.6776 20.0255V22.155C12.6776 23.0247 13.3928 23.73 14.2748 23.73H15.8179V20.0255H12.6782H12.6776Z'
-          fill='white'
+          className='fill-[var(--color-bg)]'
         />
         <path
           d='M15.7791 23.2114V25.3408C15.7791 26.2105 16.4944 26.9159 17.3764 26.9159H26.1557V23.2114H15.7797H15.7791Z'
-          fill='white'
+          className='fill-[var(--color-bg)]'
         />
         <path
           d='M15.8114 9.25742V11.3868C15.8114 12.2566 16.5267 12.9619 17.4087 12.9619H18.9517V9.25742H15.812H15.8114Z'
-          fill='white'
+          className='fill-[var(--color-bg)]'
         />
         <path
           d='M23.0483 9.25742V11.3868C23.0483 12.2566 23.7636 12.9619 24.6456 12.9619H26.1886V9.25742H23.049H23.0483Z'
-          fill='white'
+          className='fill-[var(--color-bg)]'
         />
       </g>
     </svg>
@@ -98,27 +98,27 @@ export const Logo = ({ className, variant }: LogoProps) => {
             />
             <path
               d='M26.1822 20.0255V22.155C26.1822 23.0247 26.8975 23.73 27.7795 23.73H29.3225V20.0255H26.1828H26.1822Z'
-              fill='white'
+              className='fill-[var(--color-bg)]'
             />
             <path
               d='M29.3483 17.0946V19.224C29.3483 20.0937 30.0636 20.7991 30.9456 20.7991H32.4886V17.0946H29.349H29.3483Z'
-              fill='white'
+              className='fill-[var(--color-bg)]'
             />
             <path
               d='M12.6776 20.0255V22.155C12.6776 23.0247 13.3928 23.73 14.2748 23.73H15.8179V20.0255H12.6782H12.6776Z'
-              fill='white'
+              className='fill-[var(--color-bg)]'
             />
             <path
               d='M15.7791 23.2114V25.3408C15.7791 26.2105 16.4944 26.9159 17.3764 26.9159H26.1557V23.2114H15.7797H15.7791Z'
-              fill='white'
+              className='fill-[var(--color-bg)]'
             />
             <path
               d='M15.8114 9.25742V11.3868C15.8114 12.2566 16.5267 12.9619 17.4087 12.9619H18.9517V9.25742H15.812H15.8114Z'
-              fill='white'
+              className='fill-[var(--color-bg)]'
             />
             <path
               d='M23.0483 9.25742V11.3868C23.0483 12.2566 23.7636 12.9619 24.6456 12.9619H26.1886V9.25742H23.049H23.0483Z'
-              fill='white'
+              className='fill-[var(--color-bg)]'
             />
           </g>
         </svg>

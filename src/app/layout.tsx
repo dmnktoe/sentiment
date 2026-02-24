@@ -4,6 +4,7 @@ import '../styles/globals.css';
 
 import { CircularStd } from '@/lib/fonts';
 
+import { ThemeProvider } from '@/components/helpers/ThemeProvider';
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import NewsletterCTA from '@/components/layout/NewsletterCTA';
@@ -15,13 +16,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' className={CircularStd.className}>
+    <html lang='en' className={CircularStd.className} suppressHydrationWarning>
       <body suppressHydrationWarning={true}>
-        <Header />
-        <main>{children}</main>
-        <NewsletterCTA />
-        <Footer />
-        <VisualGrid />
+        <ThemeProvider>
+          <Header />
+          <main>{children}</main>
+          <NewsletterCTA />
+          <Footer />
+          <VisualGrid />
+        </ThemeProvider>
       </body>
     </html>
   );

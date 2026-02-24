@@ -1,7 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useTheme } from 'next-themes';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { useForm } from 'react-hook-form';
 
 import type { NewsletterSubscribeInput } from '@/lib/newsletter-schema';
@@ -18,7 +19,7 @@ interface AltchaStateChangeEvent extends Event {
   };
 }
 
-const altchaStyle: AltchaWidgetCSSProperties = {
+const altchaStyleLight: AltchaWidgetCSSProperties = {
   '--altcha-border-width': '1px',
   '--altcha-border-radius': '8px',
   '--altcha-color-base': '#ffffff',
@@ -30,7 +31,33 @@ const altchaStyle: AltchaWidgetCSSProperties = {
   '--altcha-max-width': '100%',
 };
 
+const altchaStyleDark: AltchaWidgetCSSProperties = {
+  '--altcha-border-width': '1px',
+  '--altcha-border-radius': '8px',
+  '--altcha-color-base': '#171717',
+  '--altcha-color-border': 'rgba(255,255,255,0.2)',
+  '--altcha-color-text': '#f5f5f5',
+  '--altcha-color-border-focus': '#FF5C24',
+  '--altcha-color-error-text': '#f87171',
+  '--altcha-color-footer-bg': '#262626',
+  '--altcha-max-width': '100%',
+};
+
+function useHasMounted() {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
+}
+
 export function NewsletterForm() {
+  const { resolvedTheme } = useTheme();
+  const mounted = useHasMounted();
+
+  const altchaStyle =
+    mounted && resolvedTheme === 'dark' ? altchaStyleDark : altchaStyleLight;
+
   const [status, setStatus] = useState<
     'idle' | 'loading' | 'success' | 'error'
   >('idle');
@@ -153,7 +180,7 @@ export function NewsletterForm() {
           type='email'
           id='email'
           disabled={status === 'loading'}
-          className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed'
+          className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base text-text transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-white/20 dark:bg-neutral-900 placeholder:text-tertiary'
           placeholder='your@email.com'
         />
         {errors.email && (
@@ -208,7 +235,7 @@ export function NewsletterForm() {
           type='checkbox'
           id='privacy'
           disabled={status === 'loading'}
-          className='mt-0.5 h-5 w-5 rounded border-2 border-black text-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed'
+          className='mt-0.5 h-5 w-5 rounded border-2 border-black text-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed dark:border-white/30 dark:bg-neutral-900 dark:focus:ring-offset-neutral-950'
         />
         <label
           htmlFor='privacy'
