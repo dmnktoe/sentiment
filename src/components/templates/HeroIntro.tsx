@@ -89,7 +89,9 @@ function Partners() {
             target='_blank'
             className='rounded-full hover:bg-secondary/20'
           >
-            <div className='mx-auto w-2/3'>{partner.icon}</div>
+            <div className='mx-auto w-2/3 dark:grayscale dark:invert dark:brightness-150'>
+              {partner.icon}
+            </div>
           </Link>
         ))}
       </div>
