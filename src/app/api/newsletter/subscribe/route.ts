@@ -245,6 +245,15 @@ export async function POST(request: Request) {
       );
     }
 
+    // Guard: siteUrl is required to build confirmation email links.
+    // If missing, emails would contain "undefined/api/..." links.
+    if (!siteUrl) {
+      return NextResponse.json(
+        { error: 'Missing site configuration' },
+        { status: 500 },
+      );
+    }
+
     const body = await request.json();
 
     // Validate input with Zod schema

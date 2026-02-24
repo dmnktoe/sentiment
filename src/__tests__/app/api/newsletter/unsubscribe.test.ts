@@ -2,8 +2,6 @@
  * @jest-environment node
  */
 
-export {};
-
 // Mock render used by sendGoodbyeEmail so tests don't depend on react-email rendering
 jest.mock('@react-email/components', () => ({
   render: jest.fn().mockResolvedValue('<div>email</div>'),
@@ -44,7 +42,10 @@ beforeAll(async () => {
 
 describe('Newsletter unsubscribe (unit)', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    // clearAllMocks preserves mock implementations (e.g. render's mockResolvedValue)
+    // while still resetting call counts — resetAllMocks would wipe the render stub.
+    jest.clearAllMocks();
+    global.fetch = jest.fn() as jest.Mock;
     process.env.CMS_API_URL = 'http://strapi.test';
     process.env.CMS_API_TOKEN = 'test-token-abc';
   });
@@ -226,7 +227,6 @@ describe('Newsletter unsubscribe (unit)', () => {
       const nextServer = await import('next/server');
       const originalRedirect = nextServer.NextResponse.redirect;
       let calls = 0;
-      // First call throws, subsequent calls delegate to original
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (nextServer.NextResponse as any).redirect = (url: any, init?: any) => {
         calls += 1;
@@ -234,24 +234,27 @@ describe('Newsletter unsubscribe (unit)', () => {
         return originalRedirect(url, init);
       };
 
-      // Make unsubscribe succeed so GET attempts a redirect inside try
-      (global.fetch as jest.Mock) = jest
-        .fn()
-        .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+      try {
+        // Make unsubscribe succeed so GET attempts a redirect inside try
+        (global.fetch as jest.Mock).mockResolvedValueOnce({
+          ok: true,
+          json: async () => ({}),
+        });
 
-      const req = new Request(
-        'http://localhost/api/newsletter/unsubscribe?token=ok',
-      );
-      const res = await GET(req);
+        const req = new Request(
+          'http://localhost/api/newsletter/unsubscribe?token=ok',
+        );
+        const res = await GET(req);
 
-      expect(res.status).toBe(307);
-      expect(res.headers.get('location')).toContain(
-        '/newsletter/error?reason=server-error',
-      );
-
-      // restore
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (nextServer.NextResponse as any).redirect = originalRedirect;
+        expect(res.status).toBe(307);
+        expect(res.headers.get('location')).toContain(
+          '/newsletter/error?reason=server-error',
+        );
+      } finally {
+        // Always restore — even if assertions above throw
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (nextServer.NextResponse as any).redirect = originalRedirect;
+      }
     });
   });
 });

@@ -2,8 +2,6 @@
  * @jest-environment node
  */
 
-export {};
-
 // Mock @/constant/env with getters so values are read at call time (after beforeEach sets process.env)
 jest.mock('@/constant/env', () => ({
   get cmsApiUrl() {
@@ -36,6 +34,7 @@ beforeAll(async () => {
 describe('Newsletter confirm route (unit)', () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    global.fetch = jest.fn() as jest.Mock;
     process.env.CMS_API_URL = 'http://strapi.test';
     process.env.CMS_API_TOKEN = 'test-token-abc';
   });
