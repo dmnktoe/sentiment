@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.2",
-    "@react-email/components": "1.0.7",
+    "@react-email/components": "1.0.8",
     "@strapi/blocks-react-renderer": "1.0.2",
     "altcha": "2.3.0",
     "altcha-lib": "1.4.1",
