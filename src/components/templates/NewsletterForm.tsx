@@ -171,7 +171,6 @@ export function NewsletterForm() {
         <altcha-widget
           id='altcha-widget'
           challengeurl='/api/newsletter/challenge'
-          auto='onload'
           hidefooter={false}
           hidelogo={false}
           strings='{"label":"I am not a robot","verifying":"Verifying...","verified":"Verified","error":"Verification failed. Please try again later."}'

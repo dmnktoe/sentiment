@@ -1,4 +1,4 @@
-import { cmsApiUrl } from '@/constant/env';
+import { cmsApiUrl, cmsPublicUrl } from '@/constant/env';
 
 export function getStrapiURL(path = '') {
   return `${cmsApiUrl}${path}`;
@@ -14,6 +14,7 @@ export function getStrapiMedia(url: string | null) {
     return url;
   }
 
-  // Otherwise prepend the URL path with the Strapi URL
-  return `${getStrapiURL()}${url}`;
+  // Use the public CMS URL (NEXT_PUBLIC_CMS_URL) so this works on both
+  // server and client — cmsApiUrl is server-only and undefined in the browser.
+  return `${cmsPublicUrl}${url}`;
 }
