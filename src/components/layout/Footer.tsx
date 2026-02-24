@@ -31,7 +31,7 @@ export default async function Footer() {
             <div className='lg:col-span-2'>
               <Link
                 href='/'
-                className='inline-block text-black transition-colors ease-in-out hover:text-primary'
+                className='inline-block text-text transition-colors ease-in-out hover:text-primary'
               >
                 <Logo variant='logoWithText' />
               </Link>

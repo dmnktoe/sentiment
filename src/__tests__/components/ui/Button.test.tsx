@@ -78,7 +78,7 @@ describe('Button Component', () => {
       render(<Button href='/test'>Link</Button>);
       const link = screen.getByRole('link');
       expect(link).toHaveClass('bg-primary');
-      expect(link).toHaveClass('border-black');
+      expect(link).toHaveClass('border-text');
     });
 
     it('should show loading spinner on link', () => {
@@ -150,7 +150,7 @@ describe('Button Component', () => {
       render(<Button>Styled</Button>);
       const button = screen.getByRole('button');
       expect(button).toHaveClass('bg-primary');
-      expect(button).toHaveClass('border-black');
+      expect(button).toHaveClass('border-text');
       expect(button).toHaveClass('rounded-e-lg');
     });
 

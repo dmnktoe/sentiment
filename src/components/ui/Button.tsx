@@ -9,6 +9,8 @@ import type {
 } from 'react';
 import * as React from 'react';
 
+import clsxm from '@/lib/clsxm';
+
 type BaseProps = {
   loading?: boolean;
   children: ReactNode;
@@ -36,7 +38,13 @@ export const Button = React.forwardRef<
     { loading, className = '', children, href, disabled, external, ...props },
     ref,
   ) => {
-    const sharedClasses = `cursor-pointer bg-primary border-black border-solid border inline-flex items-center justify-center px-6 py-1 lowercase rounded-e-lg text-base font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed ${className} hover:bg-secondary hover:text-white`;
+    const sharedClasses = clsxm(
+      'cursor-pointer bg-primary border-text border-solid border inline-flex items-center justify-center px-6 py-1 lowercase rounded-e-lg text-base font-medium',
+      'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-text focus:ring-offset-bg',
+      'disabled:opacity-50 disabled:cursor-not-allowed',
+      'hover:bg-secondary hover:text-white',
+      className,
+    );
 
     if (href) {
       if (external) {

@@ -4,6 +4,7 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  darkMode: 'class',
   theme: {
     extend: {
       fontFamily: {
@@ -13,9 +14,10 @@ const config: Config = {
       colors: {
         primary: '#FF5C24',
         secondary: '#1F35A5',
-        tertiary: '#8b9094',
-        text: '#000000',
-        grid: '#f2f2f2',
+        tertiary: 'var(--color-tertiary)',
+        text: 'var(--color-text)',
+        grid: 'var(--color-grid)',
+        bg: 'var(--color-bg)',
       },
     },
   },
