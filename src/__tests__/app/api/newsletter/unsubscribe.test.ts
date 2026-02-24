@@ -161,8 +161,7 @@ describe('Newsletter unsubscribe (unit)', () => {
     it('redirects to unsubscribed and sends goodbye email when Strapi returns email', async () => {
       // first call: unsubscribe -> returns email
       // second call: sendGoodbyeEmail -> posts email
-      (global.fetch as jest.Mock) = jest
-        .fn()
+      (global.fetch as jest.Mock)
         .mockResolvedValueOnce({
           ok: true,
           json: async () => ({ email: 'x@y.z' }),
@@ -173,6 +172,10 @@ describe('Newsletter unsubscribe (unit)', () => {
         'http://localhost/api/newsletter/unsubscribe?token=ok',
       );
       const res = await GET(req);
+
+      // sendGoodbyeEmail is fire-and-forget in the route — flush microtasks so
+      // its internal awaits (render + fetch) complete before we assert on them.
+      await new Promise((resolve) => setTimeout(resolve, 0));
 
       expect(res.status).toBe(307);
       expect(res.headers.get('location')).toContain('/newsletter/unsubscribed');
