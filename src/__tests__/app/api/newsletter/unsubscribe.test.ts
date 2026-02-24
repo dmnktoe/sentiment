@@ -2,6 +2,8 @@
  * @jest-environment node
  */
 
+export {};
+
 // Mock render used by sendGoodbyeEmail so tests don't depend on react-email rendering
 jest.mock('@react-email/components', () => ({
   render: jest.fn().mockResolvedValue('<div>email</div>'),

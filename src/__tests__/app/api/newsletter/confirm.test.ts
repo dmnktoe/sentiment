@@ -2,6 +2,8 @@
  * @jest-environment node
  */
 
+export {};
+
 // Mock @/constant/env with getters so values are read at call time (after beforeEach sets process.env)
 jest.mock('@/constant/env', () => ({
   get cmsApiUrl() {
