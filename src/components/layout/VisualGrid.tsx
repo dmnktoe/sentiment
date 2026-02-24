@@ -1,6 +1,9 @@
 export default function VisualGrid() {
   return (
-    <div className='fixed inset-0 z-[-1] mx-auto flex h-full justify-between px-2 sm:max-w-[var(--max-width)] sm:px-4'>
+    <div
+      aria-hidden='true'
+      className='fixed inset-0 z-[-1] mx-auto flex h-full justify-between px-2 sm:max-w-[var(--max-width)] sm:px-4'
+    >
       {Array(5)
         .fill(0)
         .map((_, index) => (

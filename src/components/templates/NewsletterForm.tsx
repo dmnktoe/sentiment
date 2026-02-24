@@ -172,6 +172,8 @@ export function NewsletterForm() {
           {...register('email')}
           type='email'
           id='email'
+          aria-invalid={errors.email ? 'true' : 'false'}
+          aria-describedby={errors.email ? 'email-error' : undefined}
           disabled={status === 'loading'}
           className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base text-text transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-white/20 dark:bg-neutral-900 placeholder:text-tertiary'
           placeholder='your@email.com'
@@ -190,6 +192,7 @@ export function NewsletterForm() {
       <div className='min-h-[100px]'>
         <altcha-widget
           id='altcha-widget'
+          aria-label='Bot protection verification'
           challengeurl='/api/newsletter/challenge'
           hidefooter={false}
           hidelogo={false}
@@ -227,6 +230,8 @@ export function NewsletterForm() {
           {...register('privacy')}
           type='checkbox'
           id='privacy'
+          aria-invalid={errors.privacy ? 'true' : 'false'}
+          aria-describedby={errors.privacy ? 'privacy-error' : undefined}
           disabled={status === 'loading'}
           className='mt-0.5 h-5 w-5 rounded border-2 border-black text-primary focus:ring-2 focus:ring-primary focus:ring-offset-2 hover:border-primary disabled:opacity-50 disabled:cursor-not-allowed dark:border-white/30 dark:bg-neutral-900 dark:focus:ring-offset-neutral-950'
         />
@@ -263,6 +268,8 @@ export function NewsletterForm() {
       {/* Status Messages */}
       {message && (
         <div
+          role={status === 'error' ? 'alert' : 'status'}
+          aria-live={status === 'error' ? 'assertive' : 'polite'}
           className={`animate-in fade-in slide-in-from-top-2 rounded-lg p-4 transition-all duration-300 ${
             status === 'success'
               ? 'border-2 border-green-200 bg-green-50 text-green-800 dark:border-green-800 dark:bg-green-950 dark:text-green-200'

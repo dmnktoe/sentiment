@@ -19,8 +19,14 @@ export default function RootLayout({
     <html lang='en' className={CircularStd.className} suppressHydrationWarning>
       <body suppressHydrationWarning={true}>
         <ThemeProvider>
+          <a
+            href='#main-content'
+            className='sr-only z-50 rounded-md bg-primary px-4 py-2 text-black focus:not-sr-only focus:absolute focus:left-4 focus:top-4'
+          >
+            Skip to main content
+          </a>
           <Header />
-          <main>{children}</main>
+          <main id='main-content'>{children}</main>
           <NewsletterCTA />
           <Footer />
           <VisualGrid />

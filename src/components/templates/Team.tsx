@@ -133,6 +133,7 @@ const teamMembers: TeamMember[] = [
           href='https://informatik.rub.de/ubisys/'
           className='cursor-pointer text-primary underline'
           target='_blank'
+          rel='noopener noreferrer'
         >
           Chair for Security and Privacy of Ubiquitous Systems
         </Link>
@@ -158,6 +159,7 @@ const teamMembers: TeamMember[] = [
           href='https://informatik.rub.de/ubisys/'
           className='cursor-pointer text-primary underline'
           target='_blank'
+          rel='noopener noreferrer'
         >
           Chair for Security and Privacy of Ubiquitous Systems (UbiSys)
         </Link>{' '}
@@ -241,6 +243,7 @@ const teamMembers: TeamMember[] = [
           href='https://goto.uni-kassel.de/go/dr-maxi-nebel'
           className='cursor-pointer text-primary underline'
           target='_blank'
+          rel='noopener noreferrer'
         >
           https://goto.uni-kassel.de/go/dr-maxi-nebel
         </Link>
@@ -264,6 +267,7 @@ const teamMembers: TeamMember[] = [
           href='https://www.uni-kassel.de/go/geminn'
           className='cursor-pointer text-primary underline'
           target='_blank'
+          rel='noopener noreferrer'
         >
           https://www.uni-kassel.de/go/geminn
         </Link>

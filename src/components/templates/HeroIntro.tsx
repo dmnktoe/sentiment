@@ -87,6 +87,8 @@ function Partners() {
             key={index}
             href={partner.url}
             target='_blank'
+            rel='noopener noreferrer'
+            aria-label={`Open ${partner.name} website in new tab`}
             className='rounded-full hover:bg-secondary/20'
           >
             <div className='mx-auto w-2/3 dark:grayscale dark:invert dark:brightness-150'>
