@@ -25,7 +25,7 @@ describe('Header Component', () => {
 
     it('should render logo link', () => {
       render(<Header />);
-      const logoLink = screen.getByRole('link', { name: '' });
+      const logoLink = screen.getByRole('link', { name: 'Go to homepage' });
       expect(logoLink).toBeInTheDocument();
       expect(logoLink).toHaveAttribute('href', '/');
     });

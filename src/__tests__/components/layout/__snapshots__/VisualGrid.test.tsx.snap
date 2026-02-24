@@ -3,6 +3,7 @@
 exports[`VisualGrid matches snapshot 1`] = `
 <DocumentFragment>
   <div
+    aria-hidden="true"
     class="fixed inset-0 z-[-1] mx-auto flex h-full justify-between px-2 sm:max-w-[var(--max-width)] sm:px-4"
   >
     <div

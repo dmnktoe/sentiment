@@ -103,9 +103,9 @@ describe('ThemeToggle', () => {
         expect(screen.getByRole('button')).toBeInTheDocument();
       });
 
-      it('displays the sun symbol (☀) in dark mode', () => {
+      it('displays the star symbol (✺) in dark mode', () => {
         render(<ThemeToggle />);
-        expect(screen.getByRole('button')).toHaveTextContent('☀');
+        expect(screen.getByRole('button')).toHaveTextContent('✺');
       });
 
       it('has aria-label "Switch to light mode" in dark mode', () => {
