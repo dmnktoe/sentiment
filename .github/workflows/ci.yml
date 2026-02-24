@@ -7,7 +7,9 @@ on:
   pull_request: {}
 
 env:
-  NEXT_PUBLIC_STRAPI_API_URL: ${{ secrets.NEXT_PUBLIC_STRAPI_API_URL }}
+  NEXT_PUBLIC_CMS_URL: ${{ secrets.NEXT_PUBLIC_CMS_URL }}
+  CMS_API_URL: ${{ secrets.CMS_API_URL }}
+  CMS_API_TOKEN: ${{ secrets.CMS_API_TOKEN }}
 
 concurrency:
   group: ${{ github.job }}-${{ github.ref }}

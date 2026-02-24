@@ -1,222 +1,169 @@
 /**
- * Tests for newsletter confirm endpoint helper functions
- * Tests double opt-in flow, GDPR compliance, and error handling
+ * @jest-environment node
  */
 
-describe('Newsletter Confirm Helpers', () => {
+// Mock @/constant/env with getters so values are read at call time (after beforeEach sets process.env)
+jest.mock('@/constant/env', () => ({
+  get cmsApiUrl() {
+    return process.env.CMS_API_URL;
+  },
+  get cmsApiToken() {
+    return process.env.CMS_API_TOKEN;
+  },
+  get altchaHmacSecret() {
+    return process.env.ALTCHA_HMAC_SECRET;
+  },
+  get siteUrl() {
+    return process.env.NEXT_PUBLIC_SITE_URL;
+  },
+  get cmsPublicUrl() {
+    return process.env.NEXT_PUBLIC_CMS_URL;
+  },
+}));
+
+// Import route module dynamically after polyfills (avoid hoisted import timing issues)
+let GET: (request: Request) => Promise<Response>;
+let confirmSubscription: (token: string) => Promise<boolean>;
+
+beforeAll(async () => {
+  const mod = await import('@/app/api/newsletter/confirm/route');
+  GET = mod.GET;
+  confirmSubscription = mod.confirmSubscription;
+});
+
+describe('Newsletter confirm route (unit)', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
+    global.fetch = jest.fn() as jest.Mock;
+    process.env.CMS_API_URL = 'http://strapi.test';
+    process.env.CMS_API_TOKEN = 'test-token-abc';
   });
 
-  describe('Token Validation', () => {
-    it('should require token parameter', () => {
-      const urlWithoutToken = 'http://localhost:3000/api/newsletter/confirm';
-      const urlWithToken =
-        'http://localhost:3000/api/newsletter/confirm?token=123';
-
-      const params1 = new URL(urlWithoutToken).searchParams;
-      const params2 = new URL(urlWithToken).searchParams;
-
-      expect(params1.get('token')).toBe(null);
-      expect(params2.get('token')).toBe('123');
-    });
-
-    it('should reject empty token', () => {
-      const emptyTokenUrl =
-        'http://localhost:3000/api/newsletter/confirm?token=';
-      const params = new URL(emptyTokenUrl).searchParams;
-
-      expect(params.get('token')).toBe('');
-      expect(params.get('token')?.length).toBe(0);
-    });
-
-    it('should accept valid UUID tokens', () => {
-      const validUuid = 'f47ac10b-58cc-4372-a567-0e02b2c3d479';
-      expect(validUuid).toMatch(/^[0-9a-f-]{36}$/i);
-    });
+  afterEach(() => {
+    delete process.env.CMS_API_URL;
+    delete process.env.CMS_API_TOKEN;
   });
 
-  describe('Confirmation Flow', () => {
-    it('should change subscriber confirmed state from false to true', () => {
-      const subscriber = {
-        before: { confirmed: false },
-        after: { confirmed: true },
-      };
+  describe('confirmSubscription helper', () => {
+    it('returns true when Strapi responds ok and calls fetch with correct headers', async () => {
+      (global.fetch as jest.Mock) = jest
+        .fn()
+        .mockResolvedValueOnce({ ok: true });
 
-      expect(subscriber.before.confirmed).toBe(false);
-      expect(subscriber.after.confirmed).toBe(true);
+      const token = 'valid-token-123';
+      const res = await confirmSubscription(token);
+
+      expect(res).toBe(true);
+      expect(global.fetch).toHaveBeenCalledTimes(1);
+      expect((global.fetch as jest.Mock).mock.calls[0][0]).toBe(
+        `${process.env.CMS_API_URL}/api/subscribers/confirm?token=${encodeURIComponent(
+          token,
+        )}`,
+      );
+
+      const opts = (global.fetch as jest.Mock).mock.calls[0][1];
+      expect(opts.method).toBe('PUT');
+      expect(opts.headers.Authorization).toBe(
+        `Bearer ${process.env.CMS_API_TOKEN}`,
+      );
     });
 
-    it('should handle already confirmed subscribers', () => {
-      const subscriber = {
-        confirmed: true,
-        status: 'active',
-      };
+    it('returns false when Strapi responds with non-ok', async () => {
+      (global.fetch as jest.Mock) = jest
+        .fn()
+        .mockResolvedValueOnce({ ok: false, status: 400 });
 
-      expect(subscriber.confirmed).toBe(true);
-      expect(subscriber.status).toBe('active');
+      const result = await confirmSubscription('bad-token');
+      expect(result).toBe(false);
     });
 
-    it('should extract email from confirmed subscriber', () => {
-      const response = {
-        data: {
-          email: 'test@example.com',
-          confirmed: true,
-          status: 'active',
-        },
-      };
+    it('propagates network errors (rejects) so caller can handle server-error', async () => {
+      (global.fetch as jest.Mock) = jest
+        .fn()
+        .mockRejectedValueOnce(new Error('network'));
 
-      expect(response.data.email).toBe('test@example.com');
-      expect('email' in response.data).toBe(true);
+      await expect(confirmSubscription('any')).rejects.toThrow('network');
     });
   });
 
-  describe('Error Responses', () => {
-    it('should return 307 redirect on success', () => {
-      const statusCode = 307;
-      expect(statusCode).toBe(307);
+  describe('GET handler', () => {
+    it('redirects to missing-token when token param is absent', async () => {
+      const req = new Request('http://localhost/api/newsletter/confirm');
+      const res = await GET(req);
+
+      expect(res.status).toBe(307);
+      expect(res.headers.get('location')!).toContain(
+        '/newsletter/error?reason=missing-token',
+      );
+      expect(global.fetch).not.toHaveBeenCalled();
     });
 
-    it('should redirect to /newsletter/success on confirmation', () => {
-      const redirectUrl = '/newsletter/success';
-      expect(redirectUrl).toBe('/newsletter/success');
+    it('redirects to invalid-token when token param is empty', async () => {
+      const req = new Request('http://localhost/api/newsletter/confirm?token=');
+      const res = await GET(req);
+
+      expect(res.status).toBe(307);
+      expect(res.headers.get('location')!).toContain(
+        '/newsletter/error?reason=invalid-token',
+      );
+      expect(global.fetch).not.toHaveBeenCalled();
     });
 
-    it('should redirect to /newsletter/error on failure', () => {
-      const errorReasons = ['invalid-token', 'server-error'];
-      const baseUrl = '/newsletter/error';
+    it('redirects to success when confirmation succeeds', async () => {
+      (global.fetch as jest.Mock) = jest
+        .fn()
+        .mockResolvedValueOnce({ ok: true });
 
-      errorReasons.forEach((reason) => {
-        const url = `${baseUrl}?reason=${reason}`;
-        expect(url).toContain('/newsletter/error');
-        expect(url).toContain(reason);
-      });
-    });
-  });
+      const req = new Request(
+        'http://localhost/api/newsletter/confirm?token=ok-token',
+      );
+      const res = await GET(req);
 
-  describe('Security', () => {
-    it('should not expose token in error responses', () => {
-      const secretToken = 'secret-token-123-xyz';
-      const errorMessage = 'Token not found';
+      expect(res.status).toBe(307);
+      expect(res.headers.get('location')!).toContain('/newsletter/success');
 
-      // Token value should not be in error
-      expect(errorMessage).not.toContain(secretToken);
-      // Message should be generic, not exposing "token" word might be too strict
-      // as error messages may legitimately use "Token" as part of system message
-    });
-
-    it('should handle special characters in token', () => {
-      const tokens = [
-        'token-with-dashes',
-        'token_with_underscores',
-        'token.with.dots',
-      ];
-
-      tokens.forEach((token) => {
-        expect(typeof token).toBe('string');
-        expect(token.length).toBeGreaterThan(0);
-      });
+      // confirmSubscription should have called Strapi with token encoded
+      expect(global.fetch).toHaveBeenCalledWith(
+        `${process.env.CMS_API_URL}/api/subscribers/confirm?token=${encodeURIComponent('ok-token')}`,
+        expect.objectContaining({
+          method: 'PUT',
+          headers: expect.objectContaining({
+            Authorization: `Bearer ${process.env.CMS_API_TOKEN}`,
+          }),
+        }),
+      );
     });
 
-    it('should not log tokens in production', () => {
-      const productionEnv = process.env.NODE_ENV === 'production';
+    it('redirects to invalid-token when Strapi responds non-ok', async () => {
+      (global.fetch as jest.Mock) = jest
+        .fn()
+        .mockResolvedValueOnce({ ok: false, status: 400 });
 
-      if (productionEnv) {
-        // Tokens should not be logged
-        expect(productionEnv).toBe(true);
-      }
-    });
-  });
+      const req = new Request(
+        'http://localhost/api/newsletter/confirm?token=invalid-token',
+      );
+      const res = await GET(req);
 
-  describe('GDPR Compliance', () => {
-    it('should only process confirmation for unconfirmed subscribers', () => {
-      const unconfirmedSubscriber = {
-        confirmed: false,
-      };
-
-      const confirmedSubscriber = {
-        confirmed: true,
-      };
-
-      expect(unconfirmedSubscriber.confirmed).toBe(false);
-      expect(confirmedSubscriber.confirmed).toBe(true);
+      expect(res.status).toBe(307);
+      expect(res.headers.get('location')!).toContain(
+        '/newsletter/error?reason=invalid-token',
+      );
     });
 
-    it('should maintain data minimization', () => {
-      const subscriber = {
-        email: 'test@example.com',
-        confirmed: true,
-        // No unnecessary fields
-      };
+    it('redirects to server-error when Strapi network error occurs', async () => {
+      (global.fetch as jest.Mock) = jest
+        .fn()
+        .mockRejectedValueOnce(new Error('network'));
 
-      const fields = Object.keys(subscriber);
-      expect(fields).toContain('email');
-      expect(fields).toContain('confirmed');
-      expect(fields.length).toBeLessThanOrEqual(3);
-    });
+      const req = new Request(
+        'http://localhost/api/newsletter/confirm?token=network-error',
+      );
+      const res = await GET(req);
 
-    it('should record confirmation timestamp', () => {
-      const now = new Date();
-      const timestamp = now.toISOString();
-
-      expect(typeof timestamp).toBe('string');
-      expect(timestamp).toMatch(/\d{4}-\d{2}-\d{2}/);
-    });
-  });
-
-  describe('Error Handling', () => {
-    it('should handle Strapi API failures', () => {
-      const failures = [
-        { ok: false, status: 404 },
-        { ok: false, status: 500 },
-        { error: 'Connection timeout' },
-      ];
-
-      failures.forEach((failure) => {
-        if ('ok' in failure) {
-          expect(failure.ok).toBe(false);
-        } else {
-          expect('error' in failure).toBe(true);
-        }
-      });
-    });
-
-    it('should handle malformed API responses', () => {
-      const responses = [
-        {}, // Missing data
-        { data: null }, // Null data
-        { data: {} }, // Missing fields
-      ];
-
-      responses.forEach((response) => {
-        expect(typeof response).toBe('object');
-      });
-    });
-
-    it('should timeout long-running requests', () => {
-      const timeoutMs = 10000; // 10 second timeout
-      expect(timeoutMs).toBe(10000);
-    });
-  });
-
-  describe('Idempotency', () => {
-    it('should handle multiple confirmation attempts', () => {
-      const confirmationAttempts = [
-        { status: 'success' },
-        { status: 'success' }, // Same token again
-        { status: 'success' }, // And again
-      ];
-
-      confirmationAttempts.forEach((attempt) => {
-        expect(attempt.status).toBe('success');
-      });
-    });
-
-    it('should return same result for repeated confirmation', () => {
-      const firstCall = { confirmed: true };
-      const secondCall = { confirmed: true };
-
-      expect(firstCall).toEqual(secondCall);
+      expect(res.status).toBe(307);
+      expect(res.headers.get('location')!).toContain(
+        '/newsletter/error?reason=server-error',
+      );
     });
   });
 });

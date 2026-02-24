@@ -1,26 +1,31 @@
 import { render } from '@react-email/components';
 import { NextResponse } from 'next/server';
 
+import { cmsApiToken, cmsApiUrl } from '@/constant/env';
 import GoodbyeEmail from '@/emails/goodbye';
 
 /**
  * Unsubscribe user endpoint
  * GDPR Compliant: Allows users to easily opt-out at any time
  */
-async function unsubscribeUser(
+export async function unsubscribeUser(
   token: string,
 ): Promise<{ success: boolean; email?: string }> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
   try {
     // URL-encode token to safely handle special characters
     const encodedToken = encodeURIComponent(token);
     const response = await fetch(
-      `${process.env.STRAPI_API_URL}/api/subscribers/unsubscribe?token=${encodedToken}`,
+      `${cmsApiUrl}/api/subscribers/unsubscribe?token=${encodedToken}`,
       {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+          Authorization: `Bearer ${cmsApiToken}`,
         },
+        signal: controller.signal,
       },
     );
 
@@ -32,6 +37,8 @@ async function unsubscribeUser(
     return { success: true, email: data.email };
   } catch {
     return { success: false };
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
@@ -39,16 +46,20 @@ async function unsubscribeUser(
  * Send goodbye confirmation email
  * GDPR Compliant: Confirms unsubscription action
  */
-async function sendGoodbyeEmail(email: string): Promise<void> {
+export async function sendGoodbyeEmail(email: string): Promise<void> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000);
+
   try {
     const emailHtml = await render(GoodbyeEmail());
 
-    await fetch(`${process.env.STRAPI_API_URL}/api/email`, {
+    await fetch(`${cmsApiUrl}/api/email`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.STRAPI_API_TOKEN}`,
+        Authorization: `Bearer ${cmsApiToken}`,
       },
+      signal: controller.signal,
       body: JSON.stringify({
         to: email,
         subject: 'Newsletter unsubscription confirmed',
@@ -57,6 +68,8 @@ async function sendGoodbyeEmail(email: string): Promise<void> {
     });
   } catch {
     // Don't throw - unsubscribe still succeeded
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
