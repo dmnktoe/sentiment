@@ -46,7 +46,7 @@
     "@hookform/resolvers": "5.2.2",
     "@react-email/components": "1.0.11",
     "@strapi/blocks-react-renderer": "1.0.2",
-    "altcha": "2.3.0",
+    "altcha": "3.0.2",
     "altcha-lib": "1.4.1",
     "clsx": "2.1.1",
     "lucide-react": "1.7.0",
