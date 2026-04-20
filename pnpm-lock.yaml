@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@types/react': 19.2.14
-  '@types/react-dom': npm:types-react-dom@19.0.0-rc.1
+  '@types/react-dom': npm:types-react-dom@19.0.0
 
 importers:
 
