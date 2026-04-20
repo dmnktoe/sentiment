@@ -487,4 +487,156 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     expect(verifySolution).not.toHaveBeenCalled();
     expect(global.fetch).not.toHaveBeenCalled();
   });
+
+  it('returns 500 when NEXT_PUBLIC_SITE_URL is missing (prevents undefined links in emails)', async () => {
+    delete process.env.NEXT_PUBLIC_SITE_URL;
+
+    const res = await POST(
+      makeRequest(
+        {
+          email: 'user@example.com',
+          altcha: VALID_ALTCHA_PAYLOAD,
+          privacy: true,
+        },
+        '10.0.0.6',
+      ),
+    );
+
+    expect(res.status).toBe(500);
+    const json = await res.json();
+    expect(json.error).toMatch(/site configuration/i);
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  it('returns 400 "Bot verification failed" when the payload lacks a solution', async () => {
+    const { verifySolution } = await import('altcha-lib');
+
+    const payloadWithoutSolution = btoa(
+      JSON.stringify({
+        challenge: {
+          parameters: {
+            algorithm: 'PBKDF2/SHA-256',
+            nonce: 'nonce-abcdef0123456789abcdef',
+            salt: 'salt-abcdef0123456789abcdef',
+            cost: 5000,
+            keyLength: 32,
+            keyPrefix: 'prefix',
+          },
+          signature: 'sig-abcdef0123456789abcdef',
+        },
+        // solution missing entirely
+      }),
+    );
+
+    const res = await POST(
+      makeRequest(
+        {
+          email: 'user@example.com',
+          altcha: payloadWithoutSolution,
+          privacy: true,
+        },
+        '10.0.0.7',
+      ),
+    );
+
+    // The schema rejects payloads lacking `solution`, so the route returns 400
+    // ("Invalid input data") without ever invoking verifySolution or Strapi.
+    expect(res.status).toBe(400);
+    expect(verifySolution).not.toHaveBeenCalled();
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  it('cleans up the subscriber when the confirmation email cannot be sent', async () => {
+    const { verifySolution } = await import('altcha-lib');
+    (verifySolution as jest.Mock).mockResolvedValueOnce({
+      verified: true,
+      expired: false,
+      invalidSignature: false,
+      invalidSolution: false,
+      time: 0,
+    });
+
+    (global.fetch as jest.Mock)
+      // 1. createSubscriber — ok, returns token
+      .mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({
+          data: {
+            email: 'cleanup@example.com',
+            token: 'tok-cleanup',
+            confirmed: false,
+            status: 'active',
+          },
+        }),
+      })
+      // 2. sendConfirmationEmail — fails
+      .mockResolvedValueOnce({ ok: false, status: 502 })
+      // 3. deleteSubscriberByToken — best-effort cleanup
+      .mockResolvedValueOnce({ ok: true });
+
+    const res = await POST(
+      makeRequest(
+        {
+          email: 'cleanup@example.com',
+          altcha: VALID_ALTCHA_PAYLOAD,
+          privacy: true,
+        },
+        '10.0.0.8',
+      ),
+    );
+
+    expect(res.status).toBe(500);
+    const json = await res.json();
+    expect(json.error).toMatch(/email could not be sent/i);
+
+    expect(global.fetch).toHaveBeenCalledTimes(3);
+    const cleanupCall = (global.fetch as jest.Mock).mock.calls[2];
+    expect(cleanupCall[0]).toBe(
+      `${process.env.CMS_API_URL}/api/subscribers/by-token?token=${encodeURIComponent('tok-cleanup')}`,
+    );
+    expect(cleanupCall[1].method).toBe('DELETE');
+  });
+
+  it('rate-limits after 3 requests from the same IP within the window', async () => {
+    const { verifySolution } = await import('altcha-lib');
+    (verifySolution as jest.Mock).mockResolvedValue({
+      verified: true,
+      expired: false,
+      invalidSignature: false,
+      invalidSolution: false,
+      time: 0,
+    });
+
+    // Each accepted request triggers 2 Strapi calls (create subscriber + send email).
+    // Provide enough ok-responses for the first 3 attempts; the 4th must be rejected
+    // before any fetch call happens.
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        data: {
+          email: 'ratelimit@example.com',
+          token: 'tok-rl',
+          confirmed: false,
+          status: 'active',
+        },
+      }),
+    });
+
+    const ip = '10.0.0.42';
+    const body = {
+      email: 'ratelimit@example.com',
+      altcha: VALID_ALTCHA_PAYLOAD,
+      privacy: true,
+    };
+
+    for (let i = 0; i < 3; i++) {
+      const res = await POST(makeRequest(body, ip));
+      expect(res.status).toBe(200);
+    }
+
+    const res = await POST(makeRequest(body, ip));
+    expect(res.status).toBe(429);
+    const json = await res.json();
+    expect(json.error).toMatch(/too many requests/i);
+  });
 });
