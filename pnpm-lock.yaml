@@ -12,6 +12,12 @@ importers:
 
   .:
     dependencies:
+      '@c15t/nextjs':
+        specifier: 2.0.0
+        version: 2.0.0(@types/react@19.2.14)(next@16.2.4(@babel/core@7.27.4)(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(typescript@5.9.3)
+      '@c15t/scripts':
+        specifier: 2.0.0
+        version: 2.0.0
       '@hookform/resolvers':
         specifier: 5.2.2
         version: 5.2.2(react-hook-form@7.72.1(react@19.2.5))
@@ -148,6 +154,9 @@ importers:
       postcss:
         specifier: 8.5.10
         version: 8.5.10
+      postcss-import:
+        specifier: 16.1.1
+        version: 16.1.1(postcss@8.5.10)
       prettier:
         specifier: 3.8.3
         version: 3.8.3
@@ -344,6 +353,31 @@ packages:
 
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
+
+  '@c15t/nextjs@2.0.0':
+    resolution: {integrity: sha512-WIhf9tDdmTqCmNFtHALo/dn6c2rbWANlROjnKeET45gcuACJOeaCpJhs9f0zv2meX6LV8N+85qcgVB/HW5SCGQ==}
+    peerDependencies:
+      next: ^16.0.0 || ^15.0.0 || ^14.0.0 || ^13.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+
+  '@c15t/react@2.0.0':
+    resolution: {integrity: sha512-MCWp8mhAyjJJo64x5E37sQLe6n3eZEhwCNnSunAL8IJuB3lQeLIbE62NFiLZfIS21NpLJaSUg+fkCwL5P70WWw==}
+    peerDependencies:
+      react: ^19.0.0 || ^19.0.0-rc || ^18.0.0 || ^17.0.0 || ^16.8.0
+      react-dom: ^19.0.0 || ^19.0.0-rc || ^18.0.0 || ^17.0.0 || ^16.8.0
+
+  '@c15t/schema@2.0.0':
+    resolution: {integrity: sha512-NmNH+pkK/yq7Sknrpdi4zGAjDkwd/bu4q3rtzjlJdl0zdxUfNhJnlOOwQ6gHSwchYI4jiphL0IsEBEYVwqjLxw==}
+
+  '@c15t/scripts@2.0.0':
+    resolution: {integrity: sha512-b5GJaqSh22gRxAswl4kv2DGXocKqvayAPZ5L2OWSRc+d/H1Q1EdB4+xyDZ/bL33rB+CetUc3UNVbIUlw+jdLcg==}
+
+  '@c15t/translations@2.0.0':
+    resolution: {integrity: sha512-FLMx8QEvZdkBGdFk+yiPuLUry4NVZjarNbBjISnNQsPzfmtjWOmtY/k5+J1jxGCyWPP8GN7KtqxJw+lU5vcOjw==}
+
+  '@c15t/ui@2.0.0':
+    resolution: {integrity: sha512-4Ym5QL9aa4ccfQv7f2qpVO6AwXTtnNCQkqqxTFxLpSPKEvPFFpWDkVXCBYz75qApn2Y0mvIjdw/VJQmj4OsPaQ==}
 
   '@commitlint/cli@20.5.0':
     resolution: {integrity: sha512-yNkyN/tuKTJS3wdVfsZ2tXDM4G4Gi7z+jW54Cki8N8tZqwKBltbIvUUrSbT4hz1bhW/h0CdR+5sCSpXD+wMKaQ==}
@@ -1618,6 +1652,9 @@ packages:
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
+  c15t@2.0.0:
+    resolution: {integrity: sha512-ApF6BO7BQ5nsn2pq43Rjg///iph5hv2fVPcAjSJYhLC18bMYigs8Pg++jTfP4vZmmqK68zexFGO5ScgeoLxxhg==}
+
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
     engines: {node: '>= 0.4'}
@@ -2536,10 +2573,6 @@ packages:
     resolution: {integrity: sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==}
     engines: {node: '>= 0.4'}
 
-  is-core-module@2.15.1:
-    resolution: {integrity: sha512-z0vtXSwucUJtANQWldhbtbt7BnL0vxiFjIdDLAatwhDYty2bad6s+rijD6Ri4YuYJubLzIJLUidCh09e1djEVQ==}
-    engines: {node: '>= 0.4'}
-
   is-core-module@2.16.1:
     resolution: {integrity: sha512-UfoeMA6fIJ8wTYFEUjelnaGI67v6+N7qXJEvQuIGa99l4xsCruSYOVSQ0uPANn4dAzm8lkYPaKLrrijLq7x23w==}
     engines: {node: '>= 0.4'}
@@ -3327,6 +3360,12 @@ packages:
     peerDependencies:
       postcss: ^8.0.0
 
+  postcss-import@16.1.1:
+    resolution: {integrity: sha512-2xVS1NCZAfjtVdvXiyegxzJ447GyqCeEI5V7ApgQVOWnros1p5lGNovJNapwPpMombyFBfqDwt7AD3n2l0KOfQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      postcss: ^8.0.0
+
   postcss-js@4.0.1:
     resolution: {integrity: sha512-dDLF8pEO191hJMtlHFPRa8xsizHaM82MLfNkUHdUtVEV3tgTp5oj+8qbEqYM57SLfc74KSbw//4SeJma2LRVIw==}
     engines: {node: ^12 || ^14 || >= 16}
@@ -3968,6 +4007,14 @@ packages:
     resolution: {integrity: sha512-kiGUalWN+rgBJ/1OHZsBtU4rXZOfj/7rKQxULKlIzwzQSvMJUUNgPwJEEh7gU6xEVxC0ahoOBvN2YI8GH6FNgA==}
     engines: {node: '>=10.12.0'}
 
+  valibot@1.3.1:
+    resolution: {integrity: sha512-sfdRir/QFM0JaF22hqTroPc5xy4DimuGQVKFrzF1YfGwaS1nJot3Y8VqMdLO2Lg27fMzat2yD3pY5PbAYO39Gg==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   w3c-xmlserializer@5.0.0:
     resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
     engines: {node: '>=18'}
@@ -4098,6 +4145,24 @@ packages:
 
   zod@4.3.6:
     resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
+
+  zustand@5.0.12:
+    resolution: {integrity: sha512-i77ae3aZq4dhMlRhJVCYgMLKuSiZAaUPAct2AksxQ+gOtimhGMdXljRT21P5BNpeT4kXlLIckvkPM029OljD7g==}
+    engines: {node: '>=12.20.0'}
+    peerDependencies:
+      '@types/react': 19.2.14
+      immer: '>=9.0.6'
+      react: '>=18.0.0'
+      use-sync-external-store: '>=1.2.0'
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+      immer:
+        optional: true
+      react:
+        optional: true
+      use-sync-external-store:
+        optional: true
 
 snapshots:
 
@@ -4308,6 +4373,53 @@ snapshots:
       '@babel/helper-validator-identifier': 7.27.1
 
   '@bcoe/v8-coverage@0.2.3': {}
+
+  '@c15t/nextjs@2.0.0(@types/react@19.2.14)(next@16.2.4(@babel/core@7.27.4)(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5))(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(typescript@5.9.3)':
+    dependencies:
+      '@c15t/react': 2.0.0(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(typescript@5.9.3)
+      '@c15t/translations': 2.0.0
+      c15t: 2.0.0(@types/react@19.2.14)(react@19.2.5)(typescript@5.9.3)
+      next: 16.2.4(@babel/core@7.27.4)(@playwright/test@1.59.1)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+      - typescript
+      - use-sync-external-store
+
+  '@c15t/react@2.0.0(@types/react@19.2.14)(react-dom@19.2.5(react@19.2.5))(react@19.2.5)(typescript@5.9.3)':
+    dependencies:
+      '@c15t/ui': 2.0.0(@types/react@19.2.14)(react@19.2.5)(typescript@5.9.3)
+      c15t: 2.0.0(@types/react@19.2.14)(react@19.2.5)(typescript@5.9.3)
+      react: 19.2.5
+      react-dom: 19.2.5(react@19.2.5)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+      - typescript
+      - use-sync-external-store
+
+  '@c15t/schema@2.0.0(typescript@5.9.3)':
+    dependencies:
+      valibot: 1.3.1(typescript@5.9.3)
+    transitivePeerDependencies:
+      - typescript
+
+  '@c15t/scripts@2.0.0': {}
+
+  '@c15t/translations@2.0.0': {}
+
+  '@c15t/ui@2.0.0(@types/react@19.2.14)(react@19.2.5)(typescript@5.9.3)':
+    dependencies:
+      '@c15t/translations': 2.0.0
+      c15t: 2.0.0(@types/react@19.2.14)(react@19.2.5)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+      - react
+      - typescript
+      - use-sync-external-store
 
   '@commitlint/cli@20.5.0(@types/node@24.12.2)(conventional-commits-parser@6.3.0)(typescript@5.9.3)':
     dependencies:
@@ -5651,6 +5763,18 @@ snapshots:
 
   buffer-from@1.1.2: {}
 
+  c15t@2.0.0(@types/react@19.2.14)(react@19.2.5)(typescript@5.9.3):
+    dependencies:
+      '@c15t/schema': 2.0.0(typescript@5.9.3)
+      '@c15t/translations': 2.0.0
+      zustand: 5.0.12(@types/react@19.2.14)(react@19.2.5)
+    transitivePeerDependencies:
+      - '@types/react'
+      - immer
+      - react
+      - typescript
+      - use-sync-external-store
+
   call-bind-apply-helpers@1.0.2:
     dependencies:
       es-errors: 1.3.0
@@ -6761,10 +6885,6 @@ snapshots:
 
   is-callable@1.2.7: {}
 
-  is-core-module@2.15.1:
-    dependencies:
-      hasown: 2.0.2
-
   is-core-module@2.16.1:
     dependencies:
       hasown: 2.0.2
@@ -7749,6 +7869,13 @@ snapshots:
       read-cache: 1.0.0
       resolve: 1.22.8
 
+  postcss-import@16.1.1(postcss@8.5.10):
+    dependencies:
+      postcss: 8.5.10
+      postcss-value-parser: 4.2.0
+      read-cache: 1.0.0
+      resolve: 1.22.8
+
   postcss-js@4.0.1(postcss@8.5.10):
     dependencies:
       camelcase-css: 2.0.1
@@ -7918,7 +8045,7 @@ snapshots:
 
   resolve@1.22.8:
     dependencies:
-      is-core-module: 2.15.1
+      is-core-module: 2.16.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
@@ -8485,6 +8612,10 @@ snapshots:
       '@types/istanbul-lib-coverage': 2.0.6
       convert-source-map: 2.0.0
 
+  valibot@1.3.1(typescript@5.9.3):
+    optionalDependencies:
+      typescript: 5.9.3
+
   w3c-xmlserializer@5.0.0:
     dependencies:
       xml-name-validator: 5.0.0
@@ -8640,3 +8771,8 @@ snapshots:
       zod: 4.3.6
 
   zod@4.3.6: {}
+
+  zustand@5.0.12(@types/react@19.2.14)(react@19.2.5):
+    optionalDependencies:
+      '@types/react': 19.2.14
+      react: 19.2.5

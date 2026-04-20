@@ -1,4 +1,5 @@
 import { Container } from '@/components/layout/Container';
+import { CookieControlCenter } from '@/components/templates/CookieControlCenter';
 import Crossbar from '@/components/templates/Crossbar';
 import { Link } from '@/components/ui/Link';
 import { List, ListItem } from '@/components/ui/List';
@@ -69,22 +70,43 @@ export default function Privacy() {
           </Paragraph>
 
           <Title size='five' className='mt-12'>
-            3. Cookies
+            3. Cookies und vergleichbare Technologien
           </Title>
           <Paragraph>
-            Diese Website verwendet ausschließlich technisch notwendige Cookies.
-            Cookies sind kleine Textdateien, die auf Ihrem Endgerät gespeichert
-            werden und keine Schäden verursachen.
+            Diese Website verwendet technisch notwendige Cookies sowie – nur mit
+            Ihrer ausdrücklichen Einwilligung – optionale Cookies für
+            Reichweitenmessung. Details zu den einzelnen Kategorien, den
+            eingesetzten Diensten sowie zur Speicherdauer finden Sie in unserer{' '}
+            <Link href='/cookies' variant='underline'>
+              Cookie Policy
+            </Link>
+            .
           </Paragraph>
           <Paragraph>
-            Sie können die Speicherung von Cookies durch entsprechende
-            Einstellungen in Ihrem Browser verhindern. In diesem Fall kann es
-            jedoch zu Funktionseinschränkungen dieser Website kommen.
+            Ihre Einwilligung können Sie jederzeit im Cookie Control Center
+            weiter unten auf dieser Seite oder über den Link &quot;Cookie
+            settings&quot; im Footer erteilen, anpassen oder widerrufen. Bis zur
+            Erteilung einer Einwilligung werden optionale Skripte vollständig
+            blockiert (Skript-Blocker auf Basis von c15t & Google Consent Mode
+            v2).
           </Paragraph>
           <Paragraph>
-            Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
-            an der technischen Funktionalität der Website)
+            Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO i. V. m. § 25 Abs. 1
+            TTDSG für optionale Cookies; Art. 6 Abs. 1 lit. f DSGVO i. V. m. §
+            25 Abs. 2 Nr. 2 TTDSG für technisch notwendige Cookies.
           </Paragraph>
+
+          <Title size='five' className='mt-12'>
+            3a. Cookie Control Center
+          </Title>
+          <Paragraph>
+            Im folgenden Control Center können Sie Ihre Einwilligung
+            feingranular steuern. Änderungen wirken sofort und werden als
+            Einwilligungsnachweis lokal auf Ihrem Endgerät gespeichert.
+          </Paragraph>
+          <div className='mt-8'>
+            <CookieControlCenter className='!px-0 sm:!px-0' />
+          </div>
 
           <Title size='five' className='mt-12'>
             4. Kontaktaufnahme per E-Mail

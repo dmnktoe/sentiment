@@ -1,6 +1,7 @@
 import { fetchAPI } from '@/lib/fetch-api';
 
 import { Container } from '@/components/layout/Container';
+import { CookieSettingsButton } from '@/components/ui/CookieSettingsButton';
 import { Logo } from '@/components/ui/icons/Logo';
 import { Link } from '@/components/ui/Link';
 
@@ -130,6 +131,14 @@ export default async function Footer() {
                 </li>
                 <li>
                   <Link
+                    href='/cookies'
+                    className='text-tertiary transition-colors hover:text-primary hover:underline'
+                  >
+                    Cookie Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href='/contact'
                     className='text-tertiary transition-colors hover:text-primary hover:underline'
                   >
@@ -141,11 +150,12 @@ export default async function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className='mt-12 border-t border-grid pt-8 text-center text-sm text-tertiary'>
+          <div className='mt-12 flex flex-col items-center justify-between gap-4 border-t border-grid pt-8 text-center text-sm text-tertiary sm:flex-row sm:text-left'>
             <p>
               © {new Date().getFullYear()} SENTIMENT Project. All rights
               reserved.
             </p>
+            <CookieSettingsButton>Cookie settings</CookieSettingsButton>
           </div>
         </div>
       </Container>
