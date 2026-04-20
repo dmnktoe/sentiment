@@ -18,6 +18,19 @@ import ConfirmSubscriptionEmail from '@/emails/confirm-subscription';
 // In-Memory Rate-Limiting (pro IP, 3 Versuche pro Stunde)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
+/**
+ * Padding applied to the duplicate-email branch so its response latency is
+ * comparable to the happy path (create subscriber + send confirmation email).
+ * Without this, an attacker could infer whether an email is already registered
+ * by measuring how fast the endpoint responds. 750 ms mirrors a typical Strapi
+ * round trip + email render on cloud infra.
+ */
+const DUPLICATE_RESPONSE_PADDING_MS = 750;
+
+function delay(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
   const windowMs = 60 * 60 * 1000; // 1 Stunde
@@ -197,10 +210,13 @@ async function deleteSubscriberByToken(token: string): Promise<void> {
     } finally {
       clearTimeout(timeoutId);
     }
-  } catch {
-    // Best-effort cleanup — do not throw, unsubscribe still matters
+  } catch (error) {
+    // Best-effort cleanup — do not throw. Log so operators notice orphans.
     // eslint-disable-next-line no-console
-    console.error('Failed to clean up subscriber after email delivery failure');
+    console.error(
+      '[newsletter/subscribe] failed to clean up subscriber after email delivery failure:',
+      error,
+    );
   }
 }
 
@@ -213,18 +229,20 @@ async function sendConfirmationEmail(
   token: string,
 ): Promise<boolean> {
   try {
-    // Create AbortController with 10s timeout
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
 
     try {
-      // Generate confirmation URL with token
-      const confirmUrl = `${siteUrl}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
+      // Links point at interstitial pages (not directly at the API) so email
+      // scanners / link previewers cannot silently consume the token via GET.
+      const encodedToken = encodeURIComponent(token);
+      const confirmUrl = `${siteUrl}/newsletter/confirm?token=${encodedToken}`;
+      const rejectUrl = `${siteUrl}/newsletter/reject?token=${encodedToken}`;
 
-      // Render email template
-      const emailHtml = await render(ConfirmSubscriptionEmail({ confirmUrl }));
+      const emailHtml = await render(
+        ConfirmSubscriptionEmail({ confirmUrl, rejectUrl }),
+      );
 
-      // Send email via Strapi email plugin
       const response = await fetch(`${cmsApiUrl}/api/email`, {
         method: 'POST',
         headers: {
@@ -243,7 +261,12 @@ async function sendConfirmationEmail(
     } finally {
       clearTimeout(timeoutId);
     }
-  } catch {
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(
+      '[newsletter/subscribe] confirmation email send failed:',
+      error,
+    );
     return false;
   }
 }
@@ -309,8 +332,12 @@ export async function POST(request: Request) {
     const subscriber = await createSubscriber(email);
 
     // Silent failure if email already exists
-    // GDPR: Prevents user enumeration attack
+    // GDPR: Prevents user enumeration attack.
+    // Timing: pad the response so duplicates return in roughly the same time
+    // as the happy path, which otherwise spends ~1 extra Strapi round trip
+    // sending the confirmation email.
     if (!subscriber) {
+      await delay(DUPLICATE_RESPONSE_PADDING_MS);
       return NextResponse.json({
         message:
           'Thank you! If the email address is not yet registered, you will receive a confirmation email.',
@@ -336,7 +363,9 @@ export async function POST(request: Request) {
       message:
         'Thank you! Please check your inbox and confirm your subscription.',
     });
-  } catch {
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('[newsletter/subscribe] unhandled error:', error);
     return NextResponse.json(
       { error: 'An internal error occurred' },
       { status: 500 },

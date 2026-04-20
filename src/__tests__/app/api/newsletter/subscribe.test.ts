@@ -40,9 +40,10 @@ jest.mock('@react-email/components', () => ({
   render: jest.fn().mockResolvedValue('<div>email</div>'),
 }));
 
+const confirmEmailSpy = jest.fn().mockReturnValue(null);
 jest.mock('@/emails/confirm-subscription', () => ({
   __esModule: true,
-  default: jest.fn().mockReturnValue(null),
+  default: (...args: unknown[]) => confirmEmailSpy(...args),
 }));
 
 // POST handler — imported once after all mocks are set up
@@ -450,6 +451,8 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
       // 2. sendConfirmationEmail
       .mockResolvedValueOnce({ ok: true });
 
+    confirmEmailSpy.mockClear();
+
     const res = await POST(
       makeRequest(
         {
@@ -466,6 +469,23 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     expect(json.message).toMatch(/confirm/i);
     // Strapi called twice: create subscriber + send confirmation email
     expect(global.fetch).toHaveBeenCalledTimes(2);
+
+    // The confirmation email must point at the interstitial pages, never at
+    // the API routes directly — email-link scanners fetch GET links and would
+    // otherwise consume or delete tokens without user consent.
+    expect(confirmEmailSpy).toHaveBeenCalledTimes(1);
+    const props = confirmEmailSpy.mock.calls[0][0] as {
+      confirmUrl: string;
+      rejectUrl: string;
+    };
+    expect(props.confirmUrl).toBe(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/newsletter/confirm?token=${encodeURIComponent('tok-abc')}`,
+    );
+    expect(props.rejectUrl).toBe(
+      `${process.env.NEXT_PUBLIC_SITE_URL}/newsletter/reject?token=${encodeURIComponent('tok-abc')}`,
+    );
+    expect(props.confirmUrl).not.toContain('/api/newsletter/');
+    expect(props.rejectUrl).not.toContain('/api/newsletter/');
   });
 
   it('returns 400 for missing privacy consent before ALTCHA check runs', async () => {
@@ -639,4 +659,47 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     const json = await res.json();
     expect(json.error).toMatch(/too many requests/i);
   });
+
+  it('pads the duplicate-email response so it cannot be distinguished from the happy path by latency', async () => {
+    const { verifySolution } = await import('altcha-lib');
+    (verifySolution as jest.Mock).mockResolvedValueOnce({
+      verified: true,
+      expired: false,
+      invalidSignature: false,
+      invalidSolution: false,
+      time: 0,
+    });
+
+    // createSubscriber returns null (HTTP 409 treated as duplicate)
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: false,
+      status: 409,
+    });
+
+    const start = Date.now();
+    const res = await POST(
+      makeRequest(
+        {
+          email: 'duplicate@example.com',
+          altcha: VALID_ALTCHA_PAYLOAD,
+          privacy: true,
+        },
+        '10.0.0.99',
+      ),
+    );
+    const elapsed = Date.now() - start;
+
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(json.message).toMatch(/if the email address is not yet registered/i);
+
+    // Duplicate path must not short-circuit to a microsecond response — that
+    // would let an attacker infer registration status from latency.
+    // 600 ms is chosen below the 750 ms padding to tolerate CI jitter while
+    // still clearly ruling out the no-padding case (< 50 ms).
+    expect(elapsed).toBeGreaterThanOrEqual(600);
+
+    // No email was sent on the duplicate path
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  }, 10000);
 });
