@@ -239,13 +239,18 @@ describe('NewsletterForm Component', () => {
     });
 
     it('should have required fields for submission', async () => {
+      let container: HTMLElement | undefined;
       await act(async () => {
-        render(<NewsletterForm />);
+        const result = render(<NewsletterForm />);
+        container = result.container;
       });
       const emailInput = screen.getByPlaceholderText(
         /your@email/i,
       ) as HTMLInputElement;
-      const privacyCheckbox = screen.getByRole('checkbox');
+      // Scope checkbox lookup to the privacy consent input to avoid the ALTCHA widget's internal checkbox
+      const privacyCheckbox = container?.querySelector(
+        'input[name="privacy"]',
+      ) as HTMLInputElement | null;
 
       // Both fields should be required for valid submission
       expect(emailInput).toBeInTheDocument();

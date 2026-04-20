@@ -67,13 +67,40 @@ async function verifyAltcha(payload: string): Promise<boolean> {
       return false;
     }
 
-    // Import verifySolution from altcha-lib for server-side verification
+    // Import verifySolution from altcha-lib (v2) for server-side verification
     const { verifySolution } = await import('altcha-lib');
+    const { deriveKey } = await import('altcha-lib/algorithms/pbkdf2');
 
-    // Verify the ALTCHA solution with signature and expiration check
-    const isValid = await verifySolution(payload, hmacKey, true);
+    // The widget encodes its response as a base64 JSON payload
+    // containing `{ challenge, solution }`.
+    let parsed: { challenge: unknown; solution: unknown };
+    try {
+      parsed = JSON.parse(atob(payload));
+    } catch {
+      return false;
+    }
 
-    return isValid;
+    if (
+      !parsed ||
+      typeof parsed !== 'object' ||
+      !parsed.challenge ||
+      !parsed.solution
+    ) {
+      return false;
+    }
+
+    const result = await verifySolution({
+      challenge: parsed.challenge as Parameters<
+        typeof verifySolution
+      >[0]['challenge'],
+      solution: parsed.solution as Parameters<
+        typeof verifySolution
+      >[0]['solution'],
+      deriveKey,
+      hmacSignatureSecret: hmacKey,
+    });
+
+    return result.verified && !result.expired;
   } catch {
     return false;
   }

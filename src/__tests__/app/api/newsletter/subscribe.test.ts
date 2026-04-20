@@ -33,6 +33,7 @@ jest.mock('@/constant/env', () => ({
 
 // altcha-lib: verifySolution is controlled per-test
 jest.mock('altcha-lib', () => ({ verifySolution: jest.fn() }));
+jest.mock('altcha-lib/algorithms/pbkdf2', () => ({ deriveKey: jest.fn() }));
 
 // react-email: suppress actual rendering
 jest.mock('@react-email/components', () => ({
@@ -52,15 +53,25 @@ beforeAll(async () => {
   POST = mod.POST;
 });
 
-// Valid ALTCHA payload: Base64-encoded JSON with all required fields
-// Schema requires min(100) chars + valid Base64-JSON structure
+// Valid ALTCHA v2 payload: Base64-encoded JSON containing `challenge` + `solution` objects.
+// Schema requires min(100) chars + valid Base64-JSON structure.
 const VALID_ALTCHA_PAYLOAD = btoa(
   JSON.stringify({
-    algorithm: 'SHA-256',
-    challenge: 'test-challenge-string-abc',
-    number: 12345,
-    salt: 'test-salt-abc-123',
-    signature: 'test-signature-abc-xyz',
+    challenge: {
+      parameters: {
+        algorithm: 'PBKDF2/SHA-256',
+        nonce: 'test-nonce-abcdef0123456789',
+        salt: 'test-salt-abcdef0123456789',
+        cost: 5000,
+        keyLength: 32,
+        keyPrefix: 'testprefix',
+      },
+      signature: 'test-signature-abcdef0123456789',
+    },
+    solution: {
+      counter: 42,
+      derivedKey: 'deadbeefdeadbeefdeadbeefdeadbeef',
+    },
   }),
 );
 
@@ -354,7 +365,13 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
 
   it('returns 400 "Bot verification failed" when verifySolution returns false', async () => {
     const { verifySolution } = await import('altcha-lib');
-    (verifySolution as jest.Mock).mockResolvedValueOnce(false);
+    (verifySolution as jest.Mock).mockResolvedValueOnce({
+      verified: false,
+      expired: false,
+      invalidSignature: true,
+      invalidSolution: null,
+      time: 0,
+    });
 
     const res = await POST(
       makeRequest(
@@ -409,7 +426,13 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
 
   it('calls Strapi and returns 200 when verifySolution returns true', async () => {
     const { verifySolution } = await import('altcha-lib');
-    (verifySolution as jest.Mock).mockResolvedValueOnce(true);
+    (verifySolution as jest.Mock).mockResolvedValueOnce({
+      verified: true,
+      expired: false,
+      invalidSignature: false,
+      invalidSolution: false,
+      time: 0,
+    });
 
     (global.fetch as jest.Mock)
       // 1. createSubscriber

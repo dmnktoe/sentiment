@@ -1,8 +1,9 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { CSSVariables, WidgetMethods } from 'altcha/types';
 import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { useForm } from 'react-hook-form';
 
 import type { NewsletterSubscribeInput } from '@/lib/newsletter-schema';
@@ -20,33 +21,46 @@ interface AltchaStateChangeEvent extends Event {
   };
 }
 
-const altchaStyleLight: AltchaWidgetCSSProperties = {
+type AltchaWidgetElement = HTMLElement & Partial<WidgetMethods>;
+
+const altchaStyleLight: Partial<CSSVariables> = {
   '--altcha-border-width': '1px',
   '--altcha-border-radius': '8px',
   '--altcha-color-base': '#ffffff',
-  '--altcha-color-border': '#000000',
-  '--altcha-color-text': '#000000',
-  '--altcha-color-border-focus': '#FF5C24',
-  '--altcha-color-error-text': '#f23939',
-  '--altcha-color-footer-bg': '#f2f2f2',
+  '--altcha-color-base-content': '#000000',
+  '--altcha-border-color': '#000000',
+  '--altcha-color-primary': '#FF5C24',
+  '--altcha-color-primary-content': '#ffffff',
+  '--altcha-color-error': '#f23939',
+  '--altcha-color-error-content': '#ffffff',
   '--altcha-max-width': '100%',
 };
 
-const altchaStyleDark: AltchaWidgetCSSProperties = {
+const altchaStyleDark: Partial<CSSVariables> = {
   '--altcha-border-width': '1px',
   '--altcha-border-radius': '8px',
   '--altcha-color-base': '#171717',
-  '--altcha-color-border': 'rgba(255,255,255,0.2)',
-  '--altcha-color-text': '#f5f5f5',
-  '--altcha-color-border-focus': '#FF5C24',
-  '--altcha-color-error-text': '#f87171',
-  '--altcha-color-footer-bg': '#262626',
+  '--altcha-color-base-content': '#f5f5f5',
+  '--altcha-border-color': 'rgba(255,255,255,0.2)',
+  '--altcha-color-primary': '#FF5C24',
+  '--altcha-color-primary-content': '#ffffff',
+  '--altcha-color-error': '#f87171',
+  '--altcha-color-error-content': '#ffffff',
   '--altcha-max-width': '100%',
 };
+
+function useIsClient() {
+  return useSyncExternalStore(
+    () => () => undefined,
+    () => true,
+    () => false,
+  );
+}
 
 export function NewsletterForm() {
   const { resolvedTheme } = useTheme();
   const mounted = useHasMounted();
+  const isClient = useIsClient();
 
   const altchaStyle =
     mounted && resolvedTheme === 'dark' ? altchaStyleDark : altchaStyleLight;
@@ -73,6 +87,17 @@ export function NewsletterForm() {
   });
 
   useEffect(() => {
+    if (!isClient) return;
+
+    // Register the altcha custom element once on the client.
+    import('altcha').catch(() => {
+      // Intentionally ignore; form still submits without bot protection registering.
+    });
+  }, [isClient]);
+
+  useEffect(() => {
+    if (!isClient) return;
+
     const checkWidget = setInterval(() => {
       const widget = document.querySelector('altcha-widget');
       if (widget) {
@@ -89,7 +114,7 @@ export function NewsletterForm() {
       clearInterval(checkWidget);
       clearTimeout(timeout);
     };
-  }, []);
+  }, [isClient]);
 
   useEffect(() => {
     if (!widgetReady) return;
@@ -141,13 +166,10 @@ export function NewsletterForm() {
       );
       reset();
 
-      // Reset widget
-      const widget = document.querySelector('altcha-widget') as HTMLElement & {
-        reset?: () => void;
-      };
-      if (widget?.reset) {
-        widget.reset();
-      }
+      const widget = document.querySelector(
+        'altcha-widget',
+      ) as AltchaWidgetElement | null;
+      widget?.reset?.();
     } catch (error) {
       setStatus('error');
       setMessage(
@@ -175,7 +197,7 @@ export function NewsletterForm() {
           aria-invalid={errors.email ? 'true' : 'false'}
           aria-describedby={errors.email ? 'email-error' : undefined}
           disabled={status === 'loading'}
-          className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base text-text transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-white/20 dark:bg-neutral-900 placeholder:text-tertiary'
+          className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base text-text transition-all focus:border-primary focus:outline-hidden focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-white/20 dark:bg-neutral-900 placeholder:text-tertiary'
           placeholder='your@email.com'
         />
         {errors.email && (
@@ -190,15 +212,16 @@ export function NewsletterForm() {
       </div>
 
       <div className='min-h-[100px]'>
-        <altcha-widget
-          id='altcha-widget'
-          aria-label='Bot protection verification'
-          challengeurl='/api/newsletter/challenge'
-          hidefooter={false}
-          hidelogo={false}
-          strings='{"label":"I am not a robot","verifying":"Verifying...","verified":"Verified","error":"Verification failed. Please try again later."}'
-          style={altchaStyle}
-        />
+        {isClient ? (
+          <altcha-widget
+            id='altcha-widget'
+            aria-label='Bot protection verification'
+            challenge='/api/newsletter/challenge'
+            style={altchaStyle}
+          />
+        ) : (
+          <div className='min-h-[60px]' aria-hidden='true' />
+        )}
 
         {/* Hidden field monitored by react-hook-form */}
         <input type='hidden' {...register('altcha')} />
@@ -213,7 +236,7 @@ export function NewsletterForm() {
           </Paragraph>
         )}
 
-        {!widgetReady && (
+        {isClient && !widgetReady && (
           <Paragraph
             className='mt-2 text-xs text-tertiary'
             margin={false}

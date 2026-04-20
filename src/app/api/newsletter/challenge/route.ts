@@ -1,4 +1,5 @@
-import { createChallenge } from 'altcha-lib';
+import { createChallenge, randomInt } from 'altcha-lib';
+import { deriveKey } from 'altcha-lib/algorithms/pbkdf2';
 import { NextResponse } from 'next/server';
 
 import { altchaHmacSecret } from '@/constant/env';
@@ -14,12 +15,13 @@ export async function GET() {
       );
     }
 
-    // Generate ALTCHA challenge with proper HMAC signature
     const challenge = await createChallenge({
-      hmacKey,
-      maxNumber: 100000, // Maximum number for proof-of-work
-      algorithm: 'SHA-256',
-      expires: new Date(Date.now() + 5 * 60 * 1000), // Challenge expires in 5 minutes
+      algorithm: 'PBKDF2/SHA-256',
+      cost: 5_000,
+      counter: randomInt(5_000, 10_000),
+      deriveKey,
+      hmacSignatureSecret: hmacKey,
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000),
     });
 
     return NextResponse.json(challenge);
