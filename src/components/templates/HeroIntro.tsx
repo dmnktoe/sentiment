@@ -2,18 +2,18 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  BMBFIcon,
-  RUBIcon,
-  UniDUEIcon,
-  UniKasselIcon,
-} from 'src/components/ui/icons';
 
 import { getStrapiMedia } from '@/lib/strapi-urls';
 
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
 import { Button } from '@/components/ui/Button';
+import {
+  BMBFIcon,
+  RUBIcon,
+  UniDUEIcon,
+  UniKasselIcon,
+} from '@/components/ui/icons';
 import { Paragraph, Title } from '@/components/ui/typography';
 
 import { Homepage } from '@/types/Homepage';
