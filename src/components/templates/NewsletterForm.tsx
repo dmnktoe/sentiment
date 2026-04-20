@@ -97,22 +97,27 @@ export function NewsletterForm() {
 
   useEffect(() => {
     if (!isClient) return;
+    if (typeof window === 'undefined' || !window.customElements) return;
 
-    const checkWidget = setInterval(() => {
-      const widget = document.querySelector('altcha-widget');
-      if (widget) {
-        setWidgetReady(true);
-        clearInterval(checkWidget);
-      }
-    }, 100);
+    let cancelled = false;
 
-    const timeout = setTimeout(() => {
-      clearInterval(checkWidget);
-    }, 5000);
+    // Wait until the <altcha-widget> custom element has been upgraded,
+    // then confirm the instance is actually in the DOM before flipping ready.
+    window.customElements
+      .whenDefined('altcha-widget')
+      .then(() => {
+        if (cancelled) return;
+        const widget = document.querySelector('altcha-widget');
+        if (widget) {
+          setWidgetReady(true);
+        }
+      })
+      .catch(() => {
+        // Widget registration failed; form still submits, schema will reject on server.
+      });
 
     return () => {
-      clearInterval(checkWidget);
-      clearTimeout(timeout);
+      cancelled = true;
     };
   }, [isClient]);
 
