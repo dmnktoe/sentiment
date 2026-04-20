@@ -26,8 +26,8 @@ jest.mock('@/constant/env', () => ({
   },
 }));
 
-// Import route module dynamically after polyfills to avoid hoisting issues
 let GET: (request: Request) => Promise<Response>;
+let POST: (request: Request) => Promise<Response>;
 let unsubscribeUser: (
   token: string,
 ) => Promise<{ success: boolean; email?: string }>;
@@ -36,6 +36,7 @@ let sendGoodbyeEmail: (email: string) => Promise<void>;
 beforeAll(async () => {
   const mod = await import('@/app/api/newsletter/unsubscribe/route');
   GET = mod.GET;
+  POST = mod.POST;
   unsubscribeUser = mod.unsubscribeUser;
   sendGoodbyeEmail = mod.sendGoodbyeEmail;
 });
@@ -43,7 +44,6 @@ beforeAll(async () => {
 describe('Newsletter unsubscribe (unit)', () => {
   beforeEach(() => {
     // clearAllMocks preserves mock implementations (e.g. render's mockResolvedValue)
-    // while still resetting call counts — resetAllMocks would wipe the render stub.
     jest.clearAllMocks();
     global.fetch = jest.fn() as jest.Mock;
     process.env.CMS_API_URL = 'http://strapi.test';
@@ -132,7 +132,6 @@ describe('Newsletter unsubscribe (unit)', () => {
       );
       expect(body.to).toBe('bye@example.com');
       expect(body.subject).toMatch(/unsubscription confirmed/i);
-      // html may be present or omitted depending on renderer during tests — accept both
       expect(body.html === undefined || typeof body.html === 'string').toBe(
         true,
       );
@@ -146,21 +145,50 @@ describe('Newsletter unsubscribe (unit)', () => {
     });
   });
 
-  describe('GET handler', () => {
-    it('redirects to missing-token when token is absent', async () => {
+  describe('GET handler (prefetcher protection)', () => {
+    it('redirects to the interstitial page and preserves the token', async () => {
+      const req = new Request(
+        'http://localhost/api/newsletter/unsubscribe?token=some-token',
+      );
+      const res = await GET(req);
+
+      expect(res.status).toBe(307);
+      const location = res.headers.get('location')!;
+      expect(location).toContain('/newsletter/unsubscribe');
+      expect(location).toContain('token=some-token');
+      // GET must never call Strapi — only the user-initiated POST can unsubscribe.
+      expect(global.fetch).not.toHaveBeenCalled();
+    });
+
+    it('redirects without a token when one is absent', async () => {
       const req = new Request('http://localhost/api/newsletter/unsubscribe');
       const res = await GET(req);
 
       expect(res.status).toBe(307);
-      expect(res.headers.get('location')).toContain(
-        '/newsletter/error?reason=missing-token',
-      );
+      expect(res.headers.get('location')).toContain('/newsletter/unsubscribe');
+      expect(global.fetch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('POST handler', () => {
+    function jsonRequest(body: unknown) {
+      return new Request('http://localhost/api/newsletter/unsubscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+    }
+
+    it('returns 400 missing-token when no token is provided', async () => {
+      const res = await POST(jsonRequest({}));
+
+      expect(res.status).toBe(400);
+      const json = await res.json();
+      expect(json).toEqual({ ok: false, reason: 'missing-token' });
       expect(global.fetch).not.toHaveBeenCalled();
     });
 
-    it('redirects to unsubscribed and sends goodbye email when Strapi returns email', async () => {
-      // first call: unsubscribe -> returns email
-      // second call: sendGoodbyeEmail -> posts email
+    it('returns 200 ok and sends goodbye email when Strapi returns an email', async () => {
       (global.fetch as jest.Mock)
         .mockResolvedValueOnce({
           ok: true,
@@ -168,96 +196,66 @@ describe('Newsletter unsubscribe (unit)', () => {
         })
         .mockResolvedValueOnce({ ok: true });
 
-      const req = new Request(
-        'http://localhost/api/newsletter/unsubscribe?token=ok',
-      );
-      const res = await GET(req);
+      const res = await POST(jsonRequest({ token: 'ok' }));
 
-      // sendGoodbyeEmail is fire-and-forget in the route — flush microtasks so
-      // its internal awaits (render + fetch) complete before we assert on them.
+      // The goodbye email is fire-and-forget — flush microtasks before asserting.
       await new Promise((resolve) => setTimeout(resolve, 0));
 
-      expect(res.status).toBe(307);
-      expect(res.headers.get('location')).toContain('/newsletter/unsubscribed');
+      expect(res.status).toBe(200);
+      const json = await res.json();
+      expect(json).toEqual({ ok: true });
       expect(global.fetch).toHaveBeenCalledTimes(2);
 
-      // verify unsubscribe call
       expect((global.fetch as jest.Mock).mock.calls[0][0]).toContain(
         '/api/subscribers/unsubscribe',
       );
 
-      // verify email call
       const emailCall = (global.fetch as jest.Mock).mock.calls[1];
       expect(emailCall[0]).toBe(`${process.env.CMS_API_URL}/api/email`);
       const body = JSON.parse(emailCall[1].body);
       expect(body.to).toBe('x@y.z');
     });
 
-    it('redirects to unsubscribed and does not send email when Strapi returns no email', async () => {
+    it('returns 200 ok without sending a goodbye email when Strapi returns no email', async () => {
       (global.fetch as jest.Mock) = jest
         .fn()
         .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
 
-      const req = new Request(
-        'http://localhost/api/newsletter/unsubscribe?token=no-email',
-      );
-      const res = await GET(req);
+      const res = await POST(jsonRequest({ token: 'no-email' }));
 
-      expect(res.status).toBe(307);
-      expect(res.headers.get('location')).toContain('/newsletter/unsubscribed');
+      expect(res.status).toBe(200);
+      const json = await res.json();
+      expect(json).toEqual({ ok: true });
       expect(global.fetch).toHaveBeenCalledTimes(1);
     });
 
-    it('redirects to invalid-token when Strapi unsubscribe fails', async () => {
+    it('returns 400 invalid-token when Strapi rejects the unsubscribe', async () => {
       (global.fetch as jest.Mock) = jest
         .fn()
         .mockResolvedValueOnce({ ok: false, status: 400 });
 
-      const req = new Request(
-        'http://localhost/api/newsletter/unsubscribe?token=bad',
-      );
-      const res = await GET(req);
+      const res = await POST(jsonRequest({ token: 'bad' }));
 
-      expect(res.status).toBe(307);
-      expect(res.headers.get('location')).toContain(
-        '/newsletter/error?reason=invalid-token',
-      );
+      expect(res.status).toBe(400);
+      const json = await res.json();
+      expect(json).toEqual({ ok: false, reason: 'invalid-token' });
     });
 
-    it('redirects to server-error when NextResponse.redirect inside try throws', async () => {
-      // Cause the first NextResponse.redirect call (inside try) to throw, then ensure
-      // the outer catch returns the server-error redirect.
-      const nextServer = await import('next/server');
-      const originalRedirect = nextServer.NextResponse.redirect;
-      let calls = 0;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (nextServer.NextResponse as any).redirect = (url: any, init?: any) => {
-        calls += 1;
-        if (calls === 1) throw new Error('boom');
-        return originalRedirect(url, init);
-      };
+    it('accepts a token submitted as form data', async () => {
+      (global.fetch as jest.Mock) = jest
+        .fn()
+        .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
 
-      try {
-        // Make unsubscribe succeed so GET attempts a redirect inside try
-        (global.fetch as jest.Mock).mockResolvedValueOnce({
-          ok: true,
-          json: async () => ({}),
-        });
+      const form = new FormData();
+      form.set('token', 'form-token');
 
-        const req = new Request(
-          'http://localhost/api/newsletter/unsubscribe?token=ok',
-        );
-        const res = await GET(req);
+      const req = new Request('http://localhost/api/newsletter/unsubscribe', {
+        method: 'POST',
+        body: form,
+      });
 
-        expect(res.status).toBe(307);
-        expect(res.headers.get('location')).toContain(
-          '/newsletter/error?reason=server-error',
-        );
-      } finally {
-        // Always restore — even if assertions above throw
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (nextServer.NextResponse as any).redirect = originalRedirect;
-      }
+      const res = await POST(req);
+      expect(res.status).toBe(200);
     });
   });
 });
