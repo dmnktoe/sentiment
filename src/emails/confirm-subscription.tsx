@@ -13,10 +13,12 @@ import {
 
 interface ConfirmSubscriptionEmailProps {
   confirmUrl: string;
+  rejectUrl: string;
 }
 
 export default function ConfirmSubscriptionEmail({
   confirmUrl,
+  rejectUrl,
 }: ConfirmSubscriptionEmailProps) {
   return (
     <Html>
@@ -113,10 +115,27 @@ export default function ConfirmSubscriptionEmail({
 
           <Hr style={divider} />
 
+          {/* That wasn't me */}
+          <Text style={notMeHeading}>Didn&apos;t sign up?</Text>
+          <Text style={text}>
+            If you did not request this subscription, someone else may have
+            entered your email address by mistake. You can remove the
+            unconfirmed record from our system right away:
+          </Text>
+          <Section style={buttonContainer}>
+            <Button style={secondaryButton} href={rejectUrl}>
+              That wasn&apos;t me — delete record
+            </Button>
+          </Section>
+          <Text style={text}>Or copy this link into your browser:</Text>
+          <Text style={link}>{rejectUrl}</Text>
+
+          <Hr style={divider} />
+
           {/* Footer */}
           <Text style={footer}>
-            If you did not sign up for our newsletter, you can ignore this
-            email. No further emails will be sent.
+            If you simply ignore this email, no subscription will be activated
+            and no further emails will be sent.
           </Text>
           <Text style={footer}>
             This email was sent as part of the SENTIMENT research project.
@@ -205,6 +224,29 @@ const button = {
   textAlign: 'center' as const,
   display: 'inline-block',
   padding: '14px 32px',
+  lineHeight: '24px',
+};
+
+const secondaryButton = {
+  backgroundColor: '#ffffff',
+  border: '1px solid #000000',
+  borderRadius: '8px',
+  color: '#000000',
+  fontSize: '14px',
+  fontWeight: '600',
+  textDecoration: 'none',
+  textAlign: 'center' as const,
+  display: 'inline-block',
+  padding: '12px 24px',
+  lineHeight: '20px',
+};
+
+const notMeHeading = {
+  color: '#000000',
+  fontSize: '18px',
+  fontWeight: '700',
+  margin: '8px 0 12px',
+  padding: '0',
   lineHeight: '24px',
 };
 
