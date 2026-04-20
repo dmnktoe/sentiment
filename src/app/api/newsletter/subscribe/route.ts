@@ -1,4 +1,8 @@
 import { render } from '@react-email/components';
+import type {
+  Challenge as AltchaChallenge,
+  Solution as AltchaSolution,
+} from 'altcha-lib';
 import { NextResponse } from 'next/server';
 
 import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
@@ -43,59 +47,55 @@ function checkRateLimit(ip: string): boolean {
 
 /**
  * ALTCHA Payload Verification
- * Verifies the proof-of-work solution from the client
+ * Verifies the proof-of-work solution from the client.
+ *
+ * The widget encodes its response as `btoa(JSON.stringify({ challenge, solution }))`,
+ * matching the altcha-lib v2 `verifySolution` input shape.
  */
 async function verifyAltcha(payload: string): Promise<boolean> {
+  const hmacKey = altchaHmacSecret;
+
+  if (!hmacKey) {
+    return false;
+  }
+
+  if (!payload || payload.length < 100) {
+    return false;
+  }
+
+  let parsed: unknown;
   try {
-    // Validate ALTCHA_HMAC_SECRET environment variable
-    const hmacKey = altchaHmacSecret;
+    parsed = JSON.parse(atob(payload));
+  } catch {
+    return false;
+  }
 
-    if (!hmacKey) {
-      return false;
-    }
+  if (
+    !parsed ||
+    typeof parsed !== 'object' ||
+    Array.isArray(parsed) ||
+    !('challenge' in parsed) ||
+    !('solution' in parsed) ||
+    typeof (parsed as { challenge: unknown }).challenge !== 'object' ||
+    typeof (parsed as { solution: unknown }).solution !== 'object' ||
+    (parsed as { challenge: unknown }).challenge === null ||
+    (parsed as { solution: unknown }).solution === null
+  ) {
+    return false;
+  }
 
-    // Mindestlänge für gültiges Base64-JSON Payload
-    if (!payload || payload.length < 100) {
-      return false;
-    }
+  const { challenge, solution } = parsed as {
+    challenge: AltchaChallenge;
+    solution: AltchaSolution;
+  };
 
-    // Prüfe ob es sich um gültiges Base64-JSON handelt
-    try {
-      const decoded = atob(payload);
-      JSON.parse(decoded);
-    } catch {
-      return false;
-    }
-
-    // Import verifySolution from altcha-lib (v2) for server-side verification
+  try {
     const { verifySolution } = await import('altcha-lib');
     const { deriveKey } = await import('altcha-lib/algorithms/pbkdf2');
 
-    // The widget encodes its response as a base64 JSON payload
-    // containing `{ challenge, solution }`.
-    let parsed: { challenge: unknown; solution: unknown };
-    try {
-      parsed = JSON.parse(atob(payload));
-    } catch {
-      return false;
-    }
-
-    if (
-      !parsed ||
-      typeof parsed !== 'object' ||
-      !parsed.challenge ||
-      !parsed.solution
-    ) {
-      return false;
-    }
-
     const result = await verifySolution({
-      challenge: parsed.challenge as Parameters<
-        typeof verifySolution
-      >[0]['challenge'],
-      solution: parsed.solution as Parameters<
-        typeof verifySolution
-      >[0]['solution'],
+      challenge,
+      solution,
       deriveKey,
       hmacSignatureSecret: hmacKey,
     });
@@ -293,15 +293,8 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, altcha, privacy } = validation.data;
-
-    // Verify privacy policy acceptance (GDPR requirement)
-    if (!privacy) {
-      return NextResponse.json(
-        { error: 'Please accept the privacy policy' },
-        { status: 400 },
-      );
-    }
+    // Privacy consent is enforced by the schema (privacy === true)
+    const { email, altcha } = validation.data;
 
     // Verify ALTCHA solution (bot protection)
     const isValidCaptcha = await verifyAltcha(altcha);
