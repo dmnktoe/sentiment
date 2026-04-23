@@ -4,12 +4,6 @@
 
 // Mock @/constant/env with getters so values are read at call time (after beforeEach sets process.env)
 jest.mock('@/constant/env', () => ({
-  get cmsApiUrl() {
-    return process.env.CMS_API_URL;
-  },
-  get cmsApiToken() {
-    return process.env.CMS_API_TOKEN;
-  },
   get altchaHmacSecret() {
     return process.env.ALTCHA_HMAC_SECRET;
   },
