@@ -47,6 +47,8 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^~/(.*)$': '<rootDir>/public/$1',
     '^.+\\.(svg)$': '<rootDir>/src/__mocks__/svg.tsx',
+    '^@c15t/nextjs$': '<rootDir>/src/__mocks__/c15t-nextjs.tsx',
+    '^@c15t/scripts/.*$': '<rootDir>/src/__mocks__/c15t-scripts.ts',
   },
 };
 
