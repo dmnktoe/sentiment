@@ -31,16 +31,18 @@ jest.mock('@/constant/env', () => ({
   },
 }));
 
-// altcha-lib (v2): verifySolution + deriveHmacKeySecret are controlled per-test
+// altcha-lib (v2): verifySolution is controlled per-test
 jest.mock('altcha-lib', () => ({
-  deriveHmacKeySecret: jest.fn(),
   verifySolution: jest.fn(),
+}));
+
+jest.mock('altcha-lib/frameworks/shared', () => ({
+  deriveHmacKeySecret: jest.fn(),
 }));
 
 // listmonk client wrapper
 jest.mock('@/lib/listmonk', () => ({
   createSubscriber: jest.fn(),
-  sendOptInEmail: jest.fn(),
   ListmonkError: class ListmonkError extends Error {
     public readonly status: number;
     public readonly responseBody: unknown;
@@ -341,13 +343,17 @@ describe('Newsletter Subscribe Validation', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.resetAllMocks();
     process.env.ALTCHA_HMAC_SECRET = 'test-secret-hex';
     process.env.LISTMONK_BASE_URL = 'http://listmonk.test';
     process.env.LISTMONK_API_USER = 'api';
     process.env.LISTMONK_API_KEY = 'key';
     process.env.LISTMONK_LIST_ID = '1';
+
+    const { deriveHmacKeySecret } =
+      await import('altcha-lib/frameworks/shared');
+    (deriveHmacKeySecret as jest.Mock).mockResolvedValue('derived-secret');
   });
 
   afterEach(() => {
@@ -387,9 +393,8 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     expect(res.status).toBe(400);
     const json = await res.json();
     expect(json.error).toMatch(/bot verification failed/i);
-    const { createSubscriber, sendOptInEmail } = await import('@/lib/listmonk');
+    const { createSubscriber } = await import('@/lib/listmonk');
     expect(createSubscriber).not.toHaveBeenCalled();
-    expect(sendOptInEmail).not.toHaveBeenCalled();
   });
 
   it('returns 400 "Bot verification failed" when ALTCHA_HMAC_SECRET is not configured', async () => {
@@ -422,16 +427,15 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
 
     // Schema rejects first (400 invalid input), which is fine — bot still blocked
     expect(res.status).toBe(400);
-    const { createSubscriber, sendOptInEmail } = await import('@/lib/listmonk');
+    const { createSubscriber } = await import('@/lib/listmonk');
     expect(createSubscriber).not.toHaveBeenCalled();
-    expect(sendOptInEmail).not.toHaveBeenCalled();
   });
 
   it('calls listmonk and returns 200 when verifySolution returns true', async () => {
     const { verifySolution } = await import('altcha-lib');
     (verifySolution as jest.Mock).mockResolvedValueOnce({ verified: true });
 
-    const { createSubscriber, sendOptInEmail } = await import('@/lib/listmonk');
+    const { createSubscriber } = await import('@/lib/listmonk');
     (createSubscriber as jest.Mock).mockResolvedValueOnce({
       id: 123,
       uuid: 'sub-uuid',
@@ -455,7 +459,54 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     const json = await res.json();
     expect(json.message).toMatch(/confirm/i);
     expect(createSubscriber).toHaveBeenCalledTimes(1);
-    expect(sendOptInEmail).not.toHaveBeenCalled();
+  });
+
+  it('returns 200 with generic message when listmonk reports duplicate (409)', async () => {
+    const { verifySolution } = await import('altcha-lib');
+    (verifySolution as jest.Mock).mockResolvedValueOnce({ verified: true });
+
+    const { createSubscriber, ListmonkError } = await import('@/lib/listmonk');
+    (createSubscriber as jest.Mock).mockRejectedValueOnce(
+      new ListmonkError('dup', 409, {}),
+    );
+
+    const res = await POST(
+      makeRequest(
+        {
+          email: 'dup@example.com',
+          altcha: VALID_ALTCHA_PAYLOAD,
+          privacy: true,
+        },
+        '10.0.0.6',
+      ),
+    );
+
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(String(json.message)).toMatch(/thank you/i);
+  });
+
+  it('returns 500 when listmonk returns 400 from createSubscriber', async () => {
+    const { verifySolution } = await import('altcha-lib');
+    (verifySolution as jest.Mock).mockResolvedValueOnce({ verified: true });
+
+    const { createSubscriber, ListmonkError } = await import('@/lib/listmonk');
+    (createSubscriber as jest.Mock).mockRejectedValueOnce(
+      new ListmonkError('bad', 400, { reason: 'validation' }),
+    );
+
+    const res = await POST(
+      makeRequest(
+        {
+          email: 'bad@example.com',
+          altcha: VALID_ALTCHA_PAYLOAD,
+          privacy: true,
+        },
+        '10.0.0.7',
+      ),
+    );
+
+    expect(res.status).toBe(500);
   });
 
   it('returns 400 for missing privacy consent before ALTCHA check runs', async () => {
@@ -475,8 +526,7 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     expect(res.status).toBe(400);
     // verifySolution must never be called if privacy is not accepted
     expect(verifySolution).not.toHaveBeenCalled();
-    const { createSubscriber, sendOptInEmail } = await import('@/lib/listmonk');
+    const { createSubscriber } = await import('@/lib/listmonk');
     expect(createSubscriber).not.toHaveBeenCalled();
-    expect(sendOptInEmail).not.toHaveBeenCalled();
   });
 });

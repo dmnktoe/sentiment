@@ -1,6 +1,6 @@
 import type React from 'react';
 
-declare global {
+declare module 'react/jsx-runtime' {
   namespace JSX {
     interface IntrinsicElements {
       'altcha-widget': React.DetailedHTMLProps<

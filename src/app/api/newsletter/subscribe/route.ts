@@ -1,6 +1,6 @@
 import { verifySolution } from 'altcha-lib';
 import { deriveKey } from 'altcha-lib/algorithms/pbkdf2';
-import { deriveHmacKeySecret } from 'altcha-lib/frameworks/nextjs';
+import { deriveHmacKeySecret } from 'altcha-lib/frameworks/shared';
 import { NextResponse } from 'next/server';
 
 import { createSubscriber, ListmonkError } from '@/lib/listmonk';
@@ -162,15 +162,21 @@ export async function POST(request: Request) {
       // listmonk sends the confirmation email automatically for double opt-in lists.
       await createSubscriber({ email, listIds: [listId] });
     } catch (err) {
-      // Silent failure on duplicates/validation to avoid user enumeration.
-      if (
-        err instanceof ListmonkError &&
-        (err.status === 400 || err.status === 409)
-      ) {
+      // Only duplicate / conflict: silent success to avoid user enumeration.
+      if (err instanceof ListmonkError && err.status === 409) {
         return NextResponse.json({
           message:
             'Thank you! If the email address is not yet registered, you will receive a confirmation email.',
         });
+      }
+
+      if (err instanceof ListmonkError && err.status === 400) {
+        // eslint-disable-next-line no-console
+        console.error('Newsletter subscribe: listmonk validation error', err);
+        return NextResponse.json(
+          { error: 'An internal error occurred' },
+          { status: 500 },
+        );
       }
 
       // eslint-disable-next-line no-console

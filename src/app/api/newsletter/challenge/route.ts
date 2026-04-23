@@ -1,6 +1,6 @@
 import { createChallenge, randomInt } from 'altcha-lib';
 import { deriveKey } from 'altcha-lib/algorithms/pbkdf2';
-import { deriveHmacKeySecret } from 'altcha-lib/frameworks/nextjs';
+import { deriveHmacKeySecret } from 'altcha-lib/frameworks/shared';
 import { NextResponse } from 'next/server';
 
 import { altchaHmacSecret } from '@/constant/env';

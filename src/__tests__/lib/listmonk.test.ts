@@ -120,7 +120,7 @@ describe('listmonk client', () => {
           results: [
             {
               id: 7,
-              uuid: 'uuid',
+              uuid: '11111111-1111-4111-8111-111111111111',
               email: 'x@y.z',
               name: 'x',
               status: 'enabled',
@@ -131,8 +131,16 @@ describe('listmonk client', () => {
       }),
     });
 
-    const sub = await findSubscriberByUuid('uuid');
+    const sub = await findSubscriberByUuid(
+      '11111111-1111-4111-8111-111111111111',
+    );
     expect(sub?.id).toBe(7);
+  });
+
+  it('findSubscriberByUuid returns null for invalid uuid', async () => {
+    const sub = await findSubscriberByUuid("x'); DROP--");
+    expect(sub).toBeNull();
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 
   it('unsubscribeSubscriberFromLists calls /api/subscribers/lists', async () => {
