@@ -1,34 +1,15 @@
 import { NextResponse } from 'next/server';
 
-import { cmsApiToken, cmsApiUrl } from '@/constant/env';
+import { listmonkBaseUrl } from '@/constant/env';
 
 /**
  * Confirm subscription endpoint helper
- * Performs the PUT against Strapi to confirm a subscriber token.
+ * listmonk handles double opt-in confirmation on its public opt-in page.
  */
-export async function confirmSubscription(token: string): Promise<boolean> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-  try {
-    // Strapi API call to confirm subscriber (token is URL-encoded)
-    const response = await fetch(
-      `${cmsApiUrl}/api/subscribers/confirm?token=${encodeURIComponent(token)}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${cmsApiToken}`,
-        },
-        signal: controller.signal,
-      },
-    );
-
-    // propagate network errors and return boolean for API result
-    return response.ok;
-  } finally {
-    clearTimeout(timeoutId);
-  }
+export function getListmonkOptInUrl(token: string): string | null {
+  const base = listmonkBaseUrl?.replace(/\/+$/, '');
+  if (!base) return null;
+  return `${base}/subscription/optin/${encodeURIComponent(token)}`;
 }
 
 export async function GET(request: Request) {
@@ -50,18 +31,15 @@ export async function GET(request: Request) {
       );
     }
 
-    // Confirm the subscription
-    const success = await confirmSubscription(token);
-
-    if (success) {
-      // Redirect to success page
-      return NextResponse.redirect(new URL('/newsletter/success', request.url));
-    } else {
-      // Redirect to error page (token invalid, already used, or expired)
+    const optInUrl = getListmonkOptInUrl(token);
+    if (!optInUrl) {
       return NextResponse.redirect(
-        new URL('/newsletter/error?reason=invalid-token', request.url),
+        new URL('/newsletter/error?reason=server-error', request.url),
       );
     }
+
+    // Redirect user to listmonk's opt-in confirmation page.
+    return NextResponse.redirect(optInUrl);
   } catch {
     return NextResponse.redirect(
       new URL('/newsletter/error?reason=server-error', request.url),

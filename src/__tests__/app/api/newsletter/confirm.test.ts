@@ -4,12 +4,6 @@
 
 // Mock @/constant/env with getters so values are read at call time (after beforeEach sets process.env)
 jest.mock('@/constant/env', () => ({
-  get cmsApiUrl() {
-    return process.env.CMS_API_URL;
-  },
-  get cmsApiToken() {
-    return process.env.CMS_API_TOKEN;
-  },
   get altchaHmacSecret() {
     return process.env.ALTCHA_HMAC_SECRET;
   },
@@ -19,70 +13,50 @@ jest.mock('@/constant/env', () => ({
   get cmsPublicUrl() {
     return process.env.NEXT_PUBLIC_CMS_URL;
   },
+  get listmonkBaseUrl() {
+    return process.env.LISTMONK_BASE_URL;
+  },
+  get listmonkApiUser() {
+    return process.env.LISTMONK_API_USER;
+  },
+  get listmonkApiKey() {
+    return process.env.LISTMONK_API_KEY;
+  },
+  get listmonkListId() {
+    return process.env.LISTMONK_LIST_ID;
+  },
 }));
 
 // Import route module dynamically after polyfills (avoid hoisted import timing issues)
 let GET: (request: Request) => Promise<Response>;
-let confirmSubscription: (token: string) => Promise<boolean>;
+let getListmonkOptInUrl: (token: string) => string | null;
 
 beforeAll(async () => {
   const mod = await import('@/app/api/newsletter/confirm/route');
   GET = mod.GET;
-  confirmSubscription = mod.confirmSubscription;
+  getListmonkOptInUrl = mod.getListmonkOptInUrl;
 });
 
 describe('Newsletter confirm route (unit)', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-    global.fetch = jest.fn() as jest.Mock;
-    process.env.CMS_API_URL = 'http://strapi.test';
-    process.env.CMS_API_TOKEN = 'test-token-abc';
+    process.env.LISTMONK_BASE_URL = 'https://newsletter.project-sentiment.org';
   });
 
   afterEach(() => {
-    delete process.env.CMS_API_URL;
-    delete process.env.CMS_API_TOKEN;
+    delete process.env.LISTMONK_BASE_URL;
   });
 
-  describe('confirmSubscription helper', () => {
-    it('returns true when Strapi responds ok and calls fetch with correct headers', async () => {
-      (global.fetch as jest.Mock) = jest
-        .fn()
-        .mockResolvedValueOnce({ ok: true });
-
-      const token = 'valid-token-123';
-      const res = await confirmSubscription(token);
-
-      expect(res).toBe(true);
-      expect(global.fetch).toHaveBeenCalledTimes(1);
-      expect((global.fetch as jest.Mock).mock.calls[0][0]).toBe(
-        `${process.env.CMS_API_URL}/api/subscribers/confirm?token=${encodeURIComponent(
-          token,
-        )}`,
-      );
-
-      const opts = (global.fetch as jest.Mock).mock.calls[0][1];
-      expect(opts.method).toBe('PUT');
-      expect(opts.headers.Authorization).toBe(
-        `Bearer ${process.env.CMS_API_TOKEN}`,
-      );
+  describe('getListmonkOptInUrl helper', () => {
+    it('returns null when LISTMONK_BASE_URL is missing', () => {
+      delete process.env.LISTMONK_BASE_URL;
+      expect(getListmonkOptInUrl('uuid')).toBeNull();
     });
 
-    it('returns false when Strapi responds with non-ok', async () => {
-      (global.fetch as jest.Mock) = jest
-        .fn()
-        .mockResolvedValueOnce({ ok: false, status: 400 });
-
-      const result = await confirmSubscription('bad-token');
-      expect(result).toBe(false);
-    });
-
-    it('propagates network errors (rejects) so caller can handle server-error', async () => {
-      (global.fetch as jest.Mock) = jest
-        .fn()
-        .mockRejectedValueOnce(new Error('network'));
-
-      await expect(confirmSubscription('any')).rejects.toThrow('network');
+    it('builds opt-in URL with encoded token', () => {
+      expect(getListmonkOptInUrl('a/b+c')).toBe(
+        'https://newsletter.project-sentiment.org/subscription/optin/a%2Fb%2Bc',
+      );
     });
   });
 
@@ -95,7 +69,6 @@ describe('Newsletter confirm route (unit)', () => {
       expect(res.headers.get('location')!).toContain(
         '/newsletter/error?reason=missing-token',
       );
-      expect(global.fetch).not.toHaveBeenCalled();
     });
 
     it('redirects to invalid-token when token param is empty', async () => {
@@ -106,60 +79,26 @@ describe('Newsletter confirm route (unit)', () => {
       expect(res.headers.get('location')!).toContain(
         '/newsletter/error?reason=invalid-token',
       );
-      expect(global.fetch).not.toHaveBeenCalled();
     });
 
-    it('redirects to success when confirmation succeeds', async () => {
-      (global.fetch as jest.Mock) = jest
-        .fn()
-        .mockResolvedValueOnce({ ok: true });
-
+    it('redirects to listmonk opt-in page when token is present', async () => {
       const req = new Request(
         'http://localhost/api/newsletter/confirm?token=ok-token',
       );
       const res = await GET(req);
 
       expect(res.status).toBe(307);
-      expect(res.headers.get('location')!).toContain('/newsletter/success');
-
-      // confirmSubscription should have called Strapi with token encoded
-      expect(global.fetch).toHaveBeenCalledWith(
-        `${process.env.CMS_API_URL}/api/subscribers/confirm?token=${encodeURIComponent('ok-token')}`,
-        expect.objectContaining({
-          method: 'PUT',
-          headers: expect.objectContaining({
-            Authorization: `Bearer ${process.env.CMS_API_TOKEN}`,
-          }),
-        }),
+      expect(res.headers.get('location')!).toBe(
+        'https://newsletter.project-sentiment.org/subscription/optin/ok-token',
       );
     });
 
-    it('redirects to invalid-token when Strapi responds non-ok', async () => {
-      (global.fetch as jest.Mock) = jest
-        .fn()
-        .mockResolvedValueOnce({ ok: false, status: 400 });
-
+    it('redirects to server-error when LISTMONK_BASE_URL is missing', async () => {
+      delete process.env.LISTMONK_BASE_URL;
       const req = new Request(
-        'http://localhost/api/newsletter/confirm?token=invalid-token',
+        'http://localhost/api/newsletter/confirm?token=ok-token',
       );
       const res = await GET(req);
-
-      expect(res.status).toBe(307);
-      expect(res.headers.get('location')!).toContain(
-        '/newsletter/error?reason=invalid-token',
-      );
-    });
-
-    it('redirects to server-error when Strapi network error occurs', async () => {
-      (global.fetch as jest.Mock) = jest
-        .fn()
-        .mockRejectedValueOnce(new Error('network'));
-
-      const req = new Request(
-        'http://localhost/api/newsletter/confirm?token=network-error',
-      );
-      const res = await GET(req);
-
       expect(res.status).toBe(307);
       expect(res.headers.get('location')!).toContain(
         '/newsletter/error?reason=server-error',

@@ -1,8 +1,11 @@
-import { render } from '@react-email/components';
 import { NextResponse } from 'next/server';
 
-import { cmsApiToken, cmsApiUrl } from '@/constant/env';
-import GoodbyeEmail from '@/emails/goodbye';
+import {
+  findSubscriberByUuid,
+  unsubscribeSubscriberFromLists,
+} from '@/lib/listmonk';
+
+import { listmonkListId } from '@/constant/env';
 
 /**
  * Unsubscribe user endpoint
@@ -11,65 +14,26 @@ import GoodbyeEmail from '@/emails/goodbye';
 export async function unsubscribeUser(
   token: string,
 ): Promise<{ success: boolean; email?: string }> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
-
   try {
-    // URL-encode token to safely handle special characters
-    const encodedToken = encodeURIComponent(token);
-    const response = await fetch(
-      `${cmsApiUrl}/api/subscribers/unsubscribe?token=${encodedToken}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${cmsApiToken}`,
-        },
-        signal: controller.signal,
-      },
-    );
-
-    if (!response.ok) {
+    const listId = Number(listmonkListId);
+    if (!Number.isInteger(listId) || listId <= 0) {
       return { success: false };
     }
 
-    const data = await response.json();
-    return { success: true, email: data.email };
+    const subscriber = await findSubscriberByUuid(token);
+    if (!subscriber) {
+      return { success: false };
+    }
+
+    await unsubscribeSubscriberFromLists({
+      subscriberIds: [subscriber.id],
+      targetListIds: [listId],
+    });
+
+    // Email delivery is handled by listmonk (optional campaigns / templates).
+    return { success: true, email: subscriber.email };
   } catch {
     return { success: false };
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
-
-/**
- * Send goodbye confirmation email
- * GDPR Compliant: Confirms unsubscription action
- */
-export async function sendGoodbyeEmail(email: string): Promise<void> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-  try {
-    const emailHtml = await render(GoodbyeEmail());
-
-    await fetch(`${cmsApiUrl}/api/email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${cmsApiToken}`,
-      },
-      signal: controller.signal,
-      body: JSON.stringify({
-        to: email,
-        subject: 'Newsletter unsubscription confirmed',
-        html: emailHtml,
-      }),
-    });
-  } catch {
-    // Don't throw - unsubscribe still succeeded
-  } finally {
-    clearTimeout(timeoutId);
   }
 }
 
@@ -89,13 +53,6 @@ export async function GET(request: Request) {
     const result = await unsubscribeUser(token);
 
     if (result.success) {
-      // Send confirmation email (fire-and-forget with error handling)
-      if (result.email) {
-        sendGoodbyeEmail(result.email).catch(() => {
-          // Error handling for fire-and-forget promise - user still redirected successfully
-        });
-      }
-
       // Redirect to unsubscribed confirmation page
       return NextResponse.redirect(
         new URL('/newsletter/unsubscribed', request.url),
