@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import type { WidgetAttributes } from 'altcha/types';
 import type {} from 'altcha/types/react';
-import type {} from 'altcha/types/react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
