@@ -16,11 +16,8 @@ export const newsletterSubscribeSchema = z.object({
           return (
             typeof parsed === 'object' &&
             parsed !== null &&
-            'algorithm' in parsed &&
             'challenge' in parsed &&
-            'number' in parsed &&
-            'salt' in parsed &&
-            'signature' in parsed
+            'solution' in parsed
           );
         } catch {
           return false;

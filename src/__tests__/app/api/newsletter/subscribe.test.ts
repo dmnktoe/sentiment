@@ -14,34 +14,45 @@ import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
 // ---------------------------------------------------------------------------
 
 jest.mock('@/constant/env', () => ({
-  get cmsApiUrl() {
-    return process.env.CMS_API_URL;
-  },
-  get cmsApiToken() {
-    return process.env.CMS_API_TOKEN;
-  },
   get altchaHmacSecret() {
     return process.env.ALTCHA_HMAC_SECRET;
   },
-  get siteUrl() {
-    return process.env.NEXT_PUBLIC_SITE_URL;
+  get listmonkBaseUrl() {
+    return process.env.LISTMONK_BASE_URL;
   },
-  get cmsPublicUrl() {
-    return process.env.NEXT_PUBLIC_CMS_URL;
+  get listmonkApiUser() {
+    return process.env.LISTMONK_API_USER;
+  },
+  get listmonkApiKey() {
+    return process.env.LISTMONK_API_KEY;
+  },
+  get listmonkListId() {
+    return process.env.LISTMONK_LIST_ID;
   },
 }));
 
-// altcha-lib: verifySolution is controlled per-test
-jest.mock('altcha-lib', () => ({ verifySolution: jest.fn() }));
-
-// react-email: suppress actual rendering
-jest.mock('@react-email/components', () => ({
-  render: jest.fn().mockResolvedValue('<div>email</div>'),
+// altcha-lib (v2): verifySolution is controlled per-test
+jest.mock('altcha-lib', () => ({
+  verifySolution: jest.fn(),
 }));
 
-jest.mock('@/emails/confirm-subscription', () => ({
-  __esModule: true,
-  default: jest.fn().mockReturnValue(null),
+jest.mock('altcha-lib/frameworks/shared', () => ({
+  deriveHmacKeySecret: jest.fn(),
+}));
+
+// listmonk client wrapper
+jest.mock('@/lib/listmonk', () => ({
+  createSubscriber: jest.fn(),
+  ListmonkError: class ListmonkError extends Error {
+    public readonly status: number;
+    public readonly responseBody: unknown;
+    constructor(message: string, status: number, responseBody: unknown) {
+      super(message);
+      this.name = 'ListmonkError';
+      this.status = status;
+      this.responseBody = responseBody;
+    }
+  },
 }));
 
 // POST handler — imported once after all mocks are set up
@@ -52,17 +63,24 @@ beforeAll(async () => {
   POST = mod.POST;
 });
 
-// Valid ALTCHA payload: Base64-encoded JSON with all required fields
-// Schema requires min(100) chars + valid Base64-JSON structure
+// Valid ALTCHA payload: Base64-encoded JSON with {challenge, solution}
+// Schema requires min(100) chars + valid Base64-JSON structure.
 const VALID_ALTCHA_PAYLOAD = btoa(
   JSON.stringify({
-    algorithm: 'SHA-256',
-    challenge: 'test-challenge-string-abc',
-    number: 12345,
-    salt: 'test-salt-abc-123',
-    signature: 'test-signature-abc-xyz',
+    challenge: {
+      algorithm: 'PBKDF2/SHA-256',
+      challenge: 'c',
+      salt: 's',
+      signature: 'sig',
+      cost: 5000,
+      counter: 7000,
+      expiresAt: Math.floor(Date.now() / 1000) + 300,
+    },
+    solution: {
+      counter: 7000,
+    },
   }),
-);
+).padEnd(100, 'x');
 
 describe('Newsletter Subscribe Validation', () => {
   describe('Input Schema Validation', () => {
@@ -325,20 +343,25 @@ describe('Newsletter Subscribe Validation', () => {
 // ---------------------------------------------------------------------------
 
 describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.resetAllMocks();
-    global.fetch = jest.fn() as jest.Mock;
-    process.env.CMS_API_URL = 'http://strapi.test';
-    process.env.CMS_API_TOKEN = 'test-token-abc';
     process.env.ALTCHA_HMAC_SECRET = 'test-secret-hex';
-    process.env.NEXT_PUBLIC_SITE_URL = 'http://localhost:3000';
+    process.env.LISTMONK_BASE_URL = 'http://listmonk.test';
+    process.env.LISTMONK_API_USER = 'api';
+    process.env.LISTMONK_API_KEY = 'key';
+    process.env.LISTMONK_LIST_ID = '1';
+
+    const { deriveHmacKeySecret } =
+      await import('altcha-lib/frameworks/shared');
+    (deriveHmacKeySecret as jest.Mock).mockResolvedValue('derived-secret');
   });
 
   afterEach(() => {
-    delete process.env.CMS_API_URL;
-    delete process.env.CMS_API_TOKEN;
     delete process.env.ALTCHA_HMAC_SECRET;
-    delete process.env.NEXT_PUBLIC_SITE_URL;
+    delete process.env.LISTMONK_BASE_URL;
+    delete process.env.LISTMONK_API_USER;
+    delete process.env.LISTMONK_API_KEY;
+    delete process.env.LISTMONK_LIST_ID;
   });
 
   function makeRequest(body: object, ip = '1.2.3.4') {
@@ -370,8 +393,8 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     expect(res.status).toBe(400);
     const json = await res.json();
     expect(json.error).toMatch(/bot verification failed/i);
-    // Strapi must NOT be called when ALTCHA fails
-    expect(global.fetch).not.toHaveBeenCalled();
+    const { createSubscriber } = await import('@/lib/listmonk');
+    expect(createSubscriber).not.toHaveBeenCalled();
   });
 
   it('returns 400 "Bot verification failed" when ALTCHA_HMAC_SECRET is not configured', async () => {
@@ -404,28 +427,22 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
 
     // Schema rejects first (400 invalid input), which is fine — bot still blocked
     expect(res.status).toBe(400);
-    expect(global.fetch).not.toHaveBeenCalled();
+    const { createSubscriber } = await import('@/lib/listmonk');
+    expect(createSubscriber).not.toHaveBeenCalled();
   });
 
-  it('calls Strapi and returns 200 when verifySolution returns true', async () => {
+  it('calls listmonk and returns 200 when verifySolution returns true', async () => {
     const { verifySolution } = await import('altcha-lib');
-    (verifySolution as jest.Mock).mockResolvedValueOnce(true);
+    (verifySolution as jest.Mock).mockResolvedValueOnce({ verified: true });
 
-    (global.fetch as jest.Mock)
-      // 1. createSubscriber
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          data: {
-            email: 'user@example.com',
-            token: 'tok-abc',
-            confirmed: false,
-            status: 'active',
-          },
-        }),
-      })
-      // 2. sendConfirmationEmail
-      .mockResolvedValueOnce({ ok: true });
+    const { createSubscriber } = await import('@/lib/listmonk');
+    (createSubscriber as jest.Mock).mockResolvedValueOnce({
+      id: 123,
+      uuid: 'sub-uuid',
+      email: 'user@example.com',
+      name: 'user@example.com',
+      status: 'enabled',
+    });
 
     const res = await POST(
       makeRequest(
@@ -441,8 +458,55 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     expect(res.status).toBe(200);
     const json = await res.json();
     expect(json.message).toMatch(/confirm/i);
-    // Strapi called twice: create subscriber + send confirmation email
-    expect(global.fetch).toHaveBeenCalledTimes(2);
+    expect(createSubscriber).toHaveBeenCalledTimes(1);
+  });
+
+  it('returns 200 with generic message when listmonk reports duplicate (409)', async () => {
+    const { verifySolution } = await import('altcha-lib');
+    (verifySolution as jest.Mock).mockResolvedValueOnce({ verified: true });
+
+    const { createSubscriber, ListmonkError } = await import('@/lib/listmonk');
+    (createSubscriber as jest.Mock).mockRejectedValueOnce(
+      new ListmonkError('dup', 409, {}),
+    );
+
+    const res = await POST(
+      makeRequest(
+        {
+          email: 'dup@example.com',
+          altcha: VALID_ALTCHA_PAYLOAD,
+          privacy: true,
+        },
+        '10.0.0.6',
+      ),
+    );
+
+    expect(res.status).toBe(200);
+    const json = await res.json();
+    expect(String(json.message)).toMatch(/thank you/i);
+  });
+
+  it('returns 500 when listmonk returns 400 from createSubscriber', async () => {
+    const { verifySolution } = await import('altcha-lib');
+    (verifySolution as jest.Mock).mockResolvedValueOnce({ verified: true });
+
+    const { createSubscriber, ListmonkError } = await import('@/lib/listmonk');
+    (createSubscriber as jest.Mock).mockRejectedValueOnce(
+      new ListmonkError('bad', 400, { reason: 'validation' }),
+    );
+
+    const res = await POST(
+      makeRequest(
+        {
+          email: 'bad@example.com',
+          altcha: VALID_ALTCHA_PAYLOAD,
+          privacy: true,
+        },
+        '10.0.0.7',
+      ),
+    );
+
+    expect(res.status).toBe(500);
   });
 
   it('returns 400 for missing privacy consent before ALTCHA check runs', async () => {
@@ -462,6 +526,7 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     expect(res.status).toBe(400);
     // verifySolution must never be called if privacy is not accepted
     expect(verifySolution).not.toHaveBeenCalled();
-    expect(global.fetch).not.toHaveBeenCalled();
+    const { createSubscriber } = await import('@/lib/listmonk');
+    expect(createSubscriber).not.toHaveBeenCalled();
   });
 });

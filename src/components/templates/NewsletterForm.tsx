@@ -1,6 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { WidgetAttributes } from 'altcha/types';
+import type {} from 'altcha/types/react';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -20,7 +22,11 @@ interface AltchaStateChangeEvent extends Event {
   };
 }
 
-const altchaStyleLight: AltchaWidgetCSSProperties = {
+type AltchaWidgetCssVars = Partial<
+  Record<Extract<keyof WidgetAttributes, `--altcha-${string}`>, string>
+>;
+
+const altchaStyleLight: AltchaWidgetCssVars = {
   '--altcha-border-width': '1px',
   '--altcha-border-radius': '8px',
   '--altcha-color-base': '#ffffff',
@@ -32,7 +38,7 @@ const altchaStyleLight: AltchaWidgetCSSProperties = {
   '--altcha-max-width': '100%',
 };
 
-const altchaStyleDark: AltchaWidgetCSSProperties = {
+const altchaStyleDark: AltchaWidgetCssVars = {
   '--altcha-border-width': '1px',
   '--altcha-border-radius': '8px',
   '--altcha-color-base': '#171717',
@@ -191,12 +197,8 @@ export function NewsletterForm() {
 
       <div className='min-h-[100px]'>
         <altcha-widget
-          id='altcha-widget'
           aria-label='Bot protection verification'
-          challengeurl='/api/newsletter/challenge'
-          hidefooter={false}
-          hidelogo={false}
-          strings='{"label":"I am not a robot","verifying":"Verifying...","verified":"Verified","error":"Verification failed. Please try again later."}'
+          challenge='/api/newsletter/challenge'
           style={altchaStyle}
         />
 

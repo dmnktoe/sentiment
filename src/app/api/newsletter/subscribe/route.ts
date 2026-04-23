@@ -1,15 +1,12 @@
-import { render } from '@react-email/components';
+import { verifySolution } from 'altcha-lib';
+import { deriveKey } from 'altcha-lib/algorithms/pbkdf2';
+import { deriveHmacKeySecret } from 'altcha-lib/frameworks/shared';
 import { NextResponse } from 'next/server';
 
+import { createSubscriber, ListmonkError } from '@/lib/listmonk';
 import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
 
-import {
-  altchaHmacSecret,
-  cmsApiToken,
-  cmsApiUrl,
-  siteUrl,
-} from '@/constant/env';
-import ConfirmSubscriptionEmail from '@/emails/confirm-subscription';
+import { altchaHmacSecret, listmonkListId } from '@/constant/env';
 
 // In-Memory Rate-Limiting (pro IP, 3 Versuche pro Stunde)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -48,9 +45,9 @@ function checkRateLimit(ip: string): boolean {
 async function verifyAltcha(payload: string): Promise<boolean> {
   try {
     // Validate ALTCHA_HMAC_SECRET environment variable
-    const hmacKey = altchaHmacSecret;
+    const hmacSignatureSecret = altchaHmacSecret;
 
-    if (!hmacKey) {
+    if (!hmacSignatureSecret) {
       return false;
     }
 
@@ -67,158 +64,34 @@ async function verifyAltcha(payload: string): Promise<boolean> {
       return false;
     }
 
-    // Import verifySolution from altcha-lib for server-side verification
-    const { verifySolution } = await import('altcha-lib');
+    const parsed = JSON.parse(atob(payload)) as {
+      challenge?: unknown;
+      solution?: unknown;
+    };
+    if (!parsed.challenge || !parsed.solution) {
+      return false;
+    }
 
-    // Verify the ALTCHA solution with signature and expiration check
-    const isValid = await verifySolution(payload, hmacKey, true);
+    const hmacKeySignatureSecret =
+      await deriveHmacKeySecret(hmacSignatureSecret);
 
-    return isValid;
-  } catch {
-    return false;
-  }
-}
-
-/**
- * Create subscriber in Strapi database
- * GDPR: Data minimization - only stores email and confirmation token
- */
-interface Subscriber {
-  email: string;
-  token: string;
-  confirmed: boolean;
-  status: 'active' | 'unsubscribed';
-}
-
-async function createSubscriber(email: string): Promise<Subscriber | null> {
-  const token = crypto.randomUUID();
-
-  // Create AbortController with 10s timeout
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-  try {
-    // Call Strapi API to create subscriber
-    const response = await fetch(`${cmsApiUrl}/api/subscribers`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${cmsApiToken}`,
-      },
-      signal: controller.signal,
-      body: JSON.stringify({
-        data: {
-          email,
-          token,
-          confirmed: false, // Requires confirmation (double opt-in)
-          status: 'active',
-        },
-      }),
+    const result = await verifySolution({
+      challenge: parsed.challenge as never,
+      solution: parsed.solution as never,
+      deriveKey,
+      hmacSignatureSecret,
+      hmacKeySignatureSecret,
     });
 
-    if (!response.ok) {
-      // Return null only for known duplicate/validation responses
-      if (response.status === 400 || response.status === 409) {
-        return null;
-      }
-      // All other errors (5xx, auth failures, etc.) bubble up to the POST handler
-      const errorText = await response.text().catch(() => '');
-      throw new Error(
-        `Strapi responded with ${response.status} ${response.statusText}${errorText ? `: ${errorText}` : ''}`,
-      );
-    }
-
-    const data = await response.json();
-
-    // Strapi v5 returns data directly (not in attributes)
-    // null here means a Strapi-internal issue, not a duplicate — treat as error
-    if (!data.data) {
-      throw new Error('Strapi returned empty data after creating subscriber');
-    }
-
-    // Use the token we generated, as Strapi might not return it (if marked private)
-    return {
-      email: data.data.email,
-      token: data.data.token || token, // Fallback to generated token
-      confirmed: data.data.confirmed,
-      status: data.data.status,
-    };
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
-
-/**
- * Delete a subscriber by token — called when confirmation email fails
- * GDPR: Prevents orphaned unconfirmed records that block future retries
- */
-async function deleteSubscriberByToken(token: string): Promise<void> {
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 5000);
-    try {
-      await fetch(
-        `${cmsApiUrl}/api/subscribers/by-token?token=${encodeURIComponent(token)}`,
-        {
-          method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${cmsApiToken}`,
-          },
-          signal: controller.signal,
-        },
-      );
-    } finally {
-      clearTimeout(timeoutId);
-    }
-  } catch {
-    // Best-effort cleanup — do not throw, unsubscribe still matters
-    // eslint-disable-next-line no-console
-    console.error('Failed to clean up subscriber after email delivery failure');
-  }
-}
-
-/**
- * Send double opt-in confirmation email
- * GDPR Compliant: User must explicitly confirm subscription
- */
-async function sendConfirmationEmail(
-  email: string,
-  token: string,
-): Promise<boolean> {
-  try {
-    // Create AbortController with 10s timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-    try {
-      // Generate confirmation URL with token
-      const confirmUrl = `${siteUrl}/api/newsletter/confirm?token=${encodeURIComponent(token)}`;
-
-      // Render email template
-      const emailHtml = await render(ConfirmSubscriptionEmail({ confirmUrl }));
-
-      // Send email via Strapi email plugin
-      const response = await fetch(`${cmsApiUrl}/api/email`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${cmsApiToken}`,
-        },
-        signal: controller.signal,
-        body: JSON.stringify({
-          to: email,
-          subject: 'Confirm your newsletter subscription',
-          html: emailHtml,
-        }),
-      });
-
-      return response.ok;
-    } finally {
-      clearTimeout(timeoutId);
-    }
+    return result.verified === true;
   } catch {
     return false;
   }
+}
+
+function parseRequiredListId(raw: string | undefined): number | null {
+  const n = raw ? Number(raw) : NaN;
+  return Number.isInteger(n) && n > 0 ? n : null;
 }
 
 /**
@@ -245,11 +118,10 @@ export async function POST(request: Request) {
       );
     }
 
-    // Guard: siteUrl is required to build confirmation email links.
-    // If missing, emails would contain "undefined/api/..." links.
-    if (!siteUrl) {
+    const listId = parseRequiredListId(listmonkListId);
+    if (!listId) {
       return NextResponse.json(
-        { error: 'Missing site configuration' },
+        { error: 'Missing newsletter configuration' },
         { status: 500 },
       );
     }
@@ -285,29 +157,32 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create subscriber (unconfirmed)
-    const subscriber = await createSubscriber(email);
+    try {
+      // Do not explicitly trigger opt-in email here to avoid duplicates.
+      // listmonk sends the confirmation email automatically for double opt-in lists.
+      await createSubscriber({ email, listIds: [listId] });
+    } catch (err) {
+      // Only duplicate / conflict: silent success to avoid user enumeration.
+      if (err instanceof ListmonkError && err.status === 409) {
+        return NextResponse.json({
+          message:
+            'Thank you! If the email address is not yet registered, you will receive a confirmation email.',
+        });
+      }
 
-    // Silent failure if email already exists
-    // GDPR: Prevents user enumeration attack
-    if (!subscriber) {
-      return NextResponse.json({
-        message:
-          'Thank you! If the email address is not yet registered, you will receive a confirmation email.',
-      });
-    }
+      if (err instanceof ListmonkError && err.status === 400) {
+        // eslint-disable-next-line no-console
+        console.error('Newsletter subscribe: listmonk validation error', err);
+        return NextResponse.json(
+          { error: 'An internal error occurred' },
+          { status: 500 },
+        );
+      }
 
-    // Send double opt-in confirmation email with error handling
-    const emailSent = await sendConfirmationEmail(email, subscriber.token);
-
-    // If email failed, delete the subscriber so the user can retry later
-    // GDPR: Prevents orphaned unconfirmed records that can never be confirmed
-    if (!emailSent) {
-      await deleteSubscriberByToken(subscriber.token);
+      // eslint-disable-next-line no-console
+      console.error('Newsletter subscribe failed', err);
       return NextResponse.json(
-        {
-          error: 'Email could not be sent. Please try again later.',
-        },
+        { error: 'An internal error occurred' },
         { status: 500 },
       );
     }
