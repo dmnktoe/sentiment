@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/api/events",
+      "destination": "https://sentiment-exhibition.vercel.app/api/events/"
+    },
+    {
+      "source": "/api/events/",
+      "destination": "https://sentiment-exhibition.vercel.app/api/events/"
+    },
+    {
+      "source": "/api/events/:path*",
+      "destination": "https://sentiment-exhibition.vercel.app/api/events/:path*"
+    },
+    {
       "source": "/public/:path*",
       "destination": "https://sentiment-exhibition.vercel.app/public/:path*"
     },
