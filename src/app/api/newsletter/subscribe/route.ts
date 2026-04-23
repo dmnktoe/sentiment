@@ -3,11 +3,7 @@ import { deriveKey } from 'altcha-lib/algorithms/pbkdf2';
 import { deriveHmacKeySecret } from 'altcha-lib/frameworks/nextjs';
 import { NextResponse } from 'next/server';
 
-import {
-  createSubscriber,
-  ListmonkError,
-  sendOptInEmail,
-} from '@/lib/listmonk';
+import { createSubscriber, ListmonkError } from '@/lib/listmonk';
 import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
 
 import { altchaHmacSecret, listmonkListId } from '@/constant/env';
@@ -162,8 +158,9 @@ export async function POST(request: Request) {
     }
 
     try {
-      const subscriber = await createSubscriber({ email, listIds: [listId] });
-      await sendOptInEmail(subscriber.id);
+      // Do not explicitly trigger opt-in email here to avoid duplicates.
+      // listmonk sends the confirmation email automatically for double opt-in lists.
+      await createSubscriber({ email, listIds: [listId] });
     } catch (err) {
       // Silent failure on duplicates/validation to avoid user enumeration.
       if (

@@ -439,7 +439,6 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
       name: 'user@example.com',
       status: 'enabled',
     });
-    (sendOptInEmail as jest.Mock).mockResolvedValueOnce(true);
 
     const res = await POST(
       makeRequest(
@@ -456,7 +455,7 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
     const json = await res.json();
     expect(json.message).toMatch(/confirm/i);
     expect(createSubscriber).toHaveBeenCalledTimes(1);
-    expect(sendOptInEmail).toHaveBeenCalledTimes(1);
+    expect(sendOptInEmail).not.toHaveBeenCalled();
   });
 
   it('returns 400 for missing privacy consent before ALTCHA check runs', async () => {
