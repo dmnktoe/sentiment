@@ -1,25 +1,33 @@
-import { createChallenge } from 'altcha-lib';
+import { createChallenge, randomInt } from 'altcha-lib';
+import { deriveKey } from 'altcha-lib/algorithms/pbkdf2';
+import { deriveHmacKeySecret } from 'altcha-lib/frameworks/nextjs';
 import { NextResponse } from 'next/server';
 
 import { altchaHmacSecret } from '@/constant/env';
 
 export async function GET() {
   try {
-    const hmacKey = altchaHmacSecret;
+    const hmacSignatureSecret = altchaHmacSecret;
 
-    if (!hmacKey) {
+    if (!hmacSignatureSecret) {
       return NextResponse.json(
         { error: 'Server configuration error' },
         { status: 500 },
       );
     }
 
-    // Generate ALTCHA challenge with proper HMAC signature
+    const hmacKeySignatureSecret =
+      await deriveHmacKeySecret(hmacSignatureSecret);
+
+    // Generate ALTCHA v2 (PoW v2) challenge for Widget v3.
     const challenge = await createChallenge({
-      hmacKey,
-      maxNumber: 100000, // Maximum number for proof-of-work
-      algorithm: 'SHA-256',
-      expires: new Date(Date.now() + 5 * 60 * 1000), // Challenge expires in 5 minutes
+      algorithm: 'PBKDF2/SHA-256',
+      cost: 5_000,
+      counter: randomInt(5_000, 10_000),
+      deriveKey,
+      hmacSignatureSecret,
+      hmacKeySignatureSecret,
+      expiresAt: new Date(Date.now() + 5 * 60 * 1000),
     });
 
     return NextResponse.json(challenge);

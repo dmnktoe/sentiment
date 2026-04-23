@@ -31,8 +31,11 @@ jest.mock('@/constant/env', () => ({
   },
 }));
 
-// altcha-lib: verifySolution is controlled per-test
-jest.mock('altcha-lib', () => ({ verifySolution: jest.fn() }));
+// altcha-lib (v2): verifySolution + deriveHmacKeySecret are controlled per-test
+jest.mock('altcha-lib', () => ({
+  deriveHmacKeySecret: jest.fn(),
+  verifySolution: jest.fn(),
+}));
 
 // listmonk client wrapper
 jest.mock('@/lib/listmonk', () => ({
@@ -58,17 +61,24 @@ beforeAll(async () => {
   POST = mod.POST;
 });
 
-// Valid ALTCHA payload: Base64-encoded JSON with all required fields
-// Schema requires min(100) chars + valid Base64-JSON structure
+// Valid ALTCHA payload: Base64-encoded JSON with {challenge, solution}
+// Schema requires min(100) chars + valid Base64-JSON structure.
 const VALID_ALTCHA_PAYLOAD = btoa(
   JSON.stringify({
-    algorithm: 'SHA-256',
-    challenge: 'test-challenge-string-abc',
-    number: 12345,
-    salt: 'test-salt-abc-123',
-    signature: 'test-signature-abc-xyz',
+    challenge: {
+      algorithm: 'PBKDF2/SHA-256',
+      challenge: 'c',
+      salt: 's',
+      signature: 'sig',
+      cost: 5000,
+      counter: 7000,
+      expiresAt: Math.floor(Date.now() / 1000) + 300,
+    },
+    solution: {
+      counter: 7000,
+    },
   }),
-);
+).padEnd(100, 'x');
 
 describe('Newsletter Subscribe Validation', () => {
   describe('Input Schema Validation', () => {
@@ -419,7 +429,7 @@ describe('POST /api/newsletter/subscribe — ALTCHA bot protection', () => {
 
   it('calls listmonk and returns 200 when verifySolution returns true', async () => {
     const { verifySolution } = await import('altcha-lib');
-    (verifySolution as jest.Mock).mockResolvedValueOnce(true);
+    (verifySolution as jest.Mock).mockResolvedValueOnce({ verified: true });
 
     const { createSubscriber, sendOptInEmail } = await import('@/lib/listmonk');
     (createSubscriber as jest.Mock).mockResolvedValueOnce({

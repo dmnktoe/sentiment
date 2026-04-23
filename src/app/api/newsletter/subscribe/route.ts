@@ -1,3 +1,6 @@
+import { verifySolution } from 'altcha-lib';
+import { deriveKey } from 'altcha-lib/algorithms/pbkdf2';
+import { deriveHmacKeySecret } from 'altcha-lib/frameworks/nextjs';
 import { NextResponse } from 'next/server';
 
 import {
@@ -46,9 +49,9 @@ function checkRateLimit(ip: string): boolean {
 async function verifyAltcha(payload: string): Promise<boolean> {
   try {
     // Validate ALTCHA_HMAC_SECRET environment variable
-    const hmacKey = altchaHmacSecret;
+    const hmacSignatureSecret = altchaHmacSecret;
 
-    if (!hmacKey) {
+    if (!hmacSignatureSecret) {
       return false;
     }
 
@@ -65,13 +68,26 @@ async function verifyAltcha(payload: string): Promise<boolean> {
       return false;
     }
 
-    // Import verifySolution from altcha-lib for server-side verification
-    const { verifySolution } = await import('altcha-lib');
+    const parsed = JSON.parse(atob(payload)) as {
+      challenge?: unknown;
+      solution?: unknown;
+    };
+    if (!parsed.challenge || !parsed.solution) {
+      return false;
+    }
 
-    // Verify the ALTCHA solution with signature and expiration check
-    const isValid = await verifySolution(payload, hmacKey, true);
+    const hmacKeySignatureSecret =
+      await deriveHmacKeySecret(hmacSignatureSecret);
 
-    return isValid;
+    const result = await verifySolution({
+      challenge: parsed.challenge as never,
+      solution: parsed.solution as never,
+      deriveKey,
+      hmacSignatureSecret,
+      hmacKeySignatureSecret,
+    });
+
+    return result.verified === true;
   } catch {
     return false;
   }

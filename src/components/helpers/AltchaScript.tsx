@@ -1,5 +1,6 @@
 'use client';
 
+import type {} from 'altcha/types/react';
 import { useEffect } from 'react';
 
 export function AltchaScript() {
