@@ -181,7 +181,7 @@ export function NewsletterForm() {
           aria-invalid={errors.email ? 'true' : 'false'}
           aria-describedby={errors.email ? 'email-error' : undefined}
           disabled={status === 'loading'}
-          className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base text-text transition-all focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-white/20 dark:bg-neutral-900 placeholder:text-tertiary'
+          className='w-full rounded-lg border border-black bg-white px-4 py-3 text-base text-text transition-all focus:border-primary focus:outline-hidden focus:ring-4 focus:ring-primary/20 hover:border-primary/50 disabled:opacity-50 disabled:cursor-not-allowed dark:border-white/20 dark:bg-neutral-900 placeholder:text-tertiary'
           placeholder='your@email.com'
         />
         {errors.email && (

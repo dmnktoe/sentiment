@@ -61,7 +61,7 @@ export default function Header() {
 
   return (
     <header className='pointer-events-none fixed z-30 flex w-full justify-center'>
-      <div className='pointer-events-auto relative mt-8 flex items-center justify-between gap-3 rounded-full border-[1px] border-solid border-black bg-white/85 px-2 py-2 pl-4 shadow-sm backdrop-blur-md dark:border-white/20 dark:bg-neutral-950/85 sm:gap-16'>
+      <div className='pointer-events-auto relative mt-8 flex items-center justify-between gap-3 rounded-full border-[1px] border-solid border-black bg-white/85 px-2 py-2 pl-4 shadow-xs backdrop-blur-md dark:border-white/20 dark:bg-neutral-950/85 sm:gap-16'>
         <Link
           href='/'
           aria-label='Go to homepage'
@@ -77,7 +77,7 @@ export default function Header() {
 
           <button
             type='button'
-            className='inline-flex h-8 w-8 items-center justify-center rounded-2xl px-2 py-1 text-sm transition-colors hover:bg-neutral-200/75 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg dark:hover:bg-neutral-700/75 dark:hover:text-white sm:hidden'
+            className='inline-flex h-8 w-8 items-center justify-center rounded-2xl px-2 py-1 text-sm transition-colors hover:bg-neutral-200/75 hover:text-black focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg dark:hover:bg-neutral-700/75 dark:hover:text-white sm:hidden'
             aria-label={mobileNavOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileNavOpen}
             aria-controls={mobileNavId}
@@ -101,7 +101,7 @@ export default function Header() {
         >
           <nav
             aria-label='Mobile navigation'
-            className='rounded-3xl border border-black bg-white/95 p-2 shadow-sm backdrop-blur-md dark:border-white/20 dark:bg-neutral-950/95'
+            className='rounded-3xl border border-black bg-white/95 p-2 shadow-xs backdrop-blur-md dark:border-white/20 dark:bg-neutral-950/95'
           >
             <ul className='flex flex-col gap-1'>
               {navLinks.map((link) => (

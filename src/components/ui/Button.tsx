@@ -40,7 +40,7 @@ export const Button = React.forwardRef<
   ) => {
     const sharedClasses = clsxm(
       'cursor-pointer bg-primary border-text border-solid border inline-flex items-center justify-center px-6 py-1 lowercase rounded-e-lg text-base font-medium',
-      'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-text focus:ring-offset-bg',
+      'focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-text focus:ring-offset-bg',
       'disabled:opacity-50 disabled:cursor-not-allowed',
       'hover:bg-secondary hover:text-white',
       className,

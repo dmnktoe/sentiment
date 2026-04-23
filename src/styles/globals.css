@@ -1,26 +1,48 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Semantic palette (driven by --palette-* in :root / .dark) */
+  --color-primary: #ff5c24;
+  --color-secondary: #1f35a5;
+  --color-tertiary: var(--palette-tertiary);
+  --color-text: var(--palette-text);
+  --color-grid: var(--palette-grid);
+  --color-bg: var(--palette-bg);
+
+  --font-primary: 'CircularStd', ui-sans-serif, system-ui, sans-serif;
+  --font-secondary: ui-serif, georgia, cambria, 'Times New Roman', times, serif;
+}
 
 :root {
   --max-width: 975px;
-  --color-bg: #ffffff;
-  --color-text: #121212;
-  --color-tertiary: #8b9094;
-  --color-grid: #f2f2f2;
+  --palette-bg: #ffffff;
+  --palette-text: #121212;
+  --palette-tertiary: #8b9094;
+  --palette-grid: #f2f2f2;
+  --color-bg: var(--palette-bg);
+  --color-text: var(--palette-text);
+  --color-tertiary: var(--palette-tertiary);
+  --color-grid: var(--palette-grid);
 }
 
 .dark {
-  --color-bg: #121212;
-  --color-text: #f5f5f5;
-  --color-tertiary: #9ca3af;
-  --color-grid: #222222;
+  --palette-bg: #121212;
+  --palette-text: #f5f5f5;
+  --palette-tertiary: #9ca3af;
+  --palette-grid: #222222;
+  --color-bg: var(--palette-bg);
+  --color-text: var(--palette-text);
+  --color-tertiary: var(--palette-tertiary);
+  --color-grid: var(--palette-grid);
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 html,

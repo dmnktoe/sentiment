@@ -161,7 +161,7 @@ describe('Header Component', () => {
 
     it('should have shadow', () => {
       const { container } = render(<Header />);
-      const innerContainer = container.querySelector('.shadow-sm');
+      const innerContainer = container.querySelector('.shadow-xs');
       expect(innerContainer).toBeInTheDocument();
     });
   });
