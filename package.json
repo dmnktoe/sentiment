@@ -47,7 +47,7 @@
     "@react-email/components": "1.0.12",
     "@strapi/blocks-react-renderer": "1.0.2",
     "altcha": "2.3.0",
-    "altcha-lib": "1.4.1",
+    "altcha-lib": "2.0.3",
     "clsx": "2.1.1",
     "lucide-react": "1.8.0",
     "next": "16.2.4",
