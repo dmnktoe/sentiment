@@ -1,0 +1,10 @@
+{
+  "rewrites": [
+    { "source": "/exhibition", "destination": "https://sentiment-exhibition.vercel.app/" },
+    { "source": "/exhibition/", "destination": "https://sentiment-exhibition.vercel.app/" },
+    {
+      "source": "/exhibition/:path*",
+      "destination": "https://sentiment-exhibition.vercel.app/:path*"
+    }
+  ]
+}

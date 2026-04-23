@@ -59,11 +59,18 @@ describe('Header Component', () => {
       expect(articlesLink).toHaveAttribute('href', '/articles');
     });
 
+    it('should render Exhibition link', () => {
+      render(<Header />);
+      const exhibitionLink = screen.getByRole('link', { name: /exhibition/i });
+      expect(exhibitionLink).toBeInTheDocument();
+      expect(exhibitionLink).toHaveAttribute('href', '/exhibition/');
+    });
+
     it('should have all navigation links', () => {
       render(<Header />);
       const navLinks = screen.getAllByRole('link');
-      // Should have at least 4 links (logo + 3 nav items)
-      expect(navLinks.length).toBeGreaterThanOrEqual(4);
+      // Should have at least 5 links (logo + 4 nav items)
+      expect(navLinks.length).toBeGreaterThanOrEqual(5);
     });
   });
 
@@ -111,9 +118,11 @@ describe('Header Component', () => {
       const aboutLink = screen.getByRole('link', { name: /about/i });
       const teamLink = screen.getByRole('link', { name: /team/i });
       const articlesLink = screen.getByRole('link', { name: /articles/i });
+      const exhibitionLink = screen.getByRole('link', { name: /exhibition/i });
       expect(aboutLink).toBeInTheDocument();
       expect(teamLink).toBeInTheDocument();
       expect(articlesLink).toBeInTheDocument();
+      expect(exhibitionLink).toBeInTheDocument();
     });
   });
 
@@ -127,7 +136,7 @@ describe('Header Component', () => {
     it('should render list items for each nav link', () => {
       render(<Header />);
       const listItems = screen.getAllByRole('listitem');
-      expect(listItems.length).toBe(3); // About, Team, Articles
+      expect(listItems.length).toBe(4); // About, Team, Articles, Exhibition
     });
 
     it('should use NavLink components', () => {
