@@ -1,7 +1,7 @@
- 'use client';
+'use client';
 
-import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 import * as React from 'react';
 
 import { Logo } from '@/components/ui/icons/Logo';

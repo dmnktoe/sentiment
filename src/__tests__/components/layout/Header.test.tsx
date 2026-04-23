@@ -63,7 +63,7 @@ describe('Header Component', () => {
       render(<Header />);
       const exhibitionLink = screen.getByRole('link', { name: /exhibition/i });
       expect(exhibitionLink).toBeInTheDocument();
-      expect(exhibitionLink).toHaveAttribute('href', '/exhibition/');
+      expect(exhibitionLink).toHaveAttribute('href', '/exhibition');
     });
 
     it('should have all navigation links', () => {
