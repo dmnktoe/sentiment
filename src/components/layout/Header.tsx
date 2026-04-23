@@ -12,7 +12,7 @@ const navLinks = [
   { href: '/about', text: 'About' },
   { href: '/team', text: 'Team' },
   { href: '/articles', text: 'Articles' },
-  { href: '/exhibition/', text: 'Exhibition' },
+  { href: '/exhibition', text: 'Exhibition' },
 ];
 
 function Navigation() {
@@ -32,6 +32,32 @@ function Navigation() {
 export default function Header() {
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
   const mobileNavId = React.useId();
+  const mobileNavRef = React.useRef<HTMLDivElement | null>(null);
+
+  React.useEffect(() => {
+    if (!mobileNavOpen) return;
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') setMobileNavOpen(false);
+    }
+
+    function onPointerDown(e: MouseEvent | TouchEvent) {
+      const target = e.target;
+      if (!(target instanceof Node)) return;
+      if (mobileNavRef.current?.contains(target)) return;
+      setMobileNavOpen(false);
+    }
+
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('touchstart', onPointerDown, { passive: true });
+
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('touchstart', onPointerDown);
+    };
+  }, [mobileNavOpen]);
 
   return (
     <header className='pointer-events-none fixed z-30 flex w-full justify-center'>
@@ -69,6 +95,7 @@ export default function Header() {
 
         <div
           id={mobileNavId}
+          ref={mobileNavRef}
           className='absolute left-0 top-full mt-2 w-full px-2 sm:hidden'
           hidden={!mobileNavOpen}
         >
@@ -79,7 +106,12 @@ export default function Header() {
             <ul className='flex flex-col gap-1'>
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <NavLink href={link.href}>{link.text}</NavLink>
+                  <NavLink
+                    href={link.href}
+                    onClick={() => setMobileNavOpen(false)}
+                  >
+                    {link.text}
+                  </NavLink>
                 </li>
               ))}
             </ul>

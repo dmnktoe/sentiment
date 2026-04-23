@@ -9,9 +9,11 @@ import clsxm from '@/lib/clsxm';
 const NavLink = ({
   href,
   children,
+  onClick,
 }: {
   href: string;
   children: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }) => {
   const pathname = usePathname();
   const isActive = href === '/' ? pathname === '/' : pathname.startsWith(href);
@@ -19,6 +21,7 @@ const NavLink = ({
   return (
     <Link
       href={href}
+      onClick={onClick}
       className={clsxm(
         'rounded-2xl px-2 py-1 text-sm hover:bg-neutral-200/75 hover:text-black focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-bg dark:hover:bg-neutral-700/75 dark:hover:text-white sm:text-lg',
         isActive && 'bg-black text-white dark:bg-white dark:text-black',
