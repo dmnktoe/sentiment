@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/public/:path*",
+      "destination": "https://sentiment-exhibition.vercel.app/public/:path*"
+    },
+    {
       "source": "/exhibition",
       "destination": "https://sentiment-exhibition.vercel.app/"
     },
