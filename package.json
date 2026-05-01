@@ -58,7 +58,7 @@
     "react-dom": "19.2.5",
     "react-hook-form": "7.74.0",
     "tailwind-merge": "3.5.0",
-    "zod": "4.4.1"
+    "zod": "4.4.2"
   },
   "devDependencies": {
     "@commitlint/cli": "20.5.3",
