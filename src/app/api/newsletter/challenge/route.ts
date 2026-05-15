@@ -30,7 +30,13 @@ export async function GET() {
       expiresAt: new Date(Date.now() + 5 * 60 * 1000),
     });
 
-    return NextResponse.json(challenge);
+    return NextResponse.json(challenge, {
+      headers: {
+        // Challenges are single-use and time-sensitive — must never be cached.
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        Pragma: 'no-cache',
+      },
+    });
   } catch {
     return NextResponse.json(
       { error: 'Failed to generate challenge' },

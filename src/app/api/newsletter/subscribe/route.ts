@@ -44,30 +44,19 @@ function checkRateLimit(ip: string): boolean {
  */
 async function verifyAltcha(payload: string): Promise<boolean> {
   try {
-    // Validate ALTCHA_HMAC_SECRET environment variable
     const hmacSignatureSecret = altchaHmacSecret;
 
-    if (!hmacSignatureSecret) {
+    if (!hmacSignatureSecret || !payload || payload.length < 100) {
       return false;
     }
 
-    // Mindestlänge für gültiges Base64-JSON Payload
-    if (!payload || payload.length < 100) {
-      return false;
-    }
-
-    // Prüfe ob es sich um gültiges Base64-JSON handelt
+    let parsed: { challenge?: unknown; solution?: unknown };
     try {
-      const decoded = atob(payload);
-      JSON.parse(decoded);
+      parsed = JSON.parse(atob(payload));
     } catch {
       return false;
     }
 
-    const parsed = JSON.parse(atob(payload)) as {
-      challenge?: unknown;
-      solution?: unknown;
-    };
     if (!parsed.challenge || !parsed.solution) {
       return false;
     }
@@ -138,15 +127,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { email, altcha, privacy } = validation.data;
-
-    // Verify privacy policy acceptance (GDPR requirement)
-    if (!privacy) {
-      return NextResponse.json(
-        { error: 'Please accept the privacy policy' },
-        { status: 400 },
-      );
-    }
+    const { email, altcha } = validation.data;
 
     // Verify ALTCHA solution (bot protection)
     const isValidCaptcha = await verifyAltcha(altcha);
