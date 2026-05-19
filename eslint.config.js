@@ -1,20 +1,18 @@
 const { defineConfig } = require('eslint/config');
 
 const globals = require('globals');
-const typescriptEslint = require('@typescript-eslint/eslint-plugin');
+const tseslint = require('typescript-eslint');
 const simpleImportSort = require('eslint-plugin-simple-import-sort');
 const unusedImports = require('eslint-plugin-unused-imports');
 const { FlatCompat } = require('@eslint/eslintrc');
-const reactPlugin = require('eslint-plugin-react');
-const reactHooksPlugin = require('eslint-plugin-react-hooks');
 const eslintNext = require('eslint-config-next');
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
+const compat = new FlatCompat({ baseDirectory: __dirname });
 
 module.exports = defineConfig([
   ...eslintNext,
+  ...tseslint.configs.recommended, // bringt Plugin + Rules mit
+  ...compat.extends('prettier', 'plugin:prettier/recommended'),
   {
     languageOptions: {
       globals: {
@@ -26,48 +24,27 @@ module.exports = defineConfig([
     },
 
     plugins: {
-      '@typescript-eslint': typescriptEslint,
       'simple-import-sort': simpleImportSort,
       'unused-imports': unusedImports,
-      react: reactPlugin,
-      'react-hooks': reactHooksPlugin,
     },
-
-    extends: compat.extends(
-      'plugin:@typescript-eslint/recommended',
-      'prettier',
-      'plugin:prettier/recommended',
-    ),
 
     rules: {
       'no-unused-vars': 'off',
       'no-console': 'warn',
       'no-multi-spaces': 'error',
       '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
       'react/no-unescaped-entities': 'off',
-      'object-curly-spacing': ['warn', 'always'],
-
-      quotes: [
-        'warn',
-        'single',
-        {
-          avoidEscape: true,
-        },
-      ],
-
       'react/display-name': 'off',
+      'object-curly-spacing': ['warn', 'always'],
+      quotes: ['warn', 'single', { avoidEscape: true }],
 
       'react/jsx-curly-brace-presence': [
         'warn',
-        {
-          props: 'never',
-          children: 'never',
-        },
+        { props: 'never', children: 'never' },
       ],
 
-      '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'warn',
-
       'unused-imports/no-unused-vars': [
         'warn',
         {
@@ -79,7 +56,6 @@ module.exports = defineConfig([
       ],
 
       'simple-import-sort/exports': 'warn',
-
       'simple-import-sort/imports': [
         'warn',
         {
