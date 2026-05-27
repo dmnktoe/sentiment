@@ -17,9 +17,7 @@ export function AltchaScript() {
       return;
     }
 
-    import('altcha').catch(() => {
-      // Intentionally ignore load errors; form can still be submitted.
-    });
+    import('altcha').catch(() => {});
   }, []);
 
   return null;

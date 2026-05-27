@@ -91,9 +91,7 @@ export function NewsletterForm() {
         if (cancelled) return;
         setWidgetReady(true);
       })
-      .catch(() => {
-        // Widget script failed to load — surface via fallback message.
-      });
+      .catch(() => {});
 
     return () => {
       cancelled = true;
@@ -121,7 +119,6 @@ export function NewsletterForm() {
         state === 'expired' ||
         state === 'error'
       ) {
-        // Clear stale payload so an invalidated widget cannot submit.
         setValue('altcha', '', {
           shouldValidate: false,
           shouldDirty: true,
@@ -172,7 +169,6 @@ export function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
-      {/* Email Field */}
       <div className='group'>
         <label
           htmlFor='email'
@@ -208,7 +204,6 @@ export function NewsletterForm() {
           style={altchaStyle}
         />
 
-        {/* Hidden field monitored by react-hook-form */}
         <input type='hidden' {...register('altcha')} />
 
         {errors.altcha && (
@@ -232,7 +227,6 @@ export function NewsletterForm() {
         )}
       </div>
 
-      {/* Privacy Checkbox */}
       <div className='group flex items-center gap-3 rounded-lg p-3 hover:bg-grid'>
         <input
           {...register('privacy')}
@@ -264,7 +258,6 @@ export function NewsletterForm() {
         </Paragraph>
       )}
 
-      {/* Submit Button */}
       <Button
         type='submit'
         disabled={status === 'loading'}
@@ -273,7 +266,6 @@ export function NewsletterForm() {
         {status === 'loading' ? 'Sending...' : 'Subscribe Now'}
       </Button>
 
-      {/* Status Messages */}
       {message && (
         <div
           role={status === 'error' ? 'alert' : 'status'}

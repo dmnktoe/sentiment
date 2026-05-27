@@ -7,9 +7,7 @@ declare module 'react/jsx-runtime' {
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        // v3: `challenge` can be a URL or inline JSON challenge.
         challenge?: string;
-        // Legacy / alternative spellings used across versions/examples.
         challengeurl?: string;
         challengeUrl?: string;
         hideLogo?: boolean;
