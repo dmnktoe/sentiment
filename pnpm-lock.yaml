@@ -21,8 +21,8 @@ importers:
         specifier: 3.0.9
         version: 3.0.9
       altcha-lib:
-        specifier: 2.0.3
-        version: 2.0.3
+        specifier: 2.2.0
+        version: 2.2.0
       clsx:
         specifier: 2.1.1
         version: 2.1.1
@@ -1509,8 +1509,8 @@ packages:
   ajv@8.17.1:
     resolution: {integrity: sha512-B/gBuNg5SiMTrPkC+A2+cW0RszwxYmn6VYxB/inlBStS5nx6xHIt/ehKRhIMhqusl7a8LjQoZnjCs5vhwxOQ1g==}
 
-  altcha-lib@2.0.3:
-    resolution: {integrity: sha512-rbBOrVcg5DiBPfn5dfhT+7J5k/Dqtj4seR5m1BB+w0QK4pZOBSS0ZpZ5PkolypmR315/SVbpXHM/QuL0kH5Seg==}
+  altcha-lib@2.2.0:
+    resolution: {integrity: sha512-O4+q6+JECTRgse9NVDsAJ8PwWhYpb+iAlT3wVcZ/BMGv2wkumAGWK3GE5FGbgzI7K5CJLDoNBKuQBUQui+62Ig==}
     hasBin: true
     peerDependencies:
       '@fastify/cookie': ^11.0.0
@@ -5509,7 +5509,7 @@ snapshots:
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
-  altcha-lib@2.0.3: {}
+  altcha-lib@2.2.0: {}
 
   altcha@3.0.9:
     dependencies:
