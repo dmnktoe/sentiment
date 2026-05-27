@@ -43,23 +43,25 @@ export default function Privacy() {
           </Paragraph>
 
           <Title size='five' className='mt-12'>
-            2. Hosting über Vercel
+            2. Hosting
           </Title>
           <Paragraph>
-            Diese Website wird über die Plattform Vercel Inc. betrieben. Beim
-            Aufruf der Website werden die oben genannten Server-Logfiles auch
-            auf den Servern von Vercel verarbeitet. Vercel handelt als
+            Diese Website wird auf Servern der Hetzner Online GmbH,
+            Industriestr. 25, 91710 Gunzenhausen, Deutschland, gehostet. Beim
+            Aufruf der Website werden die oben genannten Server-Logfiles auf den
+            Servern von Hetzner verarbeitet. Hetzner handelt als
             Auftragsverarbeiter und verarbeitet Daten ausschließlich nach
-            unseren Weisungen.
+            unseren Weisungen. Sämtliche Daten werden ausschließlich in
+            deutschen Rechenzentren verarbeitet.
           </Paragraph>
           <Paragraph>
             Weitere Informationen finden Sie in der{' '}
             <Link
-              href='https://vercel.com/legal/privacy-policy'
+              href='https://www.hetzner.com/de/legal/privacy-policy/'
               external
               variant='underline'
             >
-              Datenschutzerklärung von Vercel
+              Datenschutzerklärung von Hetzner
             </Link>
             .
           </Paragraph>
