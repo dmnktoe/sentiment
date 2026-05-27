@@ -43,7 +43,8 @@
     ]
   },
   "dependencies": {
-    "@c15t/nextjs": "2.0.4",
+    "@c15t/nextjs": "2.1.0",
+    "@c15t/scripts": "2.1.0",
     "@hookform/resolvers": "5.4.0",
     "@strapi/blocks-react-renderer": "1.0.2",
     "altcha": "3.0.10",
