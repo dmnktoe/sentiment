@@ -130,6 +130,14 @@ export default async function Footer() {
                 </li>
                 <li>
                   <Link
+                    href='/cookies'
+                    className='text-tertiary transition-colors hover:text-primary hover:underline'
+                  >
+                    Cookie Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link
                     href='/contact'
                     className='text-tertiary transition-colors hover:text-primary hover:underline'
                   >

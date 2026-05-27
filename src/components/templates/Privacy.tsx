@@ -69,21 +69,30 @@ export default function Privacy() {
           </Paragraph>
 
           <Title size='five' className='mt-12'>
-            3. Cookies
+            3. Cookies und vergleichbare Technologien
           </Title>
           <Paragraph>
-            Diese Website verwendet ausschließlich technisch notwendige Cookies.
-            Cookies sind kleine Textdateien, die auf Ihrem Endgerät gespeichert
-            werden und keine Schäden verursachen.
+            Diese Website verwendet technisch notwendige Cookies sowie – nur mit
+            Ihrer ausdrücklichen Einwilligung – optionale Cookies für
+            Reichweitenmessung. Details zu den einzelnen Kategorien, den
+            eingesetzten Diensten sowie zur Speicherdauer finden Sie in unserer{' '}
+            <Link href='/cookies' variant='underline'>
+              Cookie Policy
+            </Link>
+            .
           </Paragraph>
           <Paragraph>
-            Sie können die Speicherung von Cookies durch entsprechende
-            Einstellungen in Ihrem Browser verhindern. In diesem Fall kann es
-            jedoch zu Funktionseinschränkungen dieser Website kommen.
+            Ihre Einwilligung können Sie jederzeit über die{' '}
+            <Link href='/cookies' variant='underline'>
+              Cookie Policy
+            </Link>{' '}
+            erteilen, anpassen oder widerrufen. Bis zur Erteilung einer
+            Einwilligung werden optionale Skripte vollständig blockiert.
           </Paragraph>
           <Paragraph>
-            Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
-            an der technischen Funktionalität der Website)
+            Rechtsgrundlage: Art. 6 Abs. 1 lit. a DSGVO i. V. m. § 25 Abs. 1
+            TTDSG für optionale Cookies; Art. 6 Abs. 1 lit. f DSGVO i. V. m. §
+            25 Abs. 2 Nr. 2 TTDSG für technisch notwendige Cookies.
           </Paragraph>
 
           <Title size='five' className='mt-12'>
