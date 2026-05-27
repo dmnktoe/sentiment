@@ -45,10 +45,13 @@ export default function Privacy() {
             2. Hosting
           </Title>
           <Paragraph>
-            Diese Website wird auf eigener Infrastruktur betrieben. Beim Aufruf
-            der Website werden die oben genannten Server-Logfiles auf unseren
-            Servern verarbeitet. Eine Weitergabe an externe Hosting-Anbieter
-            erfolgt nicht.
+            Diese Website wird auf Servern der Hetzner Online GmbH,
+            Industriestr. 25, 91710 Gunzenhausen, Deutschland, gehostet. Beim
+            Aufruf der Website werden die oben genannten Server-Logfiles auf den
+            Servern von Hetzner verarbeitet. Hetzner handelt als
+            Auftragsverarbeiter und verarbeitet Daten ausschließlich nach
+            unseren Weisungen. Sämtliche Daten werden ausschließlich in
+            deutschen Rechenzentren verarbeitet.
           </Paragraph>
           <Paragraph>
             Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
