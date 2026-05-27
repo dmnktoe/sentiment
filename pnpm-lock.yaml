@@ -9,8 +9,11 @@ importers:
   .:
     dependencies:
       '@c15t/nextjs':
-        specifier: 2.0.4
-        version: 2.0.4(@types/react@19.2.15)(next@16.2.6(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
+        specifier: 2.1.0
+        version: 2.1.0(@types/react@19.2.15)(next@16.2.6(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
+      '@c15t/scripts':
+        specifier: 2.1.0
+        version: 2.1.0
       '@hookform/resolvers':
         specifier: 5.4.0
         version: 5.4.0(react-hook-form@7.76.1(react@19.2.6))
@@ -341,27 +344,30 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@c15t/nextjs@2.0.4':
-    resolution: {integrity: sha512-tIFw3bTy1i8qJUnPgVbw/IEHk58s2HbrlITBTZXpcHYP0FHzRYWmIvKd2JGqavz/O8E2tUKBjP+M7FpF8rK2Pg==}
+  '@c15t/nextjs@2.1.0':
+    resolution: {integrity: sha512-W64elZWmNRNqXQIdz8sK5QNcECQkGxRVtls2prqTRdZIvtngYCO+5UJafQvAyRKJrePKCyBVlmunS08XR+3EOg==}
     peerDependencies:
       next: ^16.0.0 || ^15.0.0 || ^14.0.0 || ^13.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
 
-  '@c15t/react@2.0.4':
-    resolution: {integrity: sha512-z9TU1TyvIat3q2cWHI6t0BWRpIjcH3PP6vTva904dsW37NIVjW6ACpgNxYG9wx1KSGT8fWxM92bm9Ar0zTSZsg==}
+  '@c15t/react@2.1.0':
+    resolution: {integrity: sha512-tlHPjLN8R/M2xXkjoVfoiFxAy/NALVfO+DtDVUO/KL+/fqV9j1ycL489lG7s1p2jAgYeurHEnNmeb8lgjvoIDg==}
     peerDependencies:
       react: ^19.0.0 || ^19.0.0-rc || ^18.0.0 || ^17.0.0 || ^16.8.0
       react-dom: ^19.0.0 || ^19.0.0-rc || ^18.0.0 || ^17.0.0 || ^16.8.0
 
-  '@c15t/schema@2.0.1':
-    resolution: {integrity: sha512-3w5L3NiC2B6YHhoE0o8CTy+zEX6PsEnk0eVUMVGJ6iCVKtcCQMcvof/JxoWx0o0RS5H3XLBW9FYnNADGnVFNvA==}
+  '@c15t/schema@2.1.0':
+    resolution: {integrity: sha512-/Kxe4qv6E5cR6wgzxx1CTZuhMFfJQHi3GGFzcRCx4smqN8IrgsVtXv800O7Nz9RqoDu/8DFiHGpJ25aupwMsRQ==}
 
-  '@c15t/translations@2.0.0':
-    resolution: {integrity: sha512-FLMx8QEvZdkBGdFk+yiPuLUry4NVZjarNbBjISnNQsPzfmtjWOmtY/k5+J1jxGCyWPP8GN7KtqxJw+lU5vcOjw==}
+  '@c15t/scripts@2.1.0':
+    resolution: {integrity: sha512-+4yU0LSeazBaEGGpx9uwVkfoQmFscnjRpx+5Y1E9b34TmoodIGrxX6klmroy71PHt+V+CnuLPU8oCD42m45jPQ==}
 
-  '@c15t/ui@2.0.3':
-    resolution: {integrity: sha512-SNcfTUwSUtcd8Murng+kdAveEUxBaD7+pjb7u9iKExO2LUwhMqBfMw+BTmSqN78y+ySsY3CEY0BQ/ZgTzWsMAw==}
+  '@c15t/translations@2.1.0':
+    resolution: {integrity: sha512-pB6A5nMKHaAwFOUetcIkyIscMBr5iVm/lxBqzoSk3MU0KMGn4F/OTpcLZOT7k5P87RMkuuKkXN+gyf6jCuvBAw==}
+
+  '@c15t/ui@2.1.0':
+    resolution: {integrity: sha512-tl9mQnQdPbtWQQpXNFRzqrQDk4crjRUX+lIJmd7Le+uZVIuEiNbDeEIjQLj0XH0Cp3Xv3NJn0C7XF5H9CRVHKA==}
 
   '@commitlint/cli@20.5.3':
     resolution: {integrity: sha512-OJdL0EXWD5y9LPa0nr/geOwzaS8BsdaybKkcloB0JgsguGxNv2R+hC2FTPqrAcprg35zF33KOQerY0x8W1aesA==}
@@ -1570,8 +1576,8 @@ packages:
   buffer-from@1.1.2:
     resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
-  c15t@2.0.4:
-    resolution: {integrity: sha512-yNwAOtRg/N9MHzWkBMQxRy1qxrHFrZIlPJAfSrF/HfbVRQhnMdZtajBr4pNdjXUF18idNGG6qUXW1fUsuTLoSA==}
+  c15t@2.1.0:
+    resolution: {integrity: sha512-ukWy6y/yNGPrJv4bAr2DeMNkxtcsdehe++AeqzEC6ITDCVVaqCGeePIKo/3qMZzhyyCPtcKsQJKNIfqszyzpvQ==}
 
   call-bind-apply-helpers@1.0.2:
     resolution: {integrity: sha512-Sp1ablJ0ivDkSzjcaJdxEunN5/XvksFJ2sMBFfq6x0ryhQV/2b/KwFe21cMpmHtPOSij8K99/wSfoEuTObmuMQ==}
@@ -4185,11 +4191,11 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@c15t/nextjs@2.0.4(@types/react@19.2.15)(next@16.2.6(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)':
+  '@c15t/nextjs@2.1.0(@types/react@19.2.15)(next@16.2.6(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)':
     dependencies:
-      '@c15t/react': 2.0.4(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
-      '@c15t/translations': 2.0.0
-      c15t: 2.0.4(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)
+      '@c15t/react': 2.1.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
+      '@c15t/translations': 2.1.0
+      c15t: 2.1.0(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)
       next: 16.2.6(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
@@ -4199,10 +4205,10 @@ snapshots:
       - typescript
       - use-sync-external-store
 
-  '@c15t/react@2.0.4(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)':
+  '@c15t/react@2.1.0(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(typescript@6.0.3)':
     dependencies:
-      '@c15t/ui': 2.0.3(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)
-      c15t: 2.0.4(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)
+      '@c15t/ui': 2.1.0(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)
+      c15t: 2.1.0(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)
       react: 19.2.6
       react-dom: 19.2.6(react@19.2.6)
     transitivePeerDependencies:
@@ -4211,18 +4217,20 @@ snapshots:
       - typescript
       - use-sync-external-store
 
-  '@c15t/schema@2.0.1(typescript@6.0.3)':
+  '@c15t/schema@2.1.0(typescript@6.0.3)':
     dependencies:
       valibot: 1.3.1(typescript@6.0.3)
     transitivePeerDependencies:
       - typescript
 
-  '@c15t/translations@2.0.0': {}
+  '@c15t/scripts@2.1.0': {}
 
-  '@c15t/ui@2.0.3(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)':
+  '@c15t/translations@2.1.0': {}
+
+  '@c15t/ui@2.1.0(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)':
     dependencies:
-      '@c15t/translations': 2.0.0
-      c15t: 2.0.4(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)
+      '@c15t/translations': 2.1.0
+      c15t: 2.1.0(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3)
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -5492,10 +5500,10 @@ snapshots:
 
   buffer-from@1.1.2: {}
 
-  c15t@2.0.4(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3):
+  c15t@2.1.0(@types/react@19.2.15)(react@19.2.6)(typescript@6.0.3):
     dependencies:
-      '@c15t/schema': 2.0.1(typescript@6.0.3)
-      '@c15t/translations': 2.0.0
+      '@c15t/schema': 2.1.0(typescript@6.0.3)
+      '@c15t/translations': 2.1.0
       zustand: 5.0.12(@types/react@19.2.15)(react@19.2.6)
     transitivePeerDependencies:
       - '@types/react'

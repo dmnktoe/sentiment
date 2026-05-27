@@ -1,6 +1,7 @@
 'use client';
 
 import { ConsentManagerProvider, useConsentManager } from '@c15t/nextjs';
+import { umamiAnalytics } from '@c15t/scripts/umami-analytics';
 import type { ComponentProps, ReactNode } from 'react';
 
 import { Container } from '@/components/layout/Container';
@@ -151,13 +152,12 @@ export function ConsentManager({ children }: { children: ReactNode }) {
   const scripts: NonNullable<ConsentManagerOptions['scripts']> = [];
 
   if (umamiWebsiteId) {
-    scripts.push({
-      id: 'umami',
-      src: umamiScriptUrl,
-      category: 'measurement',
-      defer: true,
-      attributes: { 'data-website-id': umamiWebsiteId },
-    });
+    scripts.push(
+      umamiAnalytics({
+        websiteId: umamiWebsiteId,
+        ...(umamiScriptUrl && { scriptUrl: umamiScriptUrl }),
+      }),
+    );
   }
 
   return (
