@@ -13,7 +13,7 @@ export function ThemeToggle() {
     return (
       <span
         aria-hidden='true'
-        className='rounded-2xl px-2 py-1 text-sm sm:text-lg'
+        className='inline-flex h-8 w-8 items-center justify-center rounded-2xl px-2 py-1 text-sm sm:text-lg'
       >
         <span className='invisible'>○</span>
       </span>
