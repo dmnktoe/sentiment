@@ -1,5 +1,6 @@
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
+import { Link } from '@/components/ui/Link';
 import { List, ListItem } from '@/components/ui/List';
 import { Paragraph, Title } from '@/components/ui/typography';
 
