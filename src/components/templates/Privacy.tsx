@@ -55,6 +55,17 @@ export default function Privacy() {
             deutschen Rechenzentren verarbeitet.
           </Paragraph>
           <Paragraph>
+            Weitere Informationen finden Sie in der{' '}
+            <Link
+              href='https://www.hetzner.com/de/legal/privacy-policy/'
+              external
+              variant='underline'
+            >
+              Datenschutzerklärung von Hetzner
+            </Link>
+            .
+          </Paragraph>
+          <Paragraph>
             Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
             an einem sicheren und funktionsfähigen Betrieb der Website)
           </Paragraph>
