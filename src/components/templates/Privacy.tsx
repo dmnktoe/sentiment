@@ -1,6 +1,5 @@
 import { Container } from '@/components/layout/Container';
 import Crossbar from '@/components/templates/Crossbar';
-import { Link } from '@/components/ui/Link';
 import { List, ListItem } from '@/components/ui/List';
 import { Paragraph, Title } from '@/components/ui/typography';
 
@@ -43,25 +42,13 @@ export default function Privacy() {
           </Paragraph>
 
           <Title size='five' className='mt-12'>
-            2. Hosting über Vercel
+            2. Hosting
           </Title>
           <Paragraph>
-            Diese Website wird über die Plattform Vercel Inc. betrieben. Beim
-            Aufruf der Website werden die oben genannten Server-Logfiles auch
-            auf den Servern von Vercel verarbeitet. Vercel handelt als
-            Auftragsverarbeiter und verarbeitet Daten ausschließlich nach
-            unseren Weisungen.
-          </Paragraph>
-          <Paragraph>
-            Weitere Informationen finden Sie in der{' '}
-            <Link
-              href='https://vercel.com/legal/privacy-policy'
-              external
-              variant='underline'
-            >
-              Datenschutzerklärung von Vercel
-            </Link>
-            .
+            Diese Website wird auf eigener Infrastruktur betrieben. Beim Aufruf
+            der Website werden die oben genannten Server-Logfiles auf unseren
+            Servern verarbeitet. Eine Weitergabe an externe Hosting-Anbieter
+            erfolgt nicht.
           </Paragraph>
           <Paragraph>
             Rechtsgrundlage: Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse
