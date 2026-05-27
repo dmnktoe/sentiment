@@ -1,3 +1,9 @@
+import {
+  listmonkApiKey,
+  listmonkApiUser,
+  listmonkBaseUrl,
+} from '@/constant/env';
+
 type ListmonkJson<T> = { data: T };
 
 export class ListmonkError extends Error {
@@ -12,7 +18,7 @@ export class ListmonkError extends Error {
   }
 }
 
-function getRequiredEnv(name: string, value: string | undefined): string {
+function requireEnv(name: string, value: string | undefined): string {
   if (!value) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
@@ -20,20 +26,12 @@ function getRequiredEnv(name: string, value: string | undefined): string {
 }
 
 function getListmonkConfig() {
-  // Read directly from process.env to avoid import-time capture of env values.
-  // This makes runtime configuration and tests (which set env per test) reliable.
-  const baseUrl = getRequiredEnv(
-    'LISTMONK_BASE_URL',
-    process.env.LISTMONK_BASE_URL,
-  ).replace(/\/+$/, '');
-  const apiUser = getRequiredEnv(
-    'LISTMONK_API_USER',
-    process.env.LISTMONK_API_USER,
+  const baseUrl = requireEnv('LISTMONK_BASE_URL', listmonkBaseUrl).replace(
+    /\/+$/,
+    '',
   );
-  const apiKey = getRequiredEnv(
-    'LISTMONK_API_KEY',
-    process.env.LISTMONK_API_KEY,
-  );
+  const apiUser = requireEnv('LISTMONK_API_USER', listmonkApiUser);
+  const apiKey = requireEnv('LISTMONK_API_KEY', listmonkApiKey);
 
   return { baseUrl, apiUser, apiKey };
 }
@@ -114,55 +112,4 @@ export async function createSubscriber(params: {
       lists: params.listIds,
     }),
   });
-}
-
-export async function sendOptInEmail(subscriberId: number): Promise<boolean> {
-  const result = await listmonkRequest<boolean>(
-    `/api/subscribers/${subscriberId}/optin`,
-    { method: 'POST', body: JSON.stringify({}) },
-  );
-  return Boolean(result);
-}
-
-/** listmonk subscriber UUID (8-4-4-4-12 hex, version/variant per RFC 4122) */
-const SUBSCRIBER_UUID_RE =
-  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-export function isListmonkSubscriberUuid(value: string): boolean {
-  return SUBSCRIBER_UUID_RE.test(value.trim());
-}
-
-export async function findSubscriberByUuid(
-  uuid: string,
-): Promise<ListmonkSubscriber | null> {
-  const trimmed = uuid.trim();
-  if (!isListmonkSubscriberUuid(trimmed)) {
-    return null;
-  }
-
-  const query = encodeURIComponent(
-    `subscribers.uuid = '${trimmed.replace(/'/g, "''")}'`,
-  );
-  const data = await listmonkRequest<{
-    results: ListmonkSubscriber[];
-    total: number;
-  }>(`/api/subscribers?query=${query}&page=1&per_page=100`);
-
-  const match = data.results?.[0];
-  return match ?? null;
-}
-
-export async function unsubscribeSubscriberFromLists(params: {
-  subscriberIds: number[];
-  targetListIds: number[];
-}): Promise<boolean> {
-  const ok = await listmonkRequest<boolean>('/api/subscribers/lists', {
-    method: 'PUT',
-    body: JSON.stringify({
-      ids: params.subscriberIds,
-      action: 'unsubscribe',
-      target_list_ids: params.targetListIds,
-    }),
-  });
-  return Boolean(ok);
 }

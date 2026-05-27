@@ -19,7 +19,6 @@ export async function GET() {
     const hmacKeySignatureSecret =
       await deriveHmacKeySecret(hmacSignatureSecret);
 
-    // Generate ALTCHA v2 (PoW v2) challenge for Widget v3.
     const challenge = await createChallenge({
       algorithm: 'PBKDF2/SHA-256',
       cost: 5_000,
@@ -32,7 +31,6 @@ export async function GET() {
 
     return NextResponse.json(challenge, {
       headers: {
-        // Challenges are single-use and time-sensitive — must never be cached.
         'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
         Pragma: 'no-cache',
       },

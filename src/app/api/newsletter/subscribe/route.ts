@@ -8,15 +8,13 @@ import { newsletterSubscribeSchema } from '@/lib/newsletter-schema';
 
 import { altchaHmacSecret, listmonkListId } from '@/constant/env';
 
-// In-Memory Rate-Limiting (pro IP, 3 Versuche pro Stunde)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 function checkRateLimit(ip: string): boolean {
   const now = Date.now();
-  const windowMs = 60 * 60 * 1000; // 1 Stunde
+  const windowMs = 60 * 60 * 1000;
   const maxRequests = 3;
 
-  // Prune expired entries to prevent unbounded memory growth
   rateLimitMap.forEach((value, key) => {
     if (now > value.resetAt) {
       rateLimitMap.delete(key);
@@ -38,10 +36,6 @@ function checkRateLimit(ip: string): boolean {
   return true;
 }
 
-/**
- * ALTCHA Payload Verification
- * Verifies the proof-of-work solution from the client
- */
 async function verifyAltcha(payload: string): Promise<boolean> {
   try {
     const hmacSignatureSecret = altchaHmacSecret;
@@ -83,18 +77,8 @@ function parseRequiredListId(raw: string | undefined): number | null {
   return Number.isInteger(n) && n > 0 ? n : null;
 }
 
-/**
- * Newsletter subscription endpoint
- * Implements double opt-in and GDPR compliance:
- * - Bot protection (ALTCHA)
- * - Data minimization (only email)
- * - Explicit consent (privacy checkbox)
- * - Double opt-in (email confirmation)
- * - Right to be forgotten (unsubscribe link in every email)
- */
 export async function POST(request: Request) {
   try {
-    // Rate-Limiting per IP
     const ip =
       request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
       request.headers.get('x-real-ip') ??
@@ -117,7 +101,6 @@ export async function POST(request: Request) {
 
     const body = await request.json();
 
-    // Validate input with Zod schema
     const validation = newsletterSubscribeSchema.safeParse(body);
 
     if (!validation.success) {
@@ -129,7 +112,6 @@ export async function POST(request: Request) {
 
     const { email, altcha } = validation.data;
 
-    // Verify ALTCHA solution (bot protection)
     const isValidCaptcha = await verifyAltcha(altcha);
     if (!isValidCaptcha) {
       return NextResponse.json(
@@ -139,11 +121,8 @@ export async function POST(request: Request) {
     }
 
     try {
-      // Do not explicitly trigger opt-in email here to avoid duplicates.
-      // listmonk sends the confirmation email automatically for double opt-in lists.
       await createSubscriber({ email, listIds: [listId] });
     } catch (err) {
-      // Only duplicate / conflict: silent success to avoid user enumeration.
       if (err instanceof ListmonkError && err.status === 409) {
         return NextResponse.json({
           message:

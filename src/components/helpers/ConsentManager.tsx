@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { Logo } from '@/components/ui/icons/Logo';
 import { Link } from '@/components/ui/Link';
 
-import { umamiScriptUrl, umamiWebsiteId } from '@/constant/consent';
+import { umamiScriptUrl, umamiWebsiteId } from '@/constant/env';
 
 type ConsentManagerOptions = ComponentProps<
   typeof ConsentManagerProvider
