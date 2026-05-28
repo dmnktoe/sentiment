@@ -1,9 +1,9 @@
 {
   "name": "sentiment",
   "description": "Funding guideline 'Platform Privacy - IT Security Protects Privacy and Supports Democracy' as part of the German government's research framework program on IT security 'Digital. Secure. Sovereign'.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": false,
-  "author": "Domenik Toefflinger <hello@dmnktoe.de>",
+  "author": "Domenik Toefflinger <mail@domeniktoefflinger.de>",
   "license": "MIT",
   "keywords": [
     "sentiment",
