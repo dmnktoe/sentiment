@@ -21,8 +21,8 @@ importers:
         specifier: 1.0.2
         version: 1.0.2(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       altcha:
-        specifier: 3.0.10
-        version: 3.0.10
+        specifier: 3.0.11
+        version: 3.0.11
       altcha-lib:
         specifier: 2.2.0
         version: 2.2.0
@@ -1404,8 +1404,8 @@ packages:
       hono:
         optional: true
 
-  altcha@3.0.10:
-    resolution: {integrity: sha512-JMmjNb14bfXrQc2vgjfFxH5YmEEmJ4BZz/sJ1dhiBUswvtXDlzCVBtFYtu9EzDYMfrXA22hU+4hRBY6ROsP0Yw==}
+  altcha@3.0.11:
+    resolution: {integrity: sha512-DFhLDJIL37UfRdgYliSBSpCaYySVztOL8Z5V5KuxmaVa5JUgIapvoUiQrIFbn38cPtZBs5j3izMtglpcZFWCMA==}
 
   ansi-escapes@4.3.2:
     resolution: {integrity: sha512-gKXj5ALrKWQLsYG9jlTRmR/xKluxHV+Z9QEwNIgCfM1/uwPMCuzVVnh5mwTd+OuBZcwSIMbqssNWRm1lE51QaQ==}
@@ -5269,7 +5269,7 @@ snapshots:
 
   altcha-lib@2.2.0: {}
 
-  altcha@3.0.10:
+  altcha@3.0.11:
     dependencies:
       hash-wasm: 4.12.0
 
