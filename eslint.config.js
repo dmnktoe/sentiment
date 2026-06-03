@@ -1,17 +1,17 @@
 const { defineConfig } = require('eslint/config');
 
 const globals = require('globals');
-const tseslint = require('typescript-eslint');
 const simpleImportSort = require('eslint-plugin-simple-import-sort');
 const unusedImports = require('eslint-plugin-unused-imports');
 const { FlatCompat } = require('@eslint/eslintrc');
-const eslintNext = require('eslint-config-next');
+const nextCoreWebVitals = require('eslint-config-next/core-web-vitals');
+const nextTypescript = require('eslint-config-next/typescript');
 
 const compat = new FlatCompat({ baseDirectory: __dirname });
 
 module.exports = defineConfig([
-  ...eslintNext,
-  ...tseslint.configs.recommended, // bringt Plugin + Rules mit
+  ...nextCoreWebVitals,
+  ...nextTypescript,
   ...compat.extends('prettier', 'plugin:prettier/recommended'),
   {
     languageOptions: {
@@ -32,8 +32,6 @@ module.exports = defineConfig([
       'no-unused-vars': 'off',
       'no-console': 'warn',
       'no-multi-spaces': 'error',
-      '@typescript-eslint/explicit-module-boundary-types': 'off',
-      '@typescript-eslint/no-unused-vars': 'off',
       'react/no-unescaped-entities': 'off',
       'react/display-name': 'off',
       'object-curly-spacing': ['warn', 'always'],
@@ -82,6 +80,14 @@ module.exports = defineConfig([
           ],
         },
       ],
+    },
+  },
+
+  {
+    files: ['**/*.ts', '**/*.tsx'],
+    rules: {
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 ]);
