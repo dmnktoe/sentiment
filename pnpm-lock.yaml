@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@c15t/nextjs':
         specifier: 2.1.0
-        version: 2.1.0(@types/react@19.2.16)(next@16.2.7(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)
+        version: 2.1.0(@types/react@19.2.17)(next@16.2.7(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)
       '@c15t/scripts':
         specifier: 2.1.0
         version: 2.1.0
@@ -86,7 +86,7 @@ importers:
         version: 6.9.1
       '@testing-library/react':
         specifier: ^16.3.2
-        version: 16.3.2(@testing-library/dom@10.4.0)(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        version: 16.3.2(@testing-library/dom@10.4.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@types/jest':
         specifier: 30.0.0
         version: 30.0.0
@@ -97,8 +97,8 @@ importers:
         specifier: 6.15.1
         version: 6.15.1
       '@types/react':
-        specifier: 19.2.16
-        version: 19.2.16
+        specifier: 19.2.17
+        version: 19.2.17
       '@typescript-eslint/eslint-plugin':
         specifier: 8.59.4
         version: 8.59.4(@typescript-eslint/parser@8.59.4(eslint@9.39.4(jiti@2.6.1))(typescript@6.0.3))(eslint@9.39.4(jiti@2.6.1))(typescript@6.0.3)
@@ -1171,8 +1171,8 @@ packages:
   '@types/qs@6.15.1':
     resolution: {integrity: sha512-GZHUBZR9hckSUhrxmp1nG6NwdpM9fCunJwyThLW1X3AyHgd9IlHb6VANpQQqDr2o/qQp6McZ3y/IA2rVzKzSbw==}
 
-  '@types/react@19.2.16':
-    resolution: {integrity: sha512-esJiCAnl0kfpNdE69f3So4WJUXy95dLZydX0KwK46riIHDzHM7O9Vtf9xCHW0PXIqvgqNrswl522kA/5yx+F4w==}
+  '@types/react@19.2.17':
+    resolution: {integrity: sha512-MXfmqaVPEVgkBT/aY0aGCkRWWtByiYQXo3xdQ8r5RzuFrPiRn8Gar2tQdXSUQ2GKV3bkXckek89V8wQBY2Q/Aw==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -4205,11 +4205,11 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@c15t/nextjs@2.1.0(@types/react@19.2.16)(next@16.2.7(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)':
+  '@c15t/nextjs@2.1.0(@types/react@19.2.17)(next@16.2.7(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)':
     dependencies:
-      '@c15t/react': 2.1.0(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)
+      '@c15t/react': 2.1.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)
       '@c15t/translations': 2.1.0
-      c15t: 2.1.0(@types/react@19.2.16)(react@19.2.7)(typescript@6.0.3)
+      c15t: 2.1.0(@types/react@19.2.17)(react@19.2.7)(typescript@6.0.3)
       next: 16.2.7(@babel/core@7.27.4)(@playwright/test@1.60.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
@@ -4219,10 +4219,10 @@ snapshots:
       - typescript
       - use-sync-external-store
 
-  '@c15t/react@2.1.0(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)':
+  '@c15t/react@2.1.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(typescript@6.0.3)':
     dependencies:
-      '@c15t/ui': 2.1.0(@types/react@19.2.16)(react@19.2.7)(typescript@6.0.3)
-      c15t: 2.1.0(@types/react@19.2.16)(react@19.2.7)(typescript@6.0.3)
+      '@c15t/ui': 2.1.0(@types/react@19.2.17)(react@19.2.7)(typescript@6.0.3)
+      c15t: 2.1.0(@types/react@19.2.17)(react@19.2.7)(typescript@6.0.3)
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
     transitivePeerDependencies:
@@ -4241,10 +4241,10 @@ snapshots:
 
   '@c15t/translations@2.1.0': {}
 
-  '@c15t/ui@2.1.0(@types/react@19.2.16)(react@19.2.7)(typescript@6.0.3)':
+  '@c15t/ui@2.1.0(@types/react@19.2.17)(react@19.2.7)(typescript@6.0.3)':
     dependencies:
       '@c15t/translations': 2.1.0
-      c15t: 2.1.0(@types/react@19.2.16)(react@19.2.7)(typescript@6.0.3)
+      c15t: 2.1.0(@types/react@19.2.17)(react@19.2.7)(typescript@6.0.3)
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -5019,14 +5019,14 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/react@16.3.2(@testing-library/dom@10.4.0)(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@testing-library/react@16.3.2(@testing-library/dom@10.4.0)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@babel/runtime': 7.27.6
       '@testing-library/dom': 10.4.0
       react: 19.2.7
       react-dom: 19.2.7(react@19.2.7)
     optionalDependencies:
-      '@types/react': 19.2.16
+      '@types/react': 19.2.17
 
   '@tybys/wasm-util@0.9.0':
     dependencies:
@@ -5093,7 +5093,7 @@ snapshots:
 
   '@types/qs@6.15.1': {}
 
-  '@types/react@19.2.16':
+  '@types/react@19.2.17':
     dependencies:
       csstype: 3.2.3
 
@@ -5518,11 +5518,11 @@ snapshots:
 
   buffer-from@1.1.2: {}
 
-  c15t@2.1.0(@types/react@19.2.16)(react@19.2.7)(typescript@6.0.3):
+  c15t@2.1.0(@types/react@19.2.17)(react@19.2.7)(typescript@6.0.3):
     dependencies:
       '@c15t/schema': 2.1.0(typescript@6.0.3)
       '@c15t/translations': 2.1.0
-      zustand: 5.0.12(@types/react@19.2.16)(react@19.2.7)
+      zustand: 5.0.12(@types/react@19.2.17)(react@19.2.7)
     transitivePeerDependencies:
       - '@types/react'
       - immer
@@ -8428,7 +8428,7 @@ snapshots:
 
   zod@4.4.3: {}
 
-  zustand@5.0.12(@types/react@19.2.16)(react@19.2.7):
+  zustand@5.0.12(@types/react@19.2.17)(react@19.2.7):
     optionalDependencies:
-      '@types/react': 19.2.16
+      '@types/react': 19.2.17
       react: 19.2.7
