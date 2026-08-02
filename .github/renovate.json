@@ -2,12 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "assignees": ["dmnktoe"],
   "extends": [
-    "config:base",
+    "config:recommended",
     ":enablePreCommit",
-    ":preserveSemverRanges",
-    ":disableDependencyDashboard"
+    ":preserveSemverRanges"
   ],
   "labels": ["dependencies"],
+  "minimumReleaseAge": "3 days",
   "packageRules": [
     {
       "matchManagers": ["github-actions"],
