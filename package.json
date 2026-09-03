@@ -43,7 +43,7 @@
     ]
   },
   "dependencies": {
-    "@c15t/nextjs": "2.2.0",
+    "@c15t/nextjs": "2.2.1",
     "@c15t/scripts": "2.2.0",
     "@hookform/resolvers": "5.8.0",
     "@strapi/blocks-react-renderer": "1.0.2",
