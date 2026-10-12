@@ -8,14 +8,96 @@
   ],
   "labels": ["dependencies"],
   "minimumReleaseAge": "3 days",
+  "timezone": "Europe/Berlin",
+  "schedule": ["* 0-6 * * 1"],
+  "prConcurrentLimit": 5,
+  "prHourlyLimit": 0,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["* 0-6 1 * *"]
+  },
   "packageRules": [
     {
+      "description": "All non-major production dependencies in one weekly PR",
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "dependencies (non-major)",
+      "groupSlug": "deps-non-major"
+    },
+    {
+      "description": "All non-major dev dependencies in one weekly PR",
+      "matchManagers": ["npm"],
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "devDependencies (non-major)",
+      "groupSlug": "dev-deps-non-major"
+    },
+    {
+      "description": "Keep Next.js and its ESLint config in lockstep on majors",
+      "matchPackageNames": ["next", "eslint-config-next"],
+      "groupName": "next",
+      "groupSlug": "next",
+      "matchUpdateTypes": ["major"]
+    },
+    {
+      "description": "Keep React and its types in lockstep on majors",
+      "matchPackageNames": [
+        "react",
+        "react-dom",
+        "@types/react",
+        "@types/react-dom"
+      ],
+      "groupName": "react",
+      "groupSlug": "react",
+      "matchUpdateTypes": ["major"]
+    },
+    {
+      "description": "Lint tooling majors together",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": [
+        "eslint",
+        "@eslint/**",
+        "eslint-*",
+        "@typescript-eslint/**",
+        "typescript-eslint",
+        "prettier",
+        "prettier-plugin-*",
+        "@ianvs/prettier-plugin-sort-imports"
+      ],
+      "groupName": "lint tooling (major)",
+      "groupSlug": "lint-major"
+    },
+    {
+      "description": "Test tooling majors together",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["major"],
+      "matchPackageNames": [
+        "jest",
+        "jest-*",
+        "@types/jest",
+        "@testing-library/**"
+      ],
+      "groupName": "test tooling (major)",
+      "groupSlug": "test-major"
+    },
+    {
+      "description": "All GitHub Actions in one PR",
       "matchManagers": ["github-actions"],
+      "groupName": "github actions",
+      "groupSlug": "github-actions",
       "addLabels": ["ci"]
     },
     {
-      "matchUpdateTypes": ["major", "minor"],
+      "description": "All pre-commit hooks in one PR",
+      "matchManagers": ["pre-commit"],
+      "groupName": "pre-commit hooks",
+      "groupSlug": "pre-commit"
+    },
+    {
       "matchManagers": ["npm"],
+      "matchUpdateTypes": ["major", "minor"],
       "addLabels": ["npm"]
     }
   ]
