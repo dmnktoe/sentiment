@@ -21,9 +21,6 @@ type ConsentOptions = Extract<
 
 type ConsentScripts = NonNullable<ConsentOptions['scripts']>;
 
-// Browser-only mode: choices live in the visitor's browser (the `c15t`
-// cookie, shared with v2), no backend. Without IP geolocation every visitor
-// gets the recommended pack's strict opt-in fallback.
 function buildOptions(scripts: ConsentScripts | undefined): ConsentOptions {
   return {
     consentCategories: ['necessary', 'measurement'],
@@ -94,8 +91,6 @@ function CustomDialog() {
 
   if (!dialog.isVisible) return null;
 
-  // One draft shared by the category switches and the save buttons, so
-  // "save preferences" commits exactly what the visitor toggled.
   return (
     <ConsentDraftProvider>
       <CustomDialogContent />

@@ -1,5 +1,4 @@
-// c15t ships ESM only and pulls in next/cache, which jest-environment-jsdom
-// can't resolve. Stands in for c15t/next, c15t/next/headless and c15t/react.
+// jest-environment-jsdom can't resolve next/cache which c15t/next pulls in
 import type { ReactNode } from 'react';
 
 const Passthrough = ({ children }: { children: ReactNode }) => <>{children}</>;

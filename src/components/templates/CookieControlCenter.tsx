@@ -11,7 +11,6 @@ import { Logo } from '@/components/ui/icons/Logo';
 import { Paragraph, Title } from '@/components/ui/typography';
 
 export function CookieControlCenter({ className }: { className?: string }) {
-  // One draft shared by the category switches and the save buttons below.
   return (
     <ConsentDraftProvider>
       <CookieControlCenterContent className={className} />
@@ -62,9 +61,6 @@ function CookieControlCenterContent({ className }: { className?: string }) {
           >
             save preferences
           </Button>
-          {/* v3 can't erase a recorded choice, so reopen the banner and let the
-              next decision replace it. Saving 'none' first would trigger
-              c15t's revocation reload and lose the reopened banner. */}
           <button
             type='button'
             onClick={openBanner}

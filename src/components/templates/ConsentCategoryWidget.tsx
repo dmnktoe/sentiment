@@ -100,8 +100,6 @@ function Toggle({
 }
 
 function CategoryItem({ category }: { category: Category }) {
-  // Stages into the nearest ConsentDraftProvider; the surrounding surface's
-  // save button commits it.
   const { values, set } = useConsentDraft();
   const [open, setOpen] = useState(false);
   const panelId = `consent-panel-${category.id}`;
