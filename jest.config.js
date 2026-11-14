@@ -47,9 +47,10 @@ const customJestConfig = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^~/(.*)$': '<rootDir>/public/$1',
     '^.+\\.(svg)$': '<rootDir>/src/__mocks__/svg.tsx',
-    '^@c15t/nextjs$': '<rootDir>/src/__mocks__/c15t-nextjs.tsx',
-    '^@c15t/scripts/umami-analytics$':
-      '<rootDir>/src/__mocks__/c15t-scripts-umami-analytics.ts',
+    '^c15t/(next|next/headless|react)$':
+      '<rootDir>/src/__mocks__/c15t-next.tsx',
+    '^@c15t/integrations/umami-analytics$':
+      '<rootDir>/src/__mocks__/c15t-integrations-umami-analytics.ts',
   },
 };
 

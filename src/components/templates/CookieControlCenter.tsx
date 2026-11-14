@@ -1,6 +1,7 @@
 'use client';
 
-import { useConsentManager } from '@c15t/nextjs';
+import { ConsentDraftProvider } from 'c15t/next';
+import { useHeadlessConsentUI } from 'c15t/next/headless';
 
 import clsxm from '@/lib/clsxm';
 
@@ -10,7 +11,15 @@ import { Logo } from '@/components/ui/icons/Logo';
 import { Paragraph, Title } from '@/components/ui/typography';
 
 export function CookieControlCenter({ className }: { className?: string }) {
-  const { saveConsents, resetConsents } = useConsentManager();
+  return (
+    <ConsentDraftProvider>
+      <CookieControlCenterContent className={className} />
+    </ConsentDraftProvider>
+  );
+}
+
+function CookieControlCenterContent({ className }: { className?: string }) {
+  const { openBanner, saveCustomPreferences } = useHeadlessConsentUI();
 
   return (
     <div
@@ -26,32 +35,35 @@ export function CookieControlCenter({ className }: { className?: string }) {
         </div>
 
         <Paragraph color='light' className='mb-6 max-w-2xl'>
-          Toggle which cookie categories we may use. Changes apply immediately.
+          Toggle which cookie categories we may use, then save your preferences.
         </Paragraph>
 
         <ConsentCategoryWidget />
 
         <div className='mt-6 flex flex-wrap items-center gap-3 border-t border-grid pt-6'>
-          <Button type='button' onClick={() => saveConsents('all')}>
+          <Button
+            type='button'
+            onClick={() => void saveCustomPreferences('all')}
+          >
             accept all
           </Button>
           <Button
             type='button'
-            onClick={() => saveConsents('necessary')}
+            onClick={() => void saveCustomPreferences('none')}
             className='bg-bg text-text hover:bg-grid hover:text-text'
           >
             reject non-essential
           </Button>
           <Button
             type='button'
-            onClick={() => saveConsents('custom')}
+            onClick={() => void saveCustomPreferences()}
             className='bg-bg text-text hover:bg-grid hover:text-text'
           >
             save preferences
           </Button>
           <button
             type='button'
-            onClick={() => resetConsents()}
+            onClick={openBanner}
             className='text-sm text-tertiary underline underline-offset-4 hover:text-primary'
           >
             Reset my choice
