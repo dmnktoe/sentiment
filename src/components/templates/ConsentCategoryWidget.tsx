@@ -1,6 +1,6 @@
 'use client';
 
-import { useConsentManager } from '@c15t/nextjs';
+import { useConsentDraft } from 'c15t/next';
 import { ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
@@ -100,10 +100,12 @@ function Toggle({
 }
 
 function CategoryItem({ category }: { category: Category }) {
-  const { selectedConsents, setConsent } = useConsentManager();
+  // Stages into the nearest ConsentDraftProvider; the surrounding surface's
+  // save button commits it.
+  const { values, set } = useConsentDraft();
   const [open, setOpen] = useState(false);
   const panelId = `consent-panel-${category.id}`;
-  const checked = category.required || selectedConsents[category.id];
+  const checked = category.required || values[category.id];
 
   return (
     <div className='rounded-lg border border-grid bg-bg'>
@@ -134,7 +136,7 @@ function CategoryItem({ category }: { category: Category }) {
           checked={!!checked}
           disabled={category.required}
           label={`${category.label} cookies`}
-          onChange={(v) => setConsent(category.id, v)}
+          onChange={(v) => set(category.id, v)}
         />
       </div>
       {open && (

@@ -1,7 +1,9 @@
 'use client';
 
-import { ConsentManagerProvider, useConsentManager } from '@c15t/nextjs';
-import { umamiAnalytics } from '@c15t/scripts/umami-analytics';
+import { umamiAnalytics } from '@c15t/integrations/umami-analytics';
+import { ConsentDraftProvider, ConsentProvider } from 'c15t/next';
+import { useHeadlessConsentUI } from 'c15t/next/headless';
+import { local } from 'c15t/react';
 import type { ComponentProps, ReactNode } from 'react';
 
 import { Container } from '@/components/layout/Container';
@@ -12,24 +14,28 @@ import { Link } from '@/components/ui/Link';
 
 import { umamiScriptUrl, umamiWebsiteId } from '@/constant/env';
 
-type ConsentManagerOptions = ComponentProps<
-  typeof ConsentManagerProvider
+type ConsentOptions = Extract<
+  ComponentProps<typeof ConsentProvider>,
+  { options: unknown }
 >['options'];
 
-function buildOptions(
-  scripts: ConsentManagerOptions['scripts'],
-): ConsentManagerOptions {
+type ConsentScripts = NonNullable<ConsentOptions['scripts']>;
+
+// Browser-only mode: choices live in the visitor's browser (the `c15t`
+// cookie, shared with v2), no backend. Without IP geolocation every visitor
+// gets the recommended pack's strict opt-in fallback.
+function buildOptions(scripts: ConsentScripts | undefined): ConsentOptions {
   return {
     consentCategories: ['necessary', 'measurement'],
-    mode: 'offline',
+    mode: local({ acknowledgeNoRecords: true }),
     scripts,
-  } as ConsentManagerOptions;
+  };
 }
 
 function CustomBanner() {
-  const { activeUI, saveConsents, setActiveUI } = useConsentManager();
+  const { banner, openDialog, saveCustomPreferences } = useHeadlessConsentUI();
 
-  if (activeUI !== 'banner') return null;
+  if (!banner.isVisible) return null;
 
   return (
     <div className='fixed inset-x-0 bottom-0 z-[999999] bg-bg/80 p-3 backdrop-blur-md sm:p-6'>
@@ -59,19 +65,19 @@ function CustomBanner() {
           </p>
           <div className='mt-5 flex flex-col gap-2 border-t border-grid pt-5 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3'>
             <Button
-              onClick={() => saveConsents('all')}
+              onClick={() => void saveCustomPreferences('all')}
               className='w-full sm:w-auto'
             >
               accept all
             </Button>
             <Button
-              onClick={() => saveConsents('necessary')}
+              onClick={() => void saveCustomPreferences('none')}
               className='w-full bg-bg text-text hover:bg-grid hover:text-text sm:w-auto'
             >
               reject all
             </Button>
             <Button
-              onClick={() => setActiveUI('dialog')}
+              onClick={openDialog}
               className='w-full border-transparent bg-transparent text-tertiary hover:bg-transparent hover:text-primary sm:w-auto'
             >
               customize
@@ -84,9 +90,21 @@ function CustomBanner() {
 }
 
 function CustomDialog() {
-  const { activeUI, saveConsents, setActiveUI } = useConsentManager();
+  const { dialog } = useHeadlessConsentUI();
 
-  if (activeUI !== 'dialog') return null;
+  if (!dialog.isVisible) return null;
+
+  // One draft shared by the category switches and the save buttons, so
+  // "save preferences" commits exactly what the visitor toggled.
+  return (
+    <ConsentDraftProvider>
+      <CustomDialogContent />
+    </ConsentDraftProvider>
+  );
+}
+
+function CustomDialogContent() {
+  const { openBanner, saveCustomPreferences } = useHeadlessConsentUI();
 
   return (
     <div className='fixed inset-0 z-[999999] flex items-end justify-center bg-text/40 sm:items-center sm:p-4'>
@@ -117,19 +135,19 @@ function CustomDialog() {
         </div>
         <div className='flex flex-col gap-2 border-t border-grid px-5 py-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end sm:gap-3 sm:px-6'>
           <Button
-            onClick={() => saveConsents('necessary')}
+            onClick={() => void saveCustomPreferences('none')}
             className='w-full bg-bg text-text hover:bg-grid hover:text-text sm:w-auto'
           >
             reject all
           </Button>
           <Button
-            onClick={() => saveConsents('custom')}
+            onClick={() => void saveCustomPreferences()}
             className='w-full sm:w-auto'
           >
             save preferences
           </Button>
           <Button
-            onClick={() => saveConsents('all')}
+            onClick={() => void saveCustomPreferences('all')}
             className='w-full sm:w-auto'
           >
             accept all
@@ -137,7 +155,7 @@ function CustomDialog() {
         </div>
         <button
           type='button'
-          onClick={() => setActiveUI('banner')}
+          onClick={openBanner}
           className='absolute right-3 top-3 p-1.5 text-lg leading-none text-tertiary hover:text-text sm:right-4 sm:top-4'
           aria-label='Close'
         >
@@ -149,7 +167,7 @@ function CustomDialog() {
 }
 
 export function ConsentManager({ children }: { children: ReactNode }) {
-  const scripts: NonNullable<ConsentManagerOptions['scripts']> = [];
+  const scripts: ConsentScripts = [];
 
   if (umamiWebsiteId) {
     scripts.push(
@@ -161,12 +179,12 @@ export function ConsentManager({ children }: { children: ReactNode }) {
   }
 
   return (
-    <ConsentManagerProvider
+    <ConsentProvider
       options={buildOptions(scripts.length > 0 ? scripts : undefined)}
     >
       <CustomBanner />
       <CustomDialog />
       {children}
-    </ConsentManagerProvider>
+    </ConsentProvider>
   );
 }
